@@ -468,35 +468,46 @@ tbody td:first-child{padding-left:22px;}
 /* ══════════════════════════════════════════
    SKELETON SCREEN SYSTEM
 ══════════════════════════════════════════ */
-@keyframes shimmer {
-  0%   { background-position: -800px 0; }
-  100% { background-position:  800px 0; }
+@keyframes skShimmer {
+  0%   { background-position: -1000px 0; }
+  100% { background-position:  1000px 0; }
 }
+@keyframes skFadeIn  { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+@keyframes skFadeOut { from { opacity:1; } to { opacity:0; } }
 .skeleton {
-  background: linear-gradient(90deg,#e2eaf5 25%,#c8d9f0 50%,#e2eaf5 75%);
-  background-size:800px 100%;
-  animation: shimmer 1.8s infinite linear;
+  background: linear-gradient(90deg, #dde8f5 0%, #eaf2fb 25%, #bdd0ea 50%, #eaf2fb 75%, #dde8f5 100%);
+  background-size: 1000px 100%;
+  animation: skShimmer 1.5s ease-in-out infinite;
   border-radius: 8px;
-  display:block;
+  display: block;
 }
 .skeleton-overlay {
-  position:fixed;inset:0;z-index:660;background:#f0f7ff;
-  display:flex;flex-direction:column;align-items:center;
-  padding:40px 24px 120px;overflow-y:auto;
-  transition:opacity .4s, visibility .4s;
+  position: fixed; inset: 0; z-index: 800;
+  background: #f0f7ff;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 40px 24px 120px; overflow-y: auto;
+  animation: skFadeIn 0.3s ease both;
   isolation: isolate;
 }
-.skeleton-overlay.gone { opacity:0;visibility:hidden;pointer-events:none; }
-.sk-max { max-width:860px;width:100%; }
-.sk-hero { height:140px;border-radius:20px;margin-bottom:22px; }
-.sk-card { background:#fff;border-radius:16px;padding:26px;margin-bottom:16px;width:100%; }
-.sk-title { height:20px;border-radius:8px;margin-bottom:14px;width:45%; }
-.sk-line  { height:13px;border-radius:7px;margin-bottom:10px; }
-.sk-line.w100 { width:100%; } .sk-line.w80 { width:80%; } .sk-line.w65 { width:65%; }
-.sk-line.w45  { width:45%;  } .sk-line.w30  { width:30%; }
-.sk-grid2 { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px; }
-.sk-box   { height:52px;border-radius:10px; }
-.sk-circle { width:52px;height:52px;border-radius:50%;margin:0 auto 14px; }
+.skeleton-overlay.gone {
+  animation: skFadeOut 0.35s ease forwards;
+  pointer-events: none;
+}
+.skeleton-overlay.gone-done { display: none !important; }
+.sk-max { max-width: 860px; width: 100%; }
+.sk-hero { height: 160px; border-radius: 20px; margin-bottom: 22px; }
+.sk-card { background:#fff; border-radius:16px; padding:26px; margin-bottom:16px; width:100%; box-shadow:0 2px 12px rgba(1,124,183,.06); }
+.sk-title { height: 22px; border-radius: 8px; margin-bottom: 16px; width: 45%; }
+.sk-line  { height: 14px; border-radius: 7px; margin-bottom: 11px; }
+.sk-line.w100{width:100%;} .sk-line.w80{width:80%;} .sk-line.w65{width:65%;}
+.sk-line.w45{width:45%;}  .sk-line.w30{width:30%;}
+.sk-grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.sk-box   { height: 56px; border-radius: 10px; }
+.sk-circle { width:56px; height:56px; border-radius:50%; margin:0 auto 16px; }
+.sk-card>.skeleton:nth-child(2){animation-delay:.08s}
+.sk-card>.skeleton:nth-child(3){animation-delay:.16s}
+.sk-card>.skeleton:nth-child(4){animation-delay:.24s}
+.sk-card>.skeleton:nth-child(5){animation-delay:.32s}
 
 /* ══════════════════════════════════════════
    VIN-BOX PHOTO — no text, cleaner look
@@ -3692,14 +3703,11 @@ function sendReturnDisclosure() {
   const signHere = document.getElementById('discSignHere').checked;
 
   if (signHere) {
-    // Store refund data for the inline signing flow
     const getVal = id => { const el = document.getElementById(id); return el ? el.textContent : '$0'; };
-    window._refundData = {
-      first: first, last: last,
+    window._refundData = { first: first, last: last,
       down: getVal('rDownPayment'), tradein: getVal('rTradeIn'),
       restock: getVal('rRestock'), mileage: getVal('rMileage'),
-      repair: getVal('rRepair'), deduct: getVal('rDeductions'), total: getVal('rTotal')
-    };
+      repair: getVal('rRepair'), deduct: getVal('rDeductions'), total: getVal('rTotal') };
     cm('m-return-disc');
     openLanguagePage(first, last);
     toast('Starting signing flow for ' + first + ' ' + last + '...', 'success');
@@ -3781,6 +3789,7 @@ function openLanguagePage(firstName, lastName) {
 
   setTimeout(function() {
     if (sk) sk.classList.add('gone');
+    setTimeout(function(){if(sk){sk.style.display='none';}},400);
     pg.style.display = 'block';
     pg.style.background = 'linear-gradient(160deg,#f0f7ff 0%,#e8f4fb 40%,#f5fafd 100%)';
     pg.style.opacity = '1';
@@ -3963,83 +3972,100 @@ function openSigModalForPage(pageKey) {
   openSigModal();
 }
 
-function onLangContinue() {
-  var pg = document.getElementById('lang-page');
-  pg.classList.add('page-transition-exit');
-  setTimeout(function() {
-    pg.style.display = 'none';
-    pg.classList.remove('page-transition-exit');
-    openSpokenPage();
-  }, 280);
-}
-
-// ── Skeleton helper: shows skeleton for 650ms then reveals the real page ──
-function showSkeletonThen(skelId, fn) {
+// ════════════════════════════════════════════
+//  SKELETON + PAGE TRANSITION HELPERS
+// ════════════════════════════════════════════
+function showSkeletonThen(skelId, revealFn, dur) {
+  dur = dur || 800;
+  // Hide all other skeletons instantly
+  document.querySelectorAll('.skeleton-overlay').forEach(function(el) {
+    if (el.id !== skelId) { el.style.display = 'none'; }
+  });
   var sk = document.getElementById(skelId);
-  if (sk) { sk.classList.remove('gone'); }
+  if (sk) {
+    sk.style.display = 'flex';
+    sk.classList.remove('gone', 'gone-done');
+    void sk.offsetWidth; // force reflow so fade-in fires
+  }
   setTimeout(function() {
-    if (sk) sk.classList.add('gone');
-    fn();
-  }, 650);
+    if (sk) {
+      sk.classList.add('gone');
+      setTimeout(function() { sk.style.display = 'none'; }, 380);
+    }
+    revealFn();
+  }, dur);
 }
 
-// ── No Spoken Statements page ──
+function hidePage(pageId) {
+  var pg = document.getElementById(pageId);
+  if (!pg) return;
+  pg.style.transition = 'opacity 0.18s ease';
+  pg.style.opacity = '0';
+  setTimeout(function() { pg.style.display = 'none'; pg.style.opacity = ''; pg.style.transition = ''; }, 200);
+}
+
+function revealPage(pageId, bg) {
+  var pg = document.getElementById(pageId);
+  if (!pg) return;
+  pg.style.display = 'block';
+  if (bg) pg.style.background = bg;
+  pg.style.opacity = '0';
+  pg.style.transition = 'opacity 0.3s ease';
+  void pg.offsetWidth;
+  pg.style.opacity = '1';
+  pg.scrollTop = 0;
+}
+
+function onLangContinue() {
+  hidePage('lang-page');
+  setTimeout(openSpokenPage, 200);
+}
+
+// ── Page 2: No Spoken Statements ──
 function openSpokenPage() {
   showSkeletonThen('spoken-skeleton', function() {
     document.getElementById('spokenSigArea').style.display = 'none';
     document.getElementById('spokenAgreeBtn').style.display = 'inline-block';
     document.getElementById('spokenContinueBtn').style.display = 'none';
-    var pg = document.getElementById('spoken-page');
-    pg.style.display = 'block';
-    pg.style.opacity = '1';
+    revealPage('spoken-page', '#f5fafd');
   });
 }
 
-function onSpokenAgree() {
-  openSigModalForPage('spoken');
-}
+function onSpokenAgree() { openSigModalForPage('spoken'); }
 
 function onSpokenContinue() {
-  document.getElementById('spoken-page').style.display = 'none';
-  openQuestionnairePage();
+  hidePage('spoken-page');
+  setTimeout(openQuestionnairePage, 200);
 }
 
-// ── Right to Cancel Questionnaire page ──
+// ── Page 3: Questionnaire ──
 function openQuestionnairePage() {
   showSkeletonThen('quest-skeleton', function() {
     document.getElementById('questSigArea').style.display = 'none';
     document.getElementById('questAgreeBtn').style.display = 'inline-block';
     document.getElementById('questContinueBtn').style.display = 'none';
-    var pg = document.getElementById('questionnaire-page');
-    pg.style.display = 'block';
-    pg.style.opacity = '1';
+    revealPage('questionnaire-page', '#f5fafd');
   });
 }
 
-function onQuestAgree() {
-  openSigModalForPage('questionnaire');
-}
+function onQuestAgree() { openSigModalForPage('questionnaire'); }
 
 function onQuestContinue() {
-  document.getElementById('questionnaire-page').style.display = 'none';
-  openRefundPage();
+  hidePage('questionnaire-page');
+  setTimeout(openRefundPage, 200);
 }
 
-// ── Refund Calculation page ──
+// ── Page 4: Refund Calculation ──
 function openRefundPage() {
   const sync = (from, to) => {
     const el = document.getElementById(from);
     const dest = document.getElementById(to);
     if (el && dest) dest.textContent = el.textContent;
   };
-  sync('rDownPayment','refCalcDown');
-  sync('rTradeIn','refCalcTradeIn');
-  sync('rRestock','refCalcRestock');
-  sync('rPayOff','refCalcPayoff');
-  sync('rMileage','refCalcMileage');
-  sync('rTradeRefund','refCalcTradeRefund');
-  sync('rRepair','refCalcRepair');
-  sync('rTotal','refCalcTotal');
+  sync('rDownPayment','refCalcDown'); sync('rTradeIn','refCalcTradeIn');
+  sync('rRestock','refCalcRestock'); sync('rPayOff','refCalcPayoff');
+  sync('rMileage','refCalcMileage'); sync('rTradeRefund','refCalcTradeRefund');
+  sync('rRepair','refCalcRepair');   sync('rTotal','refCalcTotal');
   sync('rDeductions','refCalcDeductions');
   const totalEl = document.getElementById('rTotal');
   const totalDispEl = document.getElementById('refCalcTotalDisplay');
@@ -4048,42 +4074,35 @@ function openRefundPage() {
     document.getElementById('refundSigArea').style.display = 'none';
     document.getElementById('refundAgreeBtn').style.display = 'inline-block';
     document.getElementById('refundContinueBtn').style.display = 'none';
-    var pg = document.getElementById('refund-page');
-    pg.style.display = 'block';
-    pg.style.opacity = '1';
+    revealPage('refund-page', '#f5fafd');
   });
 }
 
-function onRefundAgree() {
-  openSigModalForPage('refund');
-}
+function onRefundAgree() { openSigModalForPage('refund'); }
 
 function onRefundContinue() {
-  document.getElementById('refund-page').style.display = 'none';
-  openDisclosurePacketPage();
+  hidePage('refund-page');
+  setTimeout(openDisclosurePacketPage, 200);
 }
 
-// ── Disclosure Packet page ──
+// ── Page 5: Disclosure Packet ──
 function openDisclosurePacketPage() {
   showSkeletonThen('discpkt-skeleton', function() {
     document.getElementById('discPktSigArea').style.display = 'none';
     document.getElementById('discPktAgreeBtn').style.display = 'inline-block';
     document.getElementById('discPktContinueBtn').style.display = 'none';
-    var pg = document.getElementById('disclosure-packet-page');
-    pg.scrollTop = 0;
-    pg.style.display = 'block';
-    pg.style.opacity = '1';
-  });
+    revealPage('disclosure-packet-page', '#e8e8e8');
+  }, 900);
 }
 
-function onDiscPktAgree() {
-  openSigModalForPage('discpkt');
-}
+function onDiscPktAgree() { openSigModalForPage('discpkt'); }
 
 function onDiscPktContinue() {
-  document.getElementById('disclosure-packet-page').style.display = 'none';
-  toast('All disclosures signed successfully! ✓', 'success');
-  setTimeout(() => toast('Return Deal created successfully ✓', 'success'), 800);
+  hidePage('disclosure-packet-page');
+  setTimeout(function() {
+    toast('All disclosures signed successfully! ✓', 'success');
+    setTimeout(function() { toast('Return Deal created successfully ✓', 'success'); }, 800);
+  }, 200);
 }
 
 </script>
@@ -4092,24 +4111,34 @@ function onDiscPktContinue() {
 ══════════════════════════════════════════ -->
 
 <!-- Skeleton for spoken page -->
-<div id="spoken-skeleton" class="skeleton-overlay gone">
+<div id="spoken-skeleton" class="skeleton-overlay gone-done" style="display:none;">
   <div class="sk-max">
-    <div class="skeleton sk-hero"></div>
-    <div class="sk-card">
-      <div class="skeleton sk-title"></div>
-      <div class="skeleton sk-line w100"></div>
-      <div class="skeleton sk-line w80"></div>
-      <div class="skeleton sk-line w100"></div>
-      <div class="skeleton sk-line w65"></div>
-      <div class="skeleton sk-line w100"></div>
-      <div class="skeleton sk-line w80"></div>
-      <div class="skeleton sk-line w45"></div>
+    <div style="border-radius:20px;padding:34px 30px;margin-bottom:22px;background:linear-gradient(135deg,rgba(30,58,138,.08),rgba(1,95,138,.08));border:1px solid rgba(1,124,183,.15);">
+      <div class="skeleton" style="width:52px;height:52px;border-radius:50%;margin:0 0 14px;"></div>
+      <div class="skeleton" style="height:28px;width:72%;margin-bottom:12px;border-radius:10px;"></div>
+      <div class="skeleton sk-line w80" style="margin-bottom:8px;"></div>
+      <div class="skeleton" style="height:28px;width:200px;border-radius:20px;margin-top:10px;"></div>
     </div>
     <div class="sk-card">
-      <div class="skeleton sk-line w100"></div>
-      <div class="skeleton sk-line w80"></div>
-      <div class="skeleton sk-line w100"></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e8f0fe;">
+        <div class="skeleton" style="width:22px;height:22px;border-radius:6px;flex-shrink:0;"></div>
+        <div class="skeleton" style="height:13px;width:55%;"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px;">
+        <div style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;background:#f8fbff;border:1px solid #e8f0fe;"><div class="skeleton" style="width:24px;height:24px;border-radius:50%;flex-shrink:0;"></div><div class="skeleton sk-line w80" style="margin:0;flex:1;"></div></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;background:#f8fbff;border:1px solid #e8f0fe;"><div class="skeleton" style="width:24px;height:24px;border-radius:50%;flex-shrink:0;"></div><div class="skeleton sk-line w100" style="margin:0;flex:1;"></div></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;background:#f8fbff;border:1px solid #e8f0fe;"><div class="skeleton" style="width:24px;height:24px;border-radius:50%;flex-shrink:0;"></div><div class="skeleton sk-line w65" style="margin:0;flex:1;"></div></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;background:#f8fbff;border:1px solid #e8f0fe;"><div class="skeleton" style="width:24px;height:24px;border-radius:50%;flex-shrink:0;"></div><div class="skeleton sk-line w80" style="margin:0;flex:1;"></div></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;background:#f8fbff;border:1px solid #e8f0fe;"><div class="skeleton" style="width:24px;height:24px;border-radius:50%;flex-shrink:0;"></div><div class="skeleton sk-line w45" style="margin:0;flex:1;"></div></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;background:#f8fbff;border:1px solid #e8f0fe;"><div class="skeleton" style="width:24px;height:24px;border-radius:50%;flex-shrink:0;"></div><div class="skeleton sk-line w100" style="margin:0;flex:1;"></div></div>
+      </div>
     </div>
+    <div class="sk-card">
+      <div class="skeleton sk-line w100" style="margin-bottom:8px;"></div>
+      <div class="skeleton sk-line w80" style="margin-bottom:8px;"></div>
+      <div class="skeleton sk-line w65" style="margin-bottom:0;"></div>
+    </div>
+    <div class="skeleton" style="height:150px;border-radius:16px;margin-bottom:16px;"></div>
   </div>
 </div>
 
@@ -4171,22 +4200,77 @@ function onDiscPktContinue() {
 ══════════════════════════════════════════ -->
 
 <!-- Skeleton for questionnaire page -->
-<div id="quest-skeleton" class="skeleton-overlay gone">
+<div id="quest-skeleton" class="skeleton-overlay gone-done" style="display:none;">
   <div class="sk-max">
-    <div class="skeleton sk-hero"></div>
-    <div class="sk-card">
-      <div class="skeleton sk-title"></div>
-      <div class="skeleton sk-line w100"></div>
-      <div class="sk-grid2"><div class="skeleton sk-box"></div><div class="skeleton sk-box"></div></div>
+    <div style="border-radius:20px;padding:34px 30px;margin-bottom:22px;background:linear-gradient(135deg,rgba(76,29,149,.08),rgba(109,40,217,.08));border:1px solid rgba(139,92,246,.2);">
+      <div class="skeleton" style="width:52px;height:52px;border-radius:50%;margin:0 0 14px;"></div>
+      <div class="skeleton" style="height:28px;width:60%;margin-bottom:10px;border-radius:10px;"></div>
+      <div class="skeleton sk-line w45" style="margin-bottom:14px;"></div>
+      <div class="skeleton" style="height:28px;width:160px;border-radius:20px;"></div>
     </div>
-    <div class="sk-card">
-      <div class="skeleton sk-line w80"></div>
-      <div class="sk-grid2"><div class="skeleton sk-box"></div><div class="skeleton sk-box"></div></div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:22px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px 22px;">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
+          <div class="skeleton" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;"></div>
+          <div class="skeleton sk-line w80" style="margin:4px 0 0;flex:1;"></div>
+        </div>
+        <div style="display:flex;gap:10px;padding-left:40px;">
+          <div class="skeleton" style="flex:1;height:44px;border-radius:10px;"></div>
+          <div class="skeleton" style="flex:1;height:44px;border-radius:10px;"></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px 22px;">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
+          <div class="skeleton" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;"></div>
+          <div class="skeleton sk-line w100" style="margin:4px 0 0;flex:1;"></div>
+        </div>
+        <div style="display:flex;gap:10px;padding-left:40px;">
+          <div class="skeleton" style="flex:1;height:44px;border-radius:10px;"></div>
+          <div class="skeleton" style="flex:1;height:44px;border-radius:10px;"></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px 22px;">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
+          <div class="skeleton" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;"></div>
+          <div class="skeleton sk-line w65" style="margin:4px 0 0;flex:1;"></div>
+        </div>
+        <div style="display:flex;gap:10px;padding-left:40px;">
+          <div class="skeleton" style="flex:1;height:44px;border-radius:10px;"></div>
+          <div class="skeleton" style="flex:1;height:44px;border-radius:10px;"></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px 22px;">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
+          <div class="skeleton" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;"></div>
+          <div class="skeleton sk-line w100" style="margin:4px 0 0;flex:1;"></div>
+        </div>
+        <div style="display:flex;gap:10px;padding-left:40px;">
+          <div class="skeleton" style="flex:1;height:44px;border-radius:10px;"></div>
+          <div class="skeleton" style="flex:1;height:44px;border-radius:10px;"></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px 22px;">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
+          <div class="skeleton" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;"></div>
+          <div class="skeleton sk-line w80" style="margin:4px 0 0;flex:1;"></div>
+        </div>
+        <div style="display:flex;gap:10px;padding-left:40px;">
+          <div class="skeleton" style="flex:1;height:44px;border-radius:10px;"></div>
+          <div class="skeleton" style="flex:1;height:44px;border-radius:10px;"></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px 22px;">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
+          <div class="skeleton" style="width:28px;height:28px;border-radius:50%;flex-shrink:0;"></div>
+          <div class="skeleton sk-line w65" style="margin:4px 0 0;flex:1;"></div>
+        </div>
+        <div style="display:flex;gap:10px;padding-left:40px;">
+          <div class="skeleton" style="flex:1;height:44px;border-radius:10px;"></div>
+          <div class="skeleton" style="flex:1;height:44px;border-radius:10px;"></div>
+        </div>
+      </div>
     </div>
-    <div class="sk-card">
-      <div class="skeleton sk-line w100"></div>
-      <div class="sk-grid2"><div class="skeleton sk-box"></div><div class="skeleton sk-box"></div></div>
-    </div>
+    <div class="skeleton" style="height:150px;border-radius:16px;"></div>
   </div>
 </div>
 
@@ -4294,18 +4378,31 @@ function onDiscPktContinue() {
 ══════════════════════════════════════════ -->
 
 <!-- Skeleton for refund page -->
-<div id="refund-skeleton" class="skeleton-overlay gone">
+<div id="refund-skeleton" class="skeleton-overlay gone-done" style="display:none;background:#f0f7ff;">
   <div class="sk-max">
-    <div class="skeleton sk-hero"></div>
+    <div style="border-radius:20px;padding:34px 30px;margin-bottom:22px;text-align:center;background:linear-gradient(135deg,rgba(6,78,59,.1),rgba(4,120,87,.1));border:1px solid rgba(110,231,183,.4);">
+      <div class="skeleton" style="width:56px;height:56px;border-radius:50%;margin:0 auto 14px;"></div>
+      <div class="skeleton" style="height:30px;width:50%;margin:0 auto 10px;border-radius:10px;"></div>
+      <div class="skeleton sk-line w45" style="margin:0 auto 14px;"></div>
+      <div class="skeleton" style="height:30px;width:200px;border-radius:12px;margin:0 auto;"></div>
+    </div>
     <div class="sk-card">
-      <div class="skeleton sk-title"></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e8f5f0;">
+        <div class="skeleton" style="width:18px;height:18px;border-radius:4px;flex-shrink:0;"></div>
+        <div class="skeleton" style="height:13px;width:40%;"></div>
+      </div>
       <div class="sk-grid2">
         <div class="skeleton sk-box"></div><div class="skeleton sk-box"></div>
         <div class="skeleton sk-box"></div><div class="skeleton sk-box"></div>
         <div class="skeleton sk-box"></div><div class="skeleton sk-box"></div>
       </div>
     </div>
-    <div class="skeleton" style="height:90px;border-radius:16px;margin-bottom:16px;"></div>
+    <div class="skeleton" style="height:100px;border-radius:16px;margin-bottom:16px;"></div>
+    <div class="sk-card">
+      <div class="skeleton sk-line w100" style="margin-bottom:14px;"></div>
+      <div style="display:flex;gap:10px;"><div class="skeleton" style="flex:1;height:46px;border-radius:10px;"></div><div class="skeleton" style="flex:1;height:46px;border-radius:10px;"></div></div>
+    </div>
+    <div class="skeleton" style="height:150px;border-radius:16px;"></div>
   </div>
 </div>
 
@@ -4436,41 +4533,40 @@ function updateRefundQLbl(val) {
 </script>
 
 
-<!-- ══════════════════════════════════════════
-     PAGE 5: DISCLOSURE PACKET (scrollable document)
-══════════════════════════════════════════ -->
-
 <!-- Skeleton for disclosure packet page -->
-<div id="discpkt-skeleton" class="skeleton-overlay gone">
-  <div class="sk-max">
-    <div class="skeleton" style="height:48px;border-radius:0;margin-bottom:0;"></div>
-    <div style="padding:28px 0;">
-      <div style="max-width:760px;margin:0 auto;">
-        <div style="background:#fff;border-radius:4px;padding:28px;margin-bottom:28px;box-shadow:0 4px 24px rgba(0,0,0,.1);">
-          <div class="skeleton" style="height:60px;border-radius:8px;margin-bottom:20px;"></div>
-          <div class="skeleton sk-line w100"></div>
-          <div class="skeleton sk-line w80"></div>
-          <div class="skeleton sk-line w100"></div>
-          <div class="skeleton sk-line w65"></div>
-          <div class="skeleton sk-line w80"></div>
-          <div class="skeleton sk-line w45"></div>
-        </div>
-        <div style="background:#fff;border-radius:4px;padding:28px;margin-bottom:28px;box-shadow:0 4px 24px rgba(0,0,0,.1);">
-          <div class="skeleton sk-title"></div>
-          <div class="skeleton sk-line w100"></div>
-          <div class="skeleton sk-line w80"></div>
-          <div class="skeleton sk-line w100"></div>
-          <div class="skeleton sk-line w65"></div>
-          <div class="skeleton sk-line w30"></div>
-        </div>
-        <div style="background:#fff;border-radius:4px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.1);">
-          <div class="skeleton sk-title"></div>
-          <div class="sk-grid2"><div class="skeleton sk-box"></div><div class="skeleton sk-box"></div></div>
-        </div>
+<div id="discpkt-skeleton" class="skeleton-overlay gone-done" style="display:none;background:#d8d8d8;padding:0;align-items:flex-start;">
+  <div style="width:100%;background:#1e293b;padding:14px 24px;display:flex;align-items:center;gap:14px;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.35);">
+    <div class="skeleton" style="height:12px;width:110px;border-radius:6px;background:rgba(255,255,255,.2);"></div>
+    <div style="flex:1;height:4px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;">
+      <div style="width:20%;height:100%;background:linear-gradient(90deg,rgba(1,124,183,.6),rgba(34,197,94,.6));border-radius:4px;"></div>
+    </div>
+    <div class="skeleton" style="height:12px;width:50px;border-radius:6px;background:rgba(255,255,255,.2);"></div>
+  </div>
+  <div style="width:100%;max-width:760px;margin:28px auto;padding:0 16px;">
+    <div style="background:#fff;border-radius:4px;padding:28px;margin-bottom:24px;box-shadow:0 4px 24px rgba(0,0,0,.15);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;padding-bottom:16px;border-bottom:2px solid #f0f0f0;">
+        <div><div class="skeleton" style="height:18px;width:150px;margin-bottom:8px;"></div><div class="skeleton" style="height:13px;width:100px;"></div></div>
+        <div class="skeleton" style="width:50px;height:50px;border-radius:8px;"></div>
       </div>
+      <div class="skeleton sk-line w100"></div>
+      <div class="skeleton sk-line w80"></div>
+      <div class="skeleton sk-line w100"></div>
+      <div class="skeleton sk-line w65"></div>
+      <div class="skeleton sk-line w80"></div>
+      <div class="skeleton sk-line w45"></div>
+    </div>
+    <div style="background:#fff;border-radius:4px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.15);">
+      <div class="skeleton sk-title"></div>
+      <div class="skeleton sk-line w100"></div>
+      <div class="skeleton sk-line w65"></div>
+      <div class="sk-grid2"><div class="skeleton sk-box"></div><div class="skeleton sk-box"></div></div>
     </div>
   </div>
 </div>
+
+<!-- ══════════════════════════════════════════
+     PAGE 5: DISCLOSURE PACKET (scrollable document)
+══════════════════════════════════════════ -->
 
 <style>
 #disclosure-packet-page { display:none; }
