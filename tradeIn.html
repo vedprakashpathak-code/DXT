@@ -480,10 +480,11 @@ tbody td:first-child{padding-left:22px;}
   display:block;
 }
 .skeleton-overlay {
-  position:fixed;inset:0;z-index:660;background:#f5fafd;
+  position:fixed;inset:0;z-index:660;background:#f0f7ff;
   display:flex;flex-direction:column;align-items:center;
   padding:40px 24px 120px;overflow-y:auto;
   transition:opacity .4s, visibility .4s;
+  isolation: isolate;
 }
 .skeleton-overlay.gone { opacity:0;visibility:hidden;pointer-events:none; }
 .sk-max { max-width:860px;width:100%; }
@@ -710,6 +711,8 @@ tbody td:first-child{padding-left:22px;}
     <div class="ni" onclick="toast('Training','info')"><span class="nicon">🎓</span> Training</div>
     <div class="ni" onclick="toast('Company Owner','info')"><span class="nicon">👤</span> Company Owner</div>
     <div class="ni" onclick="toast('Carmooo','info')"><span class="nicon">🚀</span> Carmooo</div>
+    <div class="nlabel" style="margin-top:10px">Tools</div>
+    <div class="ni" id="nav-flowdiagram" onclick="showPage('flow-diagram-page')"><span class="nicon">🗺️</span> Return Deal Flow</div>
   </nav>
   <div class="sfooter">
     <div class="ucard" onclick="toast('Profile settings','info')">
@@ -1822,7 +1825,7 @@ new Chart(document.getElementById('damageChart'),{
       <div class="form-group" style="margin-bottom:16px">
         <label class="form-label">VIN <span class="req">*</span></label>
         <div class="vin-ac-wrap">
-          <input class="form-input" type="text" id="returnVIN" placeholder="Enter VIN number…" oninput="handleVINInput(this.value)" autocomplete="off">
+          <input class="form-input" type="text" id="returnVIN" placeholder="Enter VIN number…" oninput="handleVINInput(this.value)" onfocus="handleVINInput(this.value)" onclick="handleVINInput(this.value)" autocomplete="off">
           <div class="vin-ac-list" id="vinAcList">
             <!-- populated by JS -->
           </div>
@@ -2746,56 +2749,296 @@ new Chart(document.getElementById('damageChart'),{
      ON-DEVICE SIGNING — LANGUAGE SELECTION PAGE
 ══════════════════════════════════════════ -->
 
-<!-- Skeleton for lang page -->
+<!-- ══════════════════════════════════════════
+     LANGUAGE PAGE — SKELETON
+══════════════════════════════════════════ -->
+<style>
+/* ── Lang page premium styles ── */
+#lang-page {
+  background: linear-gradient(160deg, #f0f7ff 0%, #e8f4fb 40%, #f5fafd 100%) !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 650 !important;
+  overflow-y: auto !important;
+  isolation: isolate;
+}
+.lang-page-wrap {
+  max-width: 700px; width: 100%; margin: 0 auto;
+  padding: 48px 20px 120px;
+  animation: langPageIn .5s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes langPageIn {
+  from { opacity:0; transform: translateY(32px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* Header badge */
+.lang-step-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(1,124,183,.10); border: 1px solid rgba(1,124,183,.2);
+  border-radius: 100px; padding: 6px 16px;
+  font-size: 11.5px; font-weight: 700; color: #015f8a;
+  letter-spacing: .6px; text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.lang-step-badge span { width:6px;height:6px;border-radius:50%;background:#017cb7;display:inline-block;animation:pulse 2s infinite; }
+
+/* Hero section */
+.lang-hero {
+  text-align: center; margin-bottom: 36px;
+}
+.lang-owl-wrap {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, #015f8a, #017cb7);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 38px; margin: 0 auto 20px;
+  box-shadow: 0 8px 32px rgba(1,124,183,.35), 0 0 0 8px rgba(1,124,183,.08);
+}
+.lang-greeting {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px; font-weight: 800; letter-spacing: -.6px;
+  line-height: 1.1; margin-bottom: 10px;
+}
+.lang-greeting .en-name { color: #0d2a3b; }
+.lang-greeting .es-name { color: #94a3b8; font-weight: 600; }
+.lang-subtitle { font-size: 15px; color: #64748b; margin-bottom: 4px; }
+.lang-subtitle-es { font-size: 13px; color: #94a3b8; font-style: italic; }
+
+/* Language option cards */
+.lang-options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+
+.lang-opt-label {
+  display: flex; align-items: center; gap: 16px;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px; padding: 20px 22px;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s, transform .15s;
+  position: relative; overflow: hidden;
+}
+.lang-opt-label::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(1,124,183,.04), transparent);
+  opacity: 0; transition: opacity .2s;
+}
+.lang-opt-label:hover { border-color: #93c5fd; box-shadow: 0 4px 20px rgba(1,124,183,.10); transform: translateY(-1px); }
+.lang-opt-label:hover::before { opacity: 1; }
+.lang-opt-label.selected { border-color: #017cb7; box-shadow: 0 4px 24px rgba(1,124,183,.18); }
+
+.lang-radio-dot {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid #e2e8f0; background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.lang-radio-dot.active {
+  border-color: #017cb7; background: #017cb7;
+}
+.lang-radio-dot.active::after {
+  content: ''; width: 8px; height: 8px; background: #fff; border-radius: 50%;
+}
+
+.lang-flag { font-size: 26px; flex-shrink: 0; }
+
+.lang-opt-text { flex: 1; }
+.lang-opt-text .lang-opt-main {
+  font-size: 15px; font-weight: 600; color: #1e293b; line-height: 1.5;
+}
+.lang-opt-text .lang-opt-main strong { color: #015f8a; }
+.lang-opt-text .lang-opt-sub {
+  font-size: 11.5px; color: #94a3b8; margin-top: 3px;
+}
+
+/* Legal notice box */
+.lang-legal-box {
+  background: rgba(1,124,183,.05);
+  border: 1px solid rgba(1,124,183,.14);
+  border-radius: 12px; padding: 16px 20px;
+  margin-bottom: 24px;
+  font-size: 13px; color: #475569; line-height: 1.8;
+  text-align: center;
+}
+.lang-legal-box a { color: #017cb7; text-decoration: none; font-weight: 600; }
+.lang-legal-box a:hover { text-decoration: underline; }
+
+/* Signature preview card */
+.lang-sig-card {
+  background: #fff;
+  border: 1.5px solid #10b981;
+  border-radius: 16px; padding: 24px 28px;
+  margin-bottom: 24px;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(16,185,129,.12);
+  animation: fup .35s ease both;
+}
+.lang-sig-card-label {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(16,185,129,.10); border-radius: 100px;
+  padding: 5px 14px; font-size: 11px; font-weight: 700;
+  color: #059669; text-transform: uppercase; letter-spacing: .7px;
+  margin-bottom: 16px;
+}
+.lang-sig-card img {
+  max-width: 320px; width: 100%; display: block; margin: 0 auto 12px;
+  border: 1px solid #e2e8f0; border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+.lang-sig-ts {
+  font-size: 10.5px; color: #94a3b8; margin-top: 6px;
+  letter-spacing: .3px;
+}
+
+/* Bottom action bar */
+.lang-action-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(245,250,253,.97);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(1,124,183,.12);
+  padding: 16px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  z-index: 10;
+}
+.lang-action-bar .lab-brand {
+  font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 6px;
+}
+.lang-action-bar .lab-brand strong { color: #017cb7; }
+
+.lang-agree-btn {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #fff; border: none; border-radius: 14px;
+  padding: 15px 56px; font-size: 16px; font-weight: 700;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 4px 20px rgba(34,197,94,.40);
+  transition: all .2s; min-width: 240px;
+  letter-spacing: .2px;
+}
+.lang-agree-btn:hover { box-shadow: 0 6px 28px rgba(34,197,94,.55); transform: translateY(-1px); }
+.lang-agree-btn:active { transform: translateY(0); }
+
+/* Skeleton specific */
+.lang-sk-owl { width:80px;height:80px;border-radius:50%;margin:0 auto 20px; }
+.lang-sk-title { height:36px;border-radius:10px;width:55%;margin:0 auto 10px; }
+.lang-sk-sub { height:14px;border-radius:7px;width:40%;margin:0 auto 6px; }
+.lang-sk-card { background:#fff;border-radius:16px;padding:22px;margin-bottom:12px;display:flex;align-items:center;gap:16px; }
+.lang-sk-dot { width:24px;height:24px;border-radius:50%;flex-shrink:0; }
+.lang-sk-lines { flex:1; }
+.lang-sk-l1 { height:14px;border-radius:7px;margin-bottom:8px;width:90%; }
+.lang-sk-l2 { height:11px;border-radius:6px;width:60%; }
+</style>
+
+<!-- Skeleton -->
 <div id="lang-skeleton" class="skeleton-overlay gone">
-  <div class="sk-max" style="max-width:780px;">
-    <div class="skeleton sk-circle"></div>
-    <div class="skeleton sk-title" style="width:60%;margin:0 auto 14px;"></div>
-    <div class="skeleton sk-line w45" style="margin:0 auto 20px;"></div>
-    <div class="sk-card"><div class="skeleton sk-line w100"></div><div class="skeleton sk-line w80" style="margin-top:6px;"></div></div>
-    <div class="sk-card"><div class="skeleton sk-line w100"></div><div class="skeleton sk-line w70" style="margin-top:6px;"></div></div>
+  <div style="max-width:700px;width:100%;margin:0 auto;padding:48px 20px;">
+    <!-- Step badge skeleton -->
+    <div style="display:flex;justify-content:center;margin-bottom:28px;">
+      <div class="skeleton" style="width:160px;height:28px;border-radius:100px;"></div>
+    </div>
+    <!-- Owl avatar -->
+    <div class="skeleton lang-sk-owl"></div>
+    <!-- Title -->
+    <div class="skeleton lang-sk-title"></div>
+    <div class="skeleton lang-sk-sub"></div>
+    <div class="skeleton lang-sk-sub" style="width:30%;margin:4px auto 32px;"></div>
+    <!-- EN card -->
+    <div class="lang-sk-card" style="border:1px solid #e2e8f0;">
+      <div class="skeleton lang-sk-dot"></div>
+      <div style="width:26px;height:26px;border-radius:4px;" class="skeleton"></div>
+      <div class="lang-sk-lines">
+        <div class="skeleton lang-sk-l1"></div>
+        <div class="skeleton lang-sk-l2"></div>
+      </div>
+    </div>
+    <!-- ES card -->
+    <div class="lang-sk-card" style="border:1px solid #e2e8f0;">
+      <div class="skeleton lang-sk-dot"></div>
+      <div style="width:26px;height:26px;border-radius:4px;" class="skeleton"></div>
+      <div class="lang-sk-lines">
+        <div class="skeleton lang-sk-l1"></div>
+        <div class="skeleton lang-sk-l2"></div>
+      </div>
+    </div>
+    <!-- Legal box -->
+    <div class="skeleton" style="height:64px;border-radius:12px;margin-top:12px;"></div>
+    <!-- Sig canvas -->
+    <div class="skeleton" style="height:140px;border-radius:16px;margin-top:24px;"></div>
   </div>
 </div>
 
-<div id="lang-page" style="display:none;position:fixed;inset:0;z-index:600;background:#f5fafd;overflow-y:auto;flex-direction:column;align-items:center;justify-content:flex-start;padding:32px 20px 100px;">
-  <div style="max-width:780px;width:100%;margin:0 auto;">
-    <div style="text-align:center;margin-bottom:32px;">
-      <div style="font-size:42px;margin-bottom:10px;">🦉</div>
-      <h1 style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;">
-        Hi <span id="langBuyerName" style="color:#1e293b;"></span>! <span style="color:#94a3b8;">Hola <span id="langBuyerName2"></span>!</span>
+<!-- ══════════════════════════════════════════
+     LANGUAGE SELECTION PAGE (Beautiful)
+══════════════════════════════════════════ -->
+<div id="lang-page" style="display:none;position:fixed;inset:0;z-index:600;overflow-y:auto;">
+  <div class="lang-page-wrap">
+
+    <!-- Step badge -->
+    <div style="display:flex;justify-content:center;margin-bottom:0;">
+      <div class="lang-step-badge">
+        <span></span> Step 1 of 5 &nbsp;·&nbsp; Language Selection
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <div class="lang-hero">
+      <div class="lang-owl-wrap">🦉</div>
+      <h1 class="lang-greeting">
+        Hi <span class="en-name" id="langBuyerName"></span>!
+        <span class="es-name">Hola <span id="langBuyerName2"></span>!</span>
       </h1>
-      <p style="color:#64748b;font-size:15px;margin-top:6px;">Please choose your preferred language:</p>
-      <p style="color:#94a3b8;font-size:13px;">Elija su idioma preferido:</p>
+      <p class="lang-subtitle">Please choose your preferred language:</p>
+      <p class="lang-subtitle-es">Elija su idioma preferido:</p>
     </div>
-    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:28px;">
-      <label id="langOptEn" style="display:flex;align-items:center;gap:16px;background:#fff;border:2px solid #017cb7;border-radius:14px;padding:18px 22px;cursor:pointer;transition:border-color .2s;">
-        <input type="radio" name="langChoice" value="en" checked style="width:22px;height:22px;accent-color:#017cb7;flex-shrink:0;" onchange="updateLangBorder()">
-        <span style="font-size:16px;font-weight:600;color:#1e293b;">I choose to receive my vehicle return request documents and disclosures in <strong>English.</strong></span>
+
+    <!-- Language Options -->
+    <div class="lang-options">
+      <!-- English -->
+      <label class="lang-opt-label selected" id="langOptEn" onclick="selectLang('en')">
+        <input type="radio" name="langChoice" value="en" checked style="display:none;" onchange="updateLangBorder()">
+        <div class="lang-radio-dot active" id="langDotEn"></div>
+        <span class="lang-flag">🇺🇸</span>
+        <div class="lang-opt-text">
+          <div class="lang-opt-main">I choose to receive my vehicle return request documents and disclosures in <strong>English.</strong></div>
+          <div class="lang-opt-sub">English — United States</div>
+        </div>
       </label>
-      <label id="langOptEs" style="display:flex;align-items:center;gap:16px;background:#fff;border:2px solid #e2e8f0;border-radius:14px;padding:18px 22px;cursor:pointer;transition:border-color .2s;">
-        <input type="radio" name="langChoice" value="es" style="width:22px;height:22px;accent-color:#017cb7;flex-shrink:0;" onchange="updateLangBorder()">
-        <span style="font-size:16px;color:#1e293b;">Elijo recibir los documentos y la información relativa a la solicitud de la devolucion de mivehiculo <strong>en Español</strong>.</span>
+
+      <!-- Spanish -->
+      <label class="lang-opt-label" id="langOptEs" onclick="selectLang('es')">
+        <input type="radio" name="langChoice" value="es" style="display:none;" onchange="updateLangBorder()">
+        <div class="lang-radio-dot" id="langDotEs"></div>
+        <span class="lang-flag">🇲🇽</span>
+        <div class="lang-opt-text">
+          <div class="lang-opt-main">Elijo recibir los documentos y la información relativa a la solicitud de la devolucion de mivehiculo <strong>en Español.</strong></div>
+          <div class="lang-opt-sub">Español — México / Latinoamérica</div>
+        </div>
       </label>
     </div>
-    <div style="text-align:center;color:#64748b;font-size:13px;line-height:1.8;margin-bottom:20px;max-width:600px;margin-left:auto;margin-right:auto;">
+
+    <!-- Legal Notice -->
+    <div class="lang-legal-box">
       To ensure that disclosures are signed by the correct person, your photograph will be taken during the signing process.<br>
       I agree to be legally bound by this document and the SafeDealsAI
-      <a href="#" style="color:#017cb7;text-decoration:none;" onclick="return false;">Electronic Signature Policy</a> and
-      <a href="#" style="color:#017cb7;text-decoration:none;" onclick="return false;">Data Policy</a>.
+      <a href="#" onclick="return false;">Electronic Signature Policy</a> and
+      <a href="#" onclick="return false;">Data Policy</a>.
     </div>
-    <!-- Signature preview area (shown after signing) -->
-    <div id="langSigArea" style="display:none;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:24px;margin-bottom:24px;text-align:center;">
-      <img id="sigPreviewImg" src="" alt="Signature" style="max-width:300px;display:block;margin:0 auto;border:1px solid #e2e8f0;border-radius:6px;">
-      <p style="font-size:13px;color:#64748b;margin-top:10px;">I understand this is a legal representation of my signature.</p>
-      <p id="sigTimestamp" style="font-size:11px;color:#94a3b8;margin-top:4px;"></p>
+
+    <!-- Signature Preview (shown after signing) -->
+    <div id="langSigArea" style="display:none;" class="lang-sig-card">
+      <div class="lang-sig-card-label">✍️ Signature Captured</div>
+      <img id="sigPreviewImg" src="" alt="Signature">
+      <p style="font-size:13px;color:#64748b;font-weight:500;">I understand this is a legal representation of my signature.</p>
+      <p id="sigTimestamp" class="lang-sig-ts"></p>
     </div>
-    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
-      <button id="langAgreeBtn" onclick="onLangAgree()" style="background:#22c55e;color:#fff;border:none;border-radius:12px;padding:16px 60px;font-size:17px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 18px rgba(34,197,94,.35);transition:all .2s;min-width:240px;">I Agree</button>
-      <button id="langContinueBtn" onclick="onLangContinue()" style="display:none;background:#22c55e;color:#fff;border:none;border-radius:12px;padding:16px 60px;font-size:17px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 18px rgba(34,197,94,.35);transition:all .2s;min-width:240px;">Continue</button>
+
+  </div>
+
+  <!-- Fixed bottom action bar -->
+  <div class="lang-action-bar">
+    <div class="lab-brand">
+      Powered by: <strong>🛡️ Safe Deals AI</strong>
     </div>
-    <div style="position:fixed;bottom:18px;right:20px;display:flex;align-items:center;gap:6px;font-size:12px;color:#94a3b8;">
-      Powered by: <span style="font-weight:700;color:#017cb7;">🛡️ Safe Deals AI</span>
-    </div>
+    <button id="langAgreeBtn" class="lang-agree-btn" onclick="onLangAgree()">I Agree &amp; Sign</button>
+    <button id="langContinueBtn" class="lang-agree-btn" style="display:none;" onclick="onLangContinue()">Continue →</button>
+    <div style="width:140px;"></div><!-- spacer to center button -->
   </div>
 </div>
 
@@ -2821,6 +3064,7 @@ new Chart(document.getElementById('damageChart'),{
 </div>
 
 <style>
+#lang-page { display:none; }
 #lang-page.show { display:block !important; }
 #m-signature.show { display:flex !important; }
 </style>
@@ -2829,19 +3073,21 @@ new Chart(document.getElementById('damageChart'),{
 // ── Page Navigation ──
 function showPage(pageId) {
   // Hide all top-level pages
-  document.getElementById('dashboard-page').style.display = 'none';
-  document.getElementById('main-content').style.display = 'none';
-
-  // Show the requested page
-  document.getElementById(pageId).style.display = 'block';
-
+  ['dashboard-page','main-content','flow-diagram-page'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  // Show requested page
+  var target = document.getElementById(pageId);
+  if (target) target.style.display = 'block';
   // Update nav active states
-  const allNav = document.querySelectorAll('.ni');
-  allNav.forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(function(n){ n.classList.remove('active'); });
   if (pageId === 'dashboard-page') {
     document.getElementById('nav-dashboard').classList.add('active');
   } else if (pageId === 'main-content') {
     document.getElementById('nav-pending').classList.add('active');
+  } else if (pageId === 'flow-diagram-page') {
+    document.getElementById('nav-flowdiagram').classList.add('active');
   }
 }
 
@@ -3231,12 +3477,13 @@ function openReturnDeal(prefillVIN = '') {
   document.getElementById('returnStaff').value = '';
   document.getElementById('m-return').classList.add('open');
   updateReturnSteps(1);
-  // If called with a VIN (from Return button), just pre-type it for convenience but don't auto-select
+  updateReturnNextBtn();
+
+  // If called with a VIN, pre-fill and immediately open dropdown
   if (prefillVIN) {
     document.getElementById('returnVIN').value = prefillVIN;
     handleVINInput(prefillVIN);
   }
-  updateReturnNextBtn();
 }
 
 function handleVINInput(val) {
@@ -3245,9 +3492,13 @@ function handleVINInput(val) {
   selectedVINData = null;
   preview.style.display = 'none';
 
-  if (val.length < 3) { list.classList.remove('open'); updateReturnNextBtn(); return; }
+  // Show all if empty (clicked/focused with no text), filter if typing
+  const matches = val.length === 0
+    ? MOCK_VINS
+    : MOCK_VINS.filter(d => d.vin.toLowerCase().includes(val.toLowerCase()) ||
+        d.make.toLowerCase().includes(val.toLowerCase()) ||
+        d.buyer.toLowerCase().includes(val.toLowerCase()));
 
-  const matches = MOCK_VINS.filter(d => d.vin.toLowerCase().includes(val.toLowerCase()));
   if (!matches.length) { list.classList.remove('open'); updateReturnNextBtn(); return; }
 
   list.innerHTML = matches.map((d,i) => `
@@ -3259,7 +3510,6 @@ function handleVINInput(val) {
     </div>
   `).join('');
   list.classList.add('open');
-  // Store matches for selection
   list._matches = matches;
 }
 
@@ -3440,12 +3690,25 @@ function sendReturnDisclosure() {
   const signHere = document.getElementById('discSignHere').checked;
 
   if (signHere) {
-    // On-device signing flow → go to language selection page
+    // Build refund params from calculated values
+    const getVal = id => { const el = document.getElementById(id); return el ? el.textContent : '$0'; };
+    const params = new URLSearchParams({
+      first:   first,
+      last:    last,
+      down:    getVal('rDownPayment'),
+      tradein: getVal('rTradeIn'),
+      restock: getVal('rRestock'),
+      mileage: getVal('rMileage'),
+      repair:  getVal('rRepair'),
+      deduct:  getVal('rDeductions'),
+      total:   getVal('rTotal')
+    });
     cm('m-return-disc');
-    openLanguagePage(first, last);
+    window.open('signing_flow.html?' + params.toString(), '_blank');
+    toast('Opening signing page for ' + first + ' ' + last + '...', 'success');
   } else {
     cm('m-return-disc');
-    toast(`Return disclosure sent to ${first} ${last}!`, 'success');
+    toast('Return disclosure sent to ' + first + ' ' + last + '!', 'success');
     setTimeout(() => toast('Return Deal created successfully ✓', 'success'), 800);
   }
 }
@@ -3502,27 +3765,59 @@ document.addEventListener('click', e => {
 // ══════════════════════════════════════════
 
 function openLanguagePage(firstName, lastName) {
-  document.getElementById('langBuyerName').textContent = firstName;
+  // Reset state
+  document.getElementById('langBuyerName').textContent  = firstName;
   document.getElementById('langBuyerName2').textContent = firstName;
-  document.getElementById('langSigArea').style.display = 'none';
-  document.getElementById('langAgreeBtn').style.display = 'inline-block';
+  document.getElementById('langSigArea').style.display  = 'none';
+  document.getElementById('langAgreeBtn').style.display    = 'inline-block';
   document.getElementById('langContinueBtn').style.display = 'none';
-  // Reset radio to English
+
+  // Reset language to English
   document.querySelector('input[name="langChoice"][value="en"]').checked = true;
+  selectLang('en');
+
+  // Show skeleton briefly then reveal page with animation
+  var sk = document.getElementById('lang-skeleton');
+  var pg = document.getElementById('lang-page');
+  pg.style.display = 'none';
+  if (sk) { sk.classList.remove('gone'); }
+
+  setTimeout(function() {
+    if (sk) sk.classList.add('gone');
+    pg.style.display = 'block';
+    // Re-trigger animation
+    pg.querySelector('.lang-page-wrap').style.animation = 'none';
+    void pg.querySelector('.lang-page-wrap').offsetWidth;
+    pg.querySelector('.lang-page-wrap').style.animation = '';
+  }, 700);
+}
+
+function selectLang(val) {
+  // Update hidden radios
+  var radios = document.querySelectorAll('input[name="langChoice"]');
+  radios.forEach(function(r){ r.checked = r.value === val; });
   updateLangBorder();
-  // Hide skeleton if visible
-  const sk = document.getElementById('lang-skeleton');
-  if (sk) sk.classList.add('gone');
-  // Show lang page directly
-  const pg = document.getElementById('lang-page');
-  pg.style.display = 'block';
-  pg.classList.add('show');
 }
 
 function updateLangBorder() {
-  const val = document.querySelector('input[name="langChoice"]:checked').value;
-  document.getElementById('langOptEn').style.borderColor = val === 'en' ? '#017cb7' : '#e2e8f0';
-  document.getElementById('langOptEs').style.borderColor = val === 'es' ? '#017cb7' : '#e2e8f0';
+  var val = document.querySelector('input[name="langChoice"]:checked').value;
+  var enLabel = document.getElementById('langOptEn');
+  var esLabel = document.getElementById('langOptEs');
+  var enDot   = document.getElementById('langDotEn');
+  var esDot   = document.getElementById('langDotEs');
+
+  if (enLabel) {
+    enLabel.style.borderColor = val === 'en' ? '#017cb7' : '#e2e8f0';
+    enLabel.style.boxShadow   = val === 'en' ? '0 4px 24px rgba(1,124,183,.18)' : 'none';
+    enLabel.classList.toggle('selected', val === 'en');
+  }
+  if (esLabel) {
+    esLabel.style.borderColor = val === 'es' ? '#017cb7' : '#e2e8f0';
+    esLabel.style.boxShadow   = val === 'es' ? '0 4px 24px rgba(1,124,183,.18)' : 'none';
+    esLabel.classList.toggle('selected', val === 'es');
+  }
+  if (enDot) { enDot.className = 'lang-radio-dot' + (val === 'en' ? ' active' : ''); }
+  if (esDot) { esDot.className = 'lang-radio-dot' + (val === 'es' ? ' active' : ''); }
 }
 
 function onLangAgree() {
@@ -3670,8 +3965,13 @@ function openSigModalForPage(pageKey) {
 }
 
 function onLangContinue() {
-  document.getElementById('lang-page').style.display = 'none';
-  openSpokenPage();
+  var pg = document.getElementById('lang-page');
+  pg.classList.add('page-transition-exit');
+  setTimeout(function() {
+    pg.style.display = 'none';
+    pg.classList.remove('page-transition-exit');
+    openSpokenPage();
+  }, 280);
 }
 
 // ── No Spoken Statements page ──
@@ -4788,4 +5088,421 @@ function updateRefundQLbl(val) {
     const pct = scrollHeight > 0 ? Math.min(100, (scrollTop / scrollHeight) * 100) : 0;
 
     const fill = document.getElementById('dpktProgressFill');
-    if (fill) 
+    if (fill) fill.style.width = pct.toFixed(1) + '%';
+
+    // Update current page indicator
+    const indicator = document.getElementById('dpktPageIndicator');
+    if (indicator) {
+      let currentPage = 1;
+      for (let i = pages.length - 1; i >= 0; i--) {
+        const el = document.getElementById(pages[i]);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const pageRect = page.getBoundingClientRect();
+          if (rect.top <= pageRect.top + pageRect.height * 0.5) {
+            currentPage = i + 1;
+            break;
+          }
+        }
+      }
+      indicator.textContent = 'Page ' + currentPage + ' / ' + totalPages;
+    }
+  });
+})();
+</script>
+
+<!-- ══════════════════════════════════════════
+     RETURN DEAL FLOW DIAGRAM PAGE
+══════════════════════════════════════════ -->
+<div id="flow-diagram-page" style="display:none;">
+  <div class="content">
+    <div class="ph">
+      <h1 class="ptitle">Return Deal Flow</h1>
+      <span style="font-size:12px;color:var(--dim);display:flex;align-items:center;gap:5px;">🗺️ Complete flow diagram — every branch &amp; decision point</span>
+      <button class="tbtn primary" style="margin-left:auto;" onclick="openReturnDeal()">↩️ Start New Return</button>
+    </div>
+
+    <!-- Legend -->
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;">
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);"><span style="width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#015f8a,#017cb7);display:inline-block;flex-shrink:0;"></span> Admin Modal Step</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);"><span style="width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#6d28d9,#8b5cf6);display:inline-block;flex-shrink:0;"></span> Customer Signing Page</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);"><span style="width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#dc2626,#ef4444);display:inline-block;flex-shrink:0;"></span> Reject / Terminal</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);"><span style="width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#059669,#10b981);display:inline-block;flex-shrink:0;"></span> Success / Complete</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);"><span style="width:16px;height:3px;background:var(--dim);display:inline-block;flex-shrink:0;"></span> Flow Arrow</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);"><span style="width:16px;height:3px;background:var(--red);display:inline-block;flex-shrink:0;"></span> Rejection Path</div>
+    </div>
+
+    <!-- Flow Diagram SVG -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:28px;overflow-x:auto;">
+      <svg viewBox="0 0 1080 2060" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:800px;font-family:'DM Sans',sans-serif;">
+        <defs>
+          <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#7aa3b8"/>
+          </marker>
+          <marker id="arr-red" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#ef4444"/>
+          </marker>
+          <marker id="arr-green" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#10b981"/>
+          </marker>
+          <marker id="arr-purple" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#8b5cf6"/>
+          </marker>
+          <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+            <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
+          </filter>
+        </defs>
+
+        <!-- ═══ START ═══ -->
+        <rect x="390" y="20" width="300" height="52" rx="26" fill="#017cb7" filter="url(#shadow)"/>
+        <text x="540" y="51" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">🚀 START: Create New → Return Deal</text>
+
+        <!-- Arrow down -->
+        <line x1="540" y1="72" x2="540" y2="102" stroke="#7aa3b8" stroke-width="2" marker-end="url(#arr)"/>
+
+        <!-- ═══ PART 1: ADMIN MODALS ═══ -->
+        <!-- Section label -->
+        <rect x="20" y="108" width="200" height="30" rx="8" fill="rgba(1,124,183,.12)" stroke="rgba(1,124,183,.3)" stroke-width="1"/>
+        <text x="120" y="128" text-anchor="middle" fill="#017cb7" font-size="11" font-weight="700" letter-spacing="1">PART 1 — ADMIN MODALS</text>
+
+        <!-- MODAL 1: VIN Search -->
+        <rect x="340" y="108" width="400" height="110" rx="14" fill="url(#m1grad)" stroke="#015f8a" stroke-width="1.5" filter="url(#shadow)"/>
+        <defs>
+          <linearGradient id="m1grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#015f8a;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#017cb7;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <text x="540" y="132" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">📋 MODAL 1 — Search VIN &amp; Staff</text>
+        <text x="540" y="151" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Type VIN → live autocomplete (≥3 chars)</text>
+        <text x="540" y="167" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Select from dropdown → VIN preview card appears</text>
+        <text x="540" y="183" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Choose staff member from dropdown</text>
+        <text x="540" y="199" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• "Next →" disabled until BOTH VIN + Staff selected</text>
+
+        <!-- Decision: both selected? -->
+        <line x1="540" y1="218" x2="540" y2="246" stroke="#7aa3b8" stroke-width="2" marker-end="url(#arr)"/>
+        <polygon points="540,252 620,280 540,308 460,280" fill="#1e3a5f" stroke="#017cb7" stroke-width="1.5"/>
+        <text x="540" y="277" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">VIN + Staff</text>
+        <text x="540" y="291" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">selected?</text>
+
+        <!-- No → stays disabled -->
+        <line x1="620" y1="280" x2="740" y2="280" stroke="#ef4444" stroke-width="1.8" marker-end="url(#arr-red)" stroke-dasharray="5,3"/>
+        <text x="680" y="272" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="700">No</text>
+        <rect x="742" y="260" width="130" height="40" rx="8" fill="rgba(239,68,68,.12)" stroke="#ef4444" stroke-width="1.2"/>
+        <text x="807" y="283" text-anchor="middle" fill="#ef4444" font-size="11" font-weight="600">Next btn stays</text>
+        <text x="807" y="296" text-anchor="middle" fill="#ef4444" font-size="10">disabled</text>
+
+        <!-- Yes → Modal 2 -->
+        <line x1="540" y1="308" x2="540" y2="336" stroke="#7aa3b8" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="556" y="325" fill="#10b981" font-size="10" font-weight="700">Yes</text>
+
+        <!-- MODAL 2: Return Check -->
+        <rect x="340" y="342" width="400" height="110" rx="14" fill="url(#m2grad)" stroke="#6d28d9" stroke-width="1.5" filter="url(#shadow)"/>
+        <defs>
+          <linearGradient id="m2grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#4c1d95;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <text x="540" y="366" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">🔍 MODAL 2 — Return Check (Conditions)</text>
+        <text x="540" y="385" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Checklist: Damaged / Days Passed / Mileage over 400 / None</text>
+        <text x="540" y="401" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Dynamic notice: 🟢 Green "No issues" if "None" checked</text>
+        <text x="540" y="417" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• 🟡 Amber warning if issues selected</text>
+        <text x="540" y="433" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Must check ≥1 option to unlock Reject / Approve</text>
+
+        <!-- Decision: Approve or Reject -->
+        <line x1="540" y1="452" x2="540" y2="480" stroke="#7aa3b8" stroke-width="2" marker-end="url(#arr)"/>
+        <polygon points="540,486 630,514 540,542 450,514" fill="#2d1b69" stroke="#8b5cf6" stroke-width="1.5"/>
+        <text x="540" y="511" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Approve or</text>
+        <text x="540" y="525" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Reject?</text>
+
+        <!-- Reject path -->
+        <line x1="450" y1="514" x2="260" y2="514" stroke="#ef4444" stroke-width="1.8" marker-end="url(#arr-red)"/>
+        <text x="355" y="505" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="700">Reject</text>
+        <rect x="120" y="494" width="136" height="40" rx="10" fill="rgba(239,68,68,.14)" stroke="#ef4444" stroke-width="1.5"/>
+        <text x="188" y="516" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="700">✕ Return Rejected</text>
+        <text x="188" y="529" text-anchor="middle" fill="#ef4444" font-size="10">Toast error shown</text>
+
+        <!-- Approve path -->
+        <line x1="540" y1="542" x2="540" y2="572" stroke="#7aa3b8" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="556" y="560" fill="#10b981" font-size="10" font-weight="700">Approve</text>
+
+        <!-- MODAL 3: Calculation -->
+        <rect x="290" y="578" width="500" height="142" rx="14" fill="url(#m3grad)" stroke="#059669" stroke-width="1.5" filter="url(#shadow)"/>
+        <defs>
+          <linearGradient id="m3grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#064e3b;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#059669;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <text x="540" y="602" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">🧮 MODAL 3 — Return Calculation</text>
+        <text x="540" y="621" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Inputs: Down Payment, Miles at Sale, Current Miles</text>
+        <text x="540" y="637" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Conditional checkboxes: ☑ Damaged (repair $) ☑ Restock ($ fee) ☑ Trade-In ($ value)</text>
+        <text x="540" y="653" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Formula: Refund = downPayment + tradeIn − restock − mileageCharge − repair</text>
+        <text x="540" y="669" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Mileage charge = (currentMiles − saleMiles) × $0.30/mile</text>
+        <text x="540" y="685" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Animated results: 📈 Credits section + 📉 Deductions section</text>
+        <text x="540" y="701" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• "Next →" disabled until Calculate is clicked</text>
+
+        <line x1="540" y1="720" x2="540" y2="750" stroke="#7aa3b8" stroke-width="2" marker-end="url(#arr)"/>
+
+        <!-- MODAL 4: Disclosure / Send -->
+        <rect x="290" y="756" width="500" height="130" rx="14" fill="url(#m4grad)" stroke="#017cb7" stroke-width="1.5" filter="url(#shadow)"/>
+        <defs>
+          <linearGradient id="m4grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#0c3a5a;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#0369a1;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <text x="540" y="781" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">📨 MODAL 4 — Buyer / Send Disclosure</text>
+        <text x="540" y="800" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Buyer form: First, Last, Mobile, Email</text>
+        <text x="540" y="816" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Co-Buyer form (optional): same fields</text>
+        <text x="540" y="832" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Delivery option A: ☑ Send link to customer's own device</text>
+        <text x="540" y="848" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Delivery option B: ☑ Buyer can sign on THIS device → immediate redirect on check</text>
+        <text x="540" y="864" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Delivery option C: ☑ Co-Buyer can sign on this device</text>
+
+        <!-- Decision: Sign here or Send -->
+        <line x1="540" y1="886" x2="540" y2="916" stroke="#7aa3b8" stroke-width="2" marker-end="url(#arr)"/>
+        <polygon points="540,922 640,952 540,982 440,952" fill="#1c3557" stroke="#017cb7" stroke-width="1.5"/>
+        <text x="540" y="949" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Sign on this</text>
+        <text x="540" y="963" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">device?</text>
+
+        <!-- No → Send SMS/Email -->
+        <line x1="640" y1="952" x2="800" y2="952" stroke="#10b981" stroke-width="1.8" marker-end="url(#arr-green)"/>
+        <text x="720" y="944" text-anchor="middle" fill="#10b981" font-size="10" font-weight="700">No (Send)</text>
+        <rect x="802" y="930" width="156" height="44" rx="10" fill="rgba(16,185,129,.14)" stroke="#10b981" stroke-width="1.5"/>
+        <text x="880" y="953" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">✅ Disclosure Sent</text>
+        <text x="880" y="966" text-anchor="middle" fill="#10b981" font-size="10">SMS / Email to buyer</text>
+
+        <!-- Yes → Customer Signing Flow -->
+        <line x1="540" y1="982" x2="540" y2="1012" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr-purple)"/>
+        <text x="558" y="1000" fill="#8b5cf6" font-size="10" font-weight="700">Yes</text>
+
+        <!-- ═══ PART 2: CUSTOMER SIGNING ═══ -->
+        <rect x="20" y="1018" width="220" height="30" rx="8" fill="rgba(139,92,246,.12)" stroke="rgba(139,92,246,.3)" stroke-width="1"/>
+        <text x="130" y="1038" text-anchor="middle" fill="#8b5cf6" font-size="11" font-weight="700" letter-spacing="1">PART 2 — CUSTOMER SIGNING FLOW</text>
+
+        <!-- PAGE 1: Language Selection -->
+        <rect x="290" y="1024" width="500" height="108" rx="14" fill="url(#p1grad)" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow)"/>
+        <defs>
+          <linearGradient id="p1grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#3b0764;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <text x="540" y="1048" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">🌐 PAGE 1 — Language Selection</text>
+        <text x="540" y="1067" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Radio cards: 🇺🇸 English  /  🇪🇸 Español</text>
+        <text x="540" y="1083" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• "I Agree &amp; Sign" opens signature capture canvas</text>
+        <text x="540" y="1099" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Signature inserted → preview shown → "Continue →" unlocked</text>
+        <text x="540" y="1115" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Skeleton screen shown during transition</text>
+
+        <line x1="540" y1="1132" x2="540" y2="1160" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr-purple)"/>
+
+        <!-- PAGE 2: No Spoken Statements -->
+        <rect x="290" y="1166" width="500" height="96" rx="14" fill="url(#p2grad)" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow)"/>
+        <defs>
+          <linearGradient id="p2grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <text x="540" y="1190" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">🦉 PAGE 2 — No Spoken Statements</text>
+        <text x="540" y="1209" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• 11-item checklist of dealer statements not made verbally</text>
+        <text x="540" y="1225" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Agreement text explaining written-only enforcement</text>
+        <text x="540" y="1241" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• "I Agree &amp; Sign" → signature capture → "Continue →"</text>
+
+        <line x1="540" y1="1262" x2="540" y2="1290" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr-purple)"/>
+
+        <!-- PAGE 3: Questionnaire -->
+        <rect x="290" y="1296" width="500" height="110" rx="14" fill="url(#p3grad)" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow)"/>
+        <defs>
+          <linearGradient id="p3grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#4c1d95;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <text x="540" y="1320" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">📝 PAGE 3 — Right to Cancel Questionnaire</text>
+        <text x="540" y="1339" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• 3 Yes/No questions (radio cards with color feedback)</text>
+        <text x="540" y="1355" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">  Q1: Sure you want to return?  Q2: Have items to return?  Q3: Understand the process?</text>
+        <text x="540" y="1371" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Yes = green card / No = red card</text>
+        <text x="540" y="1387" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• "I Agree &amp; Sign" → signature capture → "Continue →"</text>
+
+        <line x1="540" y1="1406" x2="540" y2="1434" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr-purple)"/>
+
+        <!-- PAGE 4: Refund Review -->
+        <rect x="290" y="1440" width="500" height="110" rx="14" fill="url(#p4grad)" stroke="#059669" stroke-width="1.5" filter="url(#shadow)"/>
+        <defs>
+          <linearGradient id="p4grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#064e3b;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#10b981;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <text x="540" y="1464" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">💰 PAGE 4 — Refund Calculation Review</text>
+        <text x="540" y="1483" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Values synced from Modal 3: down payment, trade-in, restock, mileage, repair</text>
+        <text x="540" y="1499" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Credits breakdown (green) + Deductions breakdown (red)</text>
+        <text x="540" y="1515" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Total Refund displayed prominently</text>
+        <text x="540" y="1531" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• "I Agree &amp; Sign" → signature capture → "Continue →"</text>
+
+        <line x1="540" y1="1550" x2="540" y2="1578" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr-purple)"/>
+
+        <!-- PAGE 5: Disclosure Packet -->
+        <rect x="240" y="1584" width="600" height="148" rx="14" fill="url(#p5grad)" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow)"/>
+        <defs>
+          <linearGradient id="p5grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1e1b4b;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#4338ca;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <text x="540" y="1608" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">📄 PAGE 5 — Disclosure Packet (6 pages)</text>
+        <text x="540" y="1627" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Scrollable document with top progress bar (0–100%)</text>
+        <text x="540" y="1643" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Page indicator: "Page X / 6" updates as buyer scrolls</text>
+        <text x="540" y="1659" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Page 1: Vehicle Return Agreement   Page 2: Right to Cancel Notice</text>
+        <text x="540" y="1675" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Page 3: Mileage &amp; Damage Policy   Page 4: Trade-In Disclosure</text>
+        <text x="540" y="1691" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Page 5: Arbitration Agreement (p.1)  Page 6: Arbitration Agreement (p.2)</text>
+        <text x="540" y="1707" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• "Click Here to Sign" at page 6 or "I Agree &amp; Sign All" in fixed bottom bar</text>
+        <text x="540" y="1723" text-anchor="middle" fill="rgba(255,255,255,.82)" font-size="11">• Signature capture → preview → "Complete Return ✓" button shown</text>
+
+        <!-- Decision: Sign all docs -->
+        <line x1="540" y1="1732" x2="540" y2="1762" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr-purple)"/>
+        <polygon points="540,1768 630,1796 540,1824 450,1796" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="1.5"/>
+        <text x="540" y="1793" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Buyer signs</text>
+        <text x="540" y="1807" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">all docs?</text>
+
+        <!-- Signed → Complete -->
+        <line x1="540" y1="1824" x2="540" y2="1854" stroke="#10b981" stroke-width="2" marker-end="url(#arr-green)"/>
+        <text x="557" y="1842" fill="#10b981" font-size="10" font-weight="700">Yes</text>
+        <rect x="360" y="1860" width="360" height="56" rx="14" fill="url(#endgrad)" filter="url(#shadow)"/>
+        <defs>
+          <linearGradient id="endgrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#059669;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#10b981;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <text x="540" y="1884" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">✅ RETURN DEAL COMPLETE</text>
+        <text x="540" y="1903" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="11">All documents signed · Return recorded · Toast confirmation shown</text>
+
+        <!-- Back paths / cancel from each modal -->
+        <!-- Back arrows (left side) -->
+        <line x1="340" y1="397" x2="280" y2="397" stroke="#7aa3b8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+        <line x1="280" y1="397" x2="280" y2="163" stroke="#7aa3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="280" y1="163" x2="340" y2="163" stroke="#7aa3b8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+        <text x="262" y="285" text-anchor="middle" fill="#7aa3b8" font-size="10" transform="rotate(-90,262,285)">← Back</text>
+
+        <line x1="290" y1="633" x2="232" y2="633" stroke="#7aa3b8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+        <line x1="232" y1="633" x2="232" y2="397" stroke="#7aa3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="232" y1="397" x2="290" y2="397" stroke="#7aa3b8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+        <text x="214" y="515" text-anchor="middle" fill="#7aa3b8" font-size="10" transform="rotate(-90,214,515)">← Back</text>
+
+        <line x1="290" y1="821" x2="232" y2="821" stroke="#7aa3b8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+        <line x1="232" y1="821" x2="232" y2="633" stroke="#7aa3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="232" y1="633" x2="290" y2="633" stroke="#7aa3b8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+        <text x="214" y="727" text-anchor="middle" fill="#7aa3b8" font-size="10" transform="rotate(-90,214,727)">← Back</text>
+
+        <!-- ═══ PART 3 TECHNICAL NOTES ═══ -->
+        <rect x="20" y="1960" width="220" height="30" rx="8" fill="rgba(245,158,11,.12)" stroke="rgba(245,158,11,.3)" stroke-width="1"/>
+        <text x="130" y="1980" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="700" letter-spacing="1">PART 3 — TECHNICAL NOTES</text>
+
+        <rect x="260" y="1950" width="800" height="94" rx="12" fill="rgba(30,26,80,.7)" stroke="rgba(99,102,241,.35)" stroke-width="1.2"/>
+        <text x="660" y="1974" text-anchor="middle" fill="#a5b4fc" font-size="11" font-weight="700">Technical Implementation Details</text>
+        <text x="660" y="1992" text-anchor="middle" fill="rgba(255,255,255,.72)" font-size="10">• Page visibility: CSS class .show / .open toggles display; transitionPageIn() adds .page-transition-enter, transitionPageOut() adds .page-transition-exit</text>
+        <text x="660" y="2008" text-anchor="middle" fill="rgba(255,255,255,.72)" font-size="10">• showSkeletonThen(skelId, fn): shows skeleton overlay for 600ms then calls fn() — prevents blank flash on page transitions</text>
+        <text x="660" y="2024" text-anchor="middle" fill="rgba(255,255,255,.72)" font-size="10">• Canvas drawing: getPos() handles both mouse and touch events with DPR scaling; lineWidth=2.5 rounded caps; sigHasContent flag enables Insert btn</text>
+        <text x="660" y="2040" text-anchor="middle" fill="rgba(255,255,255,.72)" font-size="10">• Checkbox redirect fix: discSignHere onchange fires immediately, validates buyer name first, then calls cm() + openLanguagePage() — no need to press Send</text>
+      </svg>
+    </div>
+
+    <!-- Quick reference table -->
+    <div class="section" style="margin-top:24px;">
+      <div class="sec-hdr">
+        <span class="sec-title">📋 Quick Reference — All Steps</span>
+        <span class="cnt">9 steps</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Step</th>
+            <th>Type</th>
+            <th>Key Action</th>
+            <th>Gating Condition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong></td>
+            <td>Search VIN &amp; Staff</td>
+            <td><span class="sbadge" style="background:rgba(1,124,183,.12);color:#017cb7;">Admin Modal</span></td>
+            <td>Type VIN → autocomplete → select → pick staff</td>
+            <td>Both VIN and Staff must be selected</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td>Return Check</td>
+            <td><span class="sbadge" style="background:rgba(1,124,183,.12);color:#017cb7;">Admin Modal</span></td>
+            <td>Check applicable conditions → dynamic notice updates</td>
+            <td>At least one checkbox checked</td>
+          </tr>
+          <tr>
+            <td><strong>2a</strong></td>
+            <td>Reject Branch</td>
+            <td><span class="sbadge" style="background:var(--red-s);color:var(--red);">Terminal</span></td>
+            <td>Click Reject → toast error → flow ends</td>
+            <td>Admin's discretion</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td>Return Calculation</td>
+            <td><span class="sbadge" style="background:rgba(1,124,183,.12);color:#017cb7;">Admin Modal</span></td>
+            <td>Enter financials → click Calculate → animated results</td>
+            <td>Calculate must be run before Next</td>
+          </tr>
+          <tr>
+            <td><strong>4</strong></td>
+            <td>Send Disclosure</td>
+            <td><span class="sbadge" style="background:rgba(1,124,183,.12);color:#017cb7;">Admin Modal</span></td>
+            <td>Enter buyer info → choose delivery option</td>
+            <td>First + Last name required</td>
+          </tr>
+          <tr>
+            <td><strong>5</strong></td>
+            <td>Language Selection</td>
+            <td><span class="sbadge" style="background:var(--purple-s);color:var(--purple);">Customer Page</span></td>
+            <td>Select EN/ES radio → sign → continue</td>
+            <td>Signature drawn on canvas</td>
+          </tr>
+          <tr>
+            <td><strong>6</strong></td>
+            <td>No Spoken Statements</td>
+            <td><span class="sbadge" style="background:var(--purple-s);color:var(--purple);">Customer Page</span></td>
+            <td>Read 11 items → sign → continue</td>
+            <td>Signature drawn on canvas</td>
+          </tr>
+          <tr>
+            <td><strong>7</strong></td>
+            <td>Right to Cancel Questionnaire</td>
+            <td><span class="sbadge" style="background:var(--purple-s);color:var(--purple);">Customer Page</span></td>
+            <td>Answer 3 Yes/No questions → sign → continue</td>
+            <td>Signature drawn on canvas</td>
+          </tr>
+          <tr>
+            <td><strong>8</strong></td>
+            <td>Refund Calculation Review</td>
+            <td><span class="sbadge" style="background:var(--purple-s);color:var(--purple);">Customer Page</span></td>
+            <td>Review synced refund figures → sign → continue</td>
+            <td>Signature drawn on canvas</td>
+          </tr>
+          <tr>
+            <td><strong>9</strong></td>
+            <td>Disclosure Packet (6 pages)</td>
+            <td><span class="sbadge" style="background:var(--purple-s);color:var(--purple);">Customer Page</span></td>
+            <td>Scroll all 6 pages → sign on page 6 → Complete Return</td>
+            <td>Signature drawn on canvas</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
