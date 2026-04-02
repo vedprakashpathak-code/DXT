@@ -2755,12 +2755,14 @@ new Chart(document.getElementById('damageChart'),{
 <style>
 /* ── Lang page premium styles ── */
 #lang-page {
+  background: #f0f7ff !important;
   background: linear-gradient(160deg, #f0f7ff 0%, #e8f4fb 40%, #f5fafd 100%) !important;
   position: fixed !important;
   inset: 0 !important;
   z-index: 650 !important;
   overflow-y: auto !important;
   isolation: isolate;
+  opacity: 1 !important;
 }
 .lang-page-wrap {
   max-width: 700px; width: 100%; margin: 0 auto;
@@ -2967,7 +2969,7 @@ new Chart(document.getElementById('damageChart'),{
 <!-- ══════════════════════════════════════════
      LANGUAGE SELECTION PAGE (Beautiful)
 ══════════════════════════════════════════ -->
-<div id="lang-page" style="display:none;position:fixed;inset:0;z-index:600;overflow-y:auto;">
+<div id="lang-page" style="display:none;position:fixed;inset:0;z-index:650;background:linear-gradient(160deg,#f0f7ff 0%,#e8f4fb 40%,#f5fafd 100%);overflow-y:auto;">
   <div class="lang-page-wrap">
 
     <!-- Step badge -->
@@ -3690,9 +3692,9 @@ function sendReturnDisclosure() {
   const signHere = document.getElementById('discSignHere').checked;
 
   if (signHere) {
-    // Build refund params from calculated values
+    // Store refund data for the inline signing flow
     const getVal = id => { const el = document.getElementById(id); return el ? el.textContent : '$0'; };
-    const params = new URLSearchParams({
+    window._refundData = {
       first:   first,
       last:    last,
       down:    getVal('rDownPayment'),
@@ -3702,10 +3704,10 @@ function sendReturnDisclosure() {
       repair:  getVal('rRepair'),
       deduct:  getVal('rDeductions'),
       total:   getVal('rTotal')
-    });
+    };
     cm('m-return-disc');
-    window.open('signing_flow.html?' + params.toString(), '_blank');
-    toast('Opening signing page for ' + first + ' ' + last + '...', 'success');
+    openLanguagePage(first, last);
+    toast('Starting signing flow for ' + first + ' ' + last + '...', 'success');
   } else {
     cm('m-return-disc');
     toast('Return disclosure sent to ' + first + ' ' + last + '!', 'success');
@@ -3785,10 +3787,13 @@ function openLanguagePage(firstName, lastName) {
   setTimeout(function() {
     if (sk) sk.classList.add('gone');
     pg.style.display = 'block';
-    // Re-trigger animation
-    pg.querySelector('.lang-page-wrap').style.animation = 'none';
-    void pg.querySelector('.lang-page-wrap').offsetWidth;
-    pg.querySelector('.lang-page-wrap').style.animation = '';
+    pg.style.background = 'linear-gradient(160deg,#f0f7ff 0%,#e8f4fb 40%,#f5fafd 100%)';
+    pg.style.opacity = '1';
+    // Re-trigger animation on inner wrap only
+    var wrap = pg.querySelector('.lang-page-wrap');
+    wrap.style.animation = 'none';
+    void wrap.offsetWidth;
+    wrap.style.animation = '';
   }, 700);
 }
 
