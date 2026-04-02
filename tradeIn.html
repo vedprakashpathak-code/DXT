@@ -3695,15 +3695,10 @@ function sendReturnDisclosure() {
     // Store refund data for the inline signing flow
     const getVal = id => { const el = document.getElementById(id); return el ? el.textContent : '$0'; };
     window._refundData = {
-      first:   first,
-      last:    last,
-      down:    getVal('rDownPayment'),
-      tradein: getVal('rTradeIn'),
-      restock: getVal('rRestock'),
-      mileage: getVal('rMileage'),
-      repair:  getVal('rRepair'),
-      deduct:  getVal('rDeductions'),
-      total:   getVal('rTotal')
+      first: first, last: last,
+      down: getVal('rDownPayment'), tradein: getVal('rTradeIn'),
+      restock: getVal('rRestock'), mileage: getVal('rMileage'),
+      repair: getVal('rRepair'), deduct: getVal('rDeductions'), total: getVal('rTotal')
     };
     cm('m-return-disc');
     openLanguagePage(first, last);
@@ -3789,7 +3784,6 @@ function openLanguagePage(firstName, lastName) {
     pg.style.display = 'block';
     pg.style.background = 'linear-gradient(160deg,#f0f7ff 0%,#e8f4fb 40%,#f5fafd 100%)';
     pg.style.opacity = '1';
-    // Re-trigger animation on inner wrap only
     var wrap = pg.querySelector('.lang-page-wrap');
     wrap.style.animation = 'none';
     void wrap.offsetWidth;
@@ -3979,12 +3973,26 @@ function onLangContinue() {
   }, 280);
 }
 
+// ── Skeleton helper: shows skeleton for 650ms then reveals the real page ──
+function showSkeletonThen(skelId, fn) {
+  var sk = document.getElementById(skelId);
+  if (sk) { sk.classList.remove('gone'); }
+  setTimeout(function() {
+    if (sk) sk.classList.add('gone');
+    fn();
+  }, 650);
+}
+
 // ── No Spoken Statements page ──
 function openSpokenPage() {
-  document.getElementById('spokenSigArea').style.display = 'none';
-  document.getElementById('spokenAgreeBtn').style.display = 'inline-block';
-  document.getElementById('spokenContinueBtn').style.display = 'none';
-  document.getElementById('spoken-page').style.display = 'block';
+  showSkeletonThen('spoken-skeleton', function() {
+    document.getElementById('spokenSigArea').style.display = 'none';
+    document.getElementById('spokenAgreeBtn').style.display = 'inline-block';
+    document.getElementById('spokenContinueBtn').style.display = 'none';
+    var pg = document.getElementById('spoken-page');
+    pg.style.display = 'block';
+    pg.style.opacity = '1';
+  });
 }
 
 function onSpokenAgree() {
@@ -3998,10 +4006,14 @@ function onSpokenContinue() {
 
 // ── Right to Cancel Questionnaire page ──
 function openQuestionnairePage() {
-  document.getElementById('questSigArea').style.display = 'none';
-  document.getElementById('questAgreeBtn').style.display = 'inline-block';
-  document.getElementById('questContinueBtn').style.display = 'none';
-  document.getElementById('questionnaire-page').style.display = 'block';
+  showSkeletonThen('quest-skeleton', function() {
+    document.getElementById('questSigArea').style.display = 'none';
+    document.getElementById('questAgreeBtn').style.display = 'inline-block';
+    document.getElementById('questContinueBtn').style.display = 'none';
+    var pg = document.getElementById('questionnaire-page');
+    pg.style.display = 'block';
+    pg.style.opacity = '1';
+  });
 }
 
 function onQuestAgree() {
@@ -4032,10 +4044,14 @@ function openRefundPage() {
   const totalEl = document.getElementById('rTotal');
   const totalDispEl = document.getElementById('refCalcTotalDisplay');
   if (totalEl && totalDispEl) totalDispEl.textContent = totalEl.textContent;
-  document.getElementById('refundSigArea').style.display = 'none';
-  document.getElementById('refundAgreeBtn').style.display = 'inline-block';
-  document.getElementById('refundContinueBtn').style.display = 'none';
-  document.getElementById('refund-page').style.display = 'block';
+  showSkeletonThen('refund-skeleton', function() {
+    document.getElementById('refundSigArea').style.display = 'none';
+    document.getElementById('refundAgreeBtn').style.display = 'inline-block';
+    document.getElementById('refundContinueBtn').style.display = 'none';
+    var pg = document.getElementById('refund-page');
+    pg.style.display = 'block';
+    pg.style.opacity = '1';
+  });
 }
 
 function onRefundAgree() {
@@ -4049,12 +4065,15 @@ function onRefundContinue() {
 
 // ── Disclosure Packet page ──
 function openDisclosurePacketPage() {
-  document.getElementById('discPktSigArea').style.display = 'none';
-  document.getElementById('discPktAgreeBtn').style.display = 'inline-block';
-  document.getElementById('discPktContinueBtn').style.display = 'none';
-  const pg = document.getElementById('disclosure-packet-page');
-  pg.scrollTop = 0;
-  pg.style.display = 'block';
+  showSkeletonThen('discpkt-skeleton', function() {
+    document.getElementById('discPktSigArea').style.display = 'none';
+    document.getElementById('discPktAgreeBtn').style.display = 'inline-block';
+    document.getElementById('discPktContinueBtn').style.display = 'none';
+    var pg = document.getElementById('disclosure-packet-page');
+    pg.scrollTop = 0;
+    pg.style.display = 'block';
+    pg.style.opacity = '1';
+  });
 }
 
 function onDiscPktAgree() {
@@ -4420,6 +4439,38 @@ function updateRefundQLbl(val) {
 <!-- ══════════════════════════════════════════
      PAGE 5: DISCLOSURE PACKET (scrollable document)
 ══════════════════════════════════════════ -->
+
+<!-- Skeleton for disclosure packet page -->
+<div id="discpkt-skeleton" class="skeleton-overlay gone">
+  <div class="sk-max">
+    <div class="skeleton" style="height:48px;border-radius:0;margin-bottom:0;"></div>
+    <div style="padding:28px 0;">
+      <div style="max-width:760px;margin:0 auto;">
+        <div style="background:#fff;border-radius:4px;padding:28px;margin-bottom:28px;box-shadow:0 4px 24px rgba(0,0,0,.1);">
+          <div class="skeleton" style="height:60px;border-radius:8px;margin-bottom:20px;"></div>
+          <div class="skeleton sk-line w100"></div>
+          <div class="skeleton sk-line w80"></div>
+          <div class="skeleton sk-line w100"></div>
+          <div class="skeleton sk-line w65"></div>
+          <div class="skeleton sk-line w80"></div>
+          <div class="skeleton sk-line w45"></div>
+        </div>
+        <div style="background:#fff;border-radius:4px;padding:28px;margin-bottom:28px;box-shadow:0 4px 24px rgba(0,0,0,.1);">
+          <div class="skeleton sk-title"></div>
+          <div class="skeleton sk-line w100"></div>
+          <div class="skeleton sk-line w80"></div>
+          <div class="skeleton sk-line w100"></div>
+          <div class="skeleton sk-line w65"></div>
+          <div class="skeleton sk-line w30"></div>
+        </div>
+        <div style="background:#fff;border-radius:4px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.1);">
+          <div class="skeleton sk-title"></div>
+          <div class="sk-grid2"><div class="skeleton sk-box"></div><div class="skeleton sk-box"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <style>
 #disclosure-packet-page { display:none; }
