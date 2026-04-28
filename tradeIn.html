@@ -131,7 +131,7 @@ body{font-family:'DM Sans',sans-serif;background:#F5F5F5;color:var(--text);min-h
 .wcls:hover{color:var(--text);}
 
 /* ── Content ── */
-.content{padding:8px 12px 16px;}
+.content{padding:8px 12px 16px;width:100%;box-sizing:border-box;}
 .ph{display:flex;align-items:center;gap:14px;margin-bottom:10px;flex-wrap:wrap;}
 .ptitle{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:800;letter-spacing:-.5px;}
 .rinfo{font-size:12px;color:var(--dim);display:flex;align-items:center;gap:5px;}
@@ -1721,6 +1721,160 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
   .dpkt-doc-page { margin:16px auto; }
 }
 
+/* ── LARGE DESKTOP (1025px–1279px) ── */
+@media (min-width:1025px) and (max-width:1279px) {
+  :root { --sw:256px; }
+  .sgrid { grid-template-columns:repeat(4,1fr); gap:12px; }
+  .card-grid { grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); }
+  #dashboard-page [style*="grid-template-columns:1fr 1fr 1fr"] { grid-template-columns:1fr 1fr 1fr !important; }
+  #dashboard-page [style*="grid-template-columns:1.5fr 1fr 1fr"] { grid-template-columns:1.5fr 1fr 1fr !important; }
+  #dashboard-page [style*="grid-template-columns:1.5fr 1fr"] { grid-template-columns:1.5fr 1fr !important; }
+  .chart-row, .chart-row[style] { grid-template-columns:1fr 1fr !important; gap:14px !important; }
+  #spoken-page > div, #questionnaire-page > div, #refund-page > div {
+    padding:24px 40px 100px !important;
+    max-width:1100px !important;
+    margin:0 auto !important;
+  }
+}
+
+/* ══════════════════════════════════════════
+   LARGE SCREEN RESPONSIVE (≥1280px)
+══════════════════════════════════════════ */
+
+/* ── ≥1280px (large laptop / external monitor) ── */
+@media (min-width:1280px) {
+  :root { --sw:272px; }
+
+  /* Constrain content to a comfortable reading width */
+  .content { padding:10px 20px 20px; max-width:1600px; margin:0 auto; }
+
+  /* 4-col stat grid stays 4-col but with better gap */
+  .sgrid { grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:16px; }
+  .sc { padding:14px 18px; }
+  .sc-val { font-size:26px; }
+
+  /* Card grid: more columns */
+  .card-grid { grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; padding:10px 12px 14px; }
+
+  /* Topbar search wider */
+  .sw { max-width:440px; }
+
+  /* Sidebar nav items slightly taller */
+  .ni { height:46px; }
+
+  /* Section headers */
+  .sec-hdr { padding:10px 18px; }
+  .sec-title { font-size:14px; }
+
+  /* Table padding */
+  thead th { padding:6px 14px; font-size:11px; }
+  tbody td { padding:6px 14px; }
+
+  /* Dashboard chart grids: restore 3-col on large screens */
+  #dashboard-page [style*="grid-template-columns:1fr 1fr 1fr"] { grid-template-columns:1fr 1fr 1fr !important; }
+  #dashboard-page [style*="grid-template-columns:1.5fr 1fr 1fr"] { grid-template-columns:1.5fr 1fr 1fr !important; }
+  #dashboard-page [style*="grid-template-columns:1.5fr 1fr"] { grid-template-columns:1.5fr 1fr !important; }
+  .chart-row, .chart-row[style] { grid-template-columns:1fr 1fr !important; gap:16px !important; }
+}
+
+/* ── ≥1440px (QHD / common external monitor) ── */
+@media (min-width:1440px) {
+  :root { --sw:288px; }
+
+  .content { padding:12px 28px 24px; max-width:1800px; }
+  .topbar { padding:0 28px; }
+
+  /* Stat cards: increase value size */
+  .sc-val { font-size:28px; }
+  .sc { padding:16px 20px; }
+  .sc-lbl { font-size:11px; }
+
+  /* Keep card grid from becoming too sparse */
+  .card-grid { grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); }
+
+  /* Topbar */
+  .sw { max-width:520px; }
+
+  /* Modal slightly wider on large screens */
+  .modal { width:600px; }
+}
+
+/* ── ≥1920px (Full HD / large displays) ── */
+@media (min-width:1920px) {
+  :root { --sw:300px; }
+
+  .content { padding:14px 40px 28px; max-width:2100px; }
+  .topbar { padding:0 40px; height:56px; }
+
+  /* Sidebar wider logo/text */
+  .logo-txt strong { font-size:16px; }
+  .logo-ico { width:38px; height:38px; }
+
+  /* 4-stat grid with larger cards */
+  .sgrid { gap:16px; margin-bottom:20px; }
+  .sc { padding:18px 22px; border-radius:16px; }
+  .sc-val { font-size:32px; }
+  .sc-meta { font-size:12px; }
+  .sc-lbl { font-size:11.5px; }
+
+  /* Card grid: cap at 5 columns for readability */
+  .card-grid { grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px; padding:12px 16px 18px; }
+
+  /* Section title bigger */
+  .sec-title { font-size:15px; }
+  .sec-hdr { padding:12px 22px; }
+
+  /* Table font sizes */
+  table { font-size:13px; }
+  thead th { padding:8px 16px; font-size:11.5px; letter-spacing:1px; }
+  tbody td { padding:8px 16px; }
+
+  /* Topbar search even wider */
+  .sw { max-width:620px; }
+  .sw input { font-size:14.5px; }
+
+  /* Nav items */
+  .ni { height:50px; font-size:14px; }
+  .nlabel { font-size:10px; letter-spacing:2.5px; }
+
+  /* Modal wider */
+  .modal { width:680px; }
+
+  /* Content page title */
+  .ptitle { font-size:26px; }
+}
+
+/* ── ≥2560px (4K / ultra-wide) ── */
+@media (min-width:2560px) {
+  :root { --sw:320px; }
+
+  .content { padding:20px 60px 36px; max-width:2400px; }
+  .topbar { padding:0 60px; height:60px; }
+
+  /* Stat grid — optionally 6-col on ultra-wide */
+  .sgrid { grid-template-columns:repeat(4,1fr); gap:20px; margin-bottom:24px; }
+  .sc { padding:22px 26px; border-radius:18px; }
+  .sc-val { font-size:36px; }
+  .sc-lbl { font-size:12px; letter-spacing:1px; }
+  .sc-meta { font-size:13px; }
+
+  .card-grid { grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:14px; padding:16px 20px 22px; }
+
+  /* Section */
+  .sec-title { font-size:16px; }
+  .sec-hdr { padding:14px 26px; }
+
+  /* Table */
+  table { font-size:14px; }
+  thead th { padding:10px 20px; font-size:12px; }
+  tbody td { padding:10px 20px; }
+
+  .sw { max-width:720px; }
+  .modal { width:760px; }
+  .ptitle { font-size:30px; }
+  .ni { height:54px; font-size:15px; }
+}
+
 /* ── Touch improvements ── */
 @media (hover:none) and (pointer:coarse) {
   .ni { min-height:48px; }
@@ -1927,6 +2081,26 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
       <span class="nicon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg></span>
       Summary
     </div>
+    <div class="ni" onclick="showPage('compliance-ai-page')" id="nav-compliance-ai">
+      <span class="nicon"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z"/><path d="M9 12l2 2 4-4" stroke-width="2.5"/></svg></span>
+      ComplianceAI
+      <span class="nbadge">AI</span>
+    </div>
+    <div class="ni" onclick="showPage('pre-sale-page')" id="nav-pre-sale">
+      <span class="nicon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
+      Pre-sale Inspection
+      <span class="nbadge" style="background:var(--amber-s);color:var(--amber);">4</span>
+    </div>
+    <div class="ni" onclick="showPage('complaints-page')" id="nav-complaints">
+      <span class="nicon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
+      Complaint Mgmt
+      <span class="nbadge" style="background:var(--red-s);color:var(--red);">2</span>
+    </div>
+    <div class="ni" onclick="showPage('advertising-page')" id="nav-advertising">
+      <span class="nicon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+      Advertising
+      <span class="nbadge" style="background:var(--green-s);color:var(--green);">✓</span>
+    </div>
 
     <div class="nav-divider"></div>
     <div class="nlabel">Manage</div>
@@ -2040,24 +2214,57 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
     <div class="content">
 
       <!-- Deal Summary Bar -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow-sm);">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow-sm);">
         <div style="display:grid;grid-template-columns:repeat(4,1fr);">
-          <div style="padding:10px 14px;display:flex;align-items:center;gap:10px;border-right:1px solid var(--border);">
-            <div style="width:30px;height:30px;background:linear-gradient(135deg,#015f8a,#017cb7);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">⏳</div>
-            <div><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600;">Pending Today</div><div style="font-family:'DM Sans',sans-serif;font-size:20px;font-weight:800;color:#017cb7;line-height:1.1;">3</div><div style="font-size:10px;color:var(--green);font-weight:600;">Active in progress</div></div>
+
+          <!-- Pending Today -->
+          <div style="padding:14px 18px;display:flex;align-items:center;gap:14px;border-right:1px solid var(--border);">
+            <div style="width:44px;height:44px;background:linear-gradient(135deg,#015f8a,#017cb7);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(1,124,183,.25);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-bottom:2px;">Pending Today</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:26px;font-weight:800;color:#017cb7;line-height:1;margin-bottom:2px;">3</div>
+              <div style="font-size:11px;color:var(--green);font-weight:600;">Active in progress</div>
+            </div>
           </div>
-          <div style="padding:10px 14px;display:flex;align-items:center;gap:10px;border-right:1px solid var(--border);">
-            <div style="width:30px;height:30px;background:linear-gradient(135deg,#059669,#10b981);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">✅</div>
-            <div><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600;">Completed Today</div><div style="font-family:'DM Sans',sans-serif;font-size:20px;font-weight:800;color:#059669;line-height:1.1;">1</div><div style="font-size:10px;color:var(--green);font-weight:600;">Transactions closed</div></div>
+
+          <!-- Completed Today -->
+          <div style="padding:14px 18px;display:flex;align-items:center;gap:14px;border-right:1px solid var(--border);">
+            <div style="width:44px;height:44px;background:linear-gradient(135deg,#059669,#10b981);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(16,185,129,.25);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-bottom:2px;">Completed Today</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:26px;font-weight:800;color:#059669;line-height:1;margin-bottom:2px;">1</div>
+              <div style="font-size:11px;color:var(--green);font-weight:600;">Transactions closed</div>
+            </div>
           </div>
-          <div style="padding:10px 14px;display:flex;align-items:center;gap:10px;border-right:1px solid var(--border);">
-            <div style="width:30px;height:30px;background:linear-gradient(135deg,#0d47a1,#1565C0);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">↩️</div>
-            <div><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600;">Return Deals</div><div style="font-family:'DM Sans',sans-serif;font-size:20px;font-weight:800;color:#7c3aed;line-height:1.1;">1</div><div style="font-size:10px;color:#8b5cf6;font-weight:600;">Processed today</div></div>
+
+          <!-- Return Deals -->
+          <div style="padding:14px 18px;display:flex;align-items:center;gap:14px;border-right:1px solid var(--border);">
+            <div style="width:44px;height:44px;background:linear-gradient(135deg,#4338ca,#6d28d9);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(109,40,217,.25);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.54"/></svg>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-bottom:2px;">Return Deals</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:26px;font-weight:800;color:#7c3aed;line-height:1;margin-bottom:2px;">1</div>
+              <div style="font-size:11px;color:#8b5cf6;font-weight:600;">Processed today</div>
+            </div>
           </div>
-          <div style="padding:10px 14px;display:flex;align-items:center;gap:10px;">
-            <div style="width:30px;height:30px;background:linear-gradient(135deg,#d97706,#f59e0b);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">⚠️</div>
-            <div><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600;">Unfunded Deadlines</div><div style="font-family:'DM Sans',sans-serif;font-size:20px;font-weight:800;color:#d97706;line-height:1.1;">3</div><div style="font-size:10px;color:var(--red);font-weight:600;">Require action</div></div>
+
+          <!-- Unfunded Deadlines -->
+          <div style="padding:14px 18px;display:flex;align-items:center;gap:14px;">
+            <div style="width:44px;height:44px;background:linear-gradient(135deg,#d97706,#f59e0b);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(245,158,11,.28);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div>
+              <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-bottom:2px;">Unfunded Deadlines</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:26px;font-weight:800;color:#d97706;line-height:1;margin-bottom:2px;">3</div>
+              <div style="font-size:11px;color:var(--red);font-weight:600;">Require action</div>
+            </div>
           </div>
+
         </div>
       </div>
 
@@ -2153,26 +2360,798 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
 
         <!-- Chart 8: Vehicles Sold by City -->
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:var(--shadow-sm);">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px;">
             <div style="font-size:13px;font-weight:700;color:var(--text);">Vehicles Sold by City</div>
-            <span style="background:#e8f4fb;color:#015f8a;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;border:1px solid rgba(1,124,183,.2);">8 Cities</span>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span id="cityCntBadge" style="background:#e8f4fb;color:#015f8a;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;border:1px solid rgba(1,124,183,.2);">8 Cities</span>
+              <div style="display:flex;gap:4px;">
+                <button onclick="switchCityChart('week')" id="ccw" style="padding:3px 9px;border-radius:20px;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid rgba(1,124,183,.25);background:rgba(1,124,183,.08);color:#015f8a;font-family:inherit;transition:all .18s;">W</button>
+                <button onclick="switchCityChart('month')" id="ccm" style="padding:3px 9px;border-radius:20px;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid #017cb7;background:#017cb7;color:#fff;font-family:inherit;transition:all .18s;">M</button>
+                <button onclick="switchCityChart('year')" id="ccy" style="padding:3px 9px;border-radius:20px;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid rgba(1,124,183,.25);background:rgba(1,124,183,.08);color:#015f8a;font-family:inherit;transition:all .18s;">Y</button>
+              </div>
+            </div>
           </div>
           <div style="position:relative;height:170px;"><canvas id="cityChart"></canvas></div>
         </div>
 
         <!-- Chart 9: Vehicles Sold by County -->
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:var(--shadow-sm);">
-          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;">Vehicles by County</div>
-          <div style="position:relative;height:170px;"><canvas id="countyChart"></canvas></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px;">
+            <div style="font-size:13px;font-weight:700;color:var(--text);">Vehicles Sold by County</div>
+            <span style="background:#e8f4fb;color:#015f8a;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;border:1px solid rgba(1,124,183,.2);">6 Counties</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="position:relative;height:150px;width:150px;flex-shrink:0;"><canvas id="countyChart"></canvas></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;justify-content:space-between;padding:5px 8px;background:var(--s2);border-radius:7px;border-left:3px solid #017cb7;"><span style="font-size:11px;font-weight:600;">Santa Clara</span><span style="font-size:12px;font-weight:800;color:#017cb7;">119</span></div>
+              <div style="display:flex;justify-content:space-between;padding:5px 8px;background:var(--s2);border-radius:7px;border-left:3px solid #10b981;"><span style="font-size:11px;font-weight:600;">Alameda</span><span style="font-size:12px;font-weight:800;color:#10b981;">67</span></div>
+              <div style="display:flex;justify-content:space-between;padding:5px 8px;background:var(--s2);border-radius:7px;border-left:3px solid #8b5cf6;"><span style="font-size:11px;font-weight:600;">San Francisco</span><span style="font-size:12px;font-weight:800;color:#8b5cf6;">34</span></div>
+              <div style="display:flex;justify-content:space-between;padding:5px 8px;background:var(--s2);border-radius:7px;border-left:3px solid #f59e0b;"><span style="font-size:11px;font-weight:600;">San Mateo</span><span style="font-size:12px;font-weight:800;color:#d97706;">24</span></div>
+              <div style="display:flex;justify-content:space-between;padding:5px 8px;background:var(--s2);border-radius:7px;border-left:3px solid #ef4444;"><span style="font-size:11px;font-weight:600;">Contra Costa</span><span style="font-size:12px;font-weight:800;color:#dc2626;">15</span></div>
+              <div style="display:flex;justify-content:space-between;padding:5px 8px;background:var(--s2);border-radius:7px;border-left:3px solid #94a3b8;"><span style="font-size:11px;font-weight:600;">Other</span><span style="font-size:12px;font-weight:800;color:#64748b;">9</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════════
+       COMPLIANCE AI PAGE
+  ══════════════════════════════════════════ -->
+  <div id="compliance-ai-page" style="display:none;">
+    <div class="content">
+
+      <!-- Page header -->
+      <div class="ph" style="margin-bottom:14px;">
+        <div style="width:40px;height:40px;background:linear-gradient(135deg,#1565C0,#0288D1);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(21,101,192,.28);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div>
+          <div class="ptitle">ComplianceAI</div>
+          <div class="rinfo">AI-powered deal compliance monitoring &amp; verification</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button class="tbtn" onclick="toast('Exporting compliance report…','info')">⬇ Export Report</button>
+          <button class="tbtn primary" onclick="toast('Running full AI compliance scan…','info')">▶ Run Full Scan</button>
+        </div>
+      </div>
+
+      <!-- KPI stat cards -->
+      <div class="sgrid" style="margin-bottom:12px;">
+        <div class="sc blue">
+          <div class="sc-head"><span class="sc-lbl">Overall Score</span><span class="sc-ico">🛡️</span></div>
+          <div class="sc-val" style="color:var(--md-primary);">98%</div>
+          <div class="sc-meta"><span class="up">↑ 2%</span> vs last month</div>
+        </div>
+        <div class="sc green">
+          <div class="sc-head"><span class="sc-lbl">Deals Verified</span><span class="sc-ico">✅</span></div>
+          <div class="sc-val" style="color:var(--green);">142</div>
+          <div class="sc-meta">This month</div>
+        </div>
+        <div class="sc amber">
+          <div class="sc-head"><span class="sc-lbl">Flags This Week</span><span class="sc-ico">⚠️</span></div>
+          <div class="sc-val" style="color:var(--amber);">3</div>
+          <div class="sc-meta"><span class="dn">↑ 1</span> since last week</div>
+        </div>
+        <div class="sc red">
+          <div class="sc-head"><span class="sc-lbl">Critical Flags</span><span class="sc-ico">🚩</span></div>
+          <div class="sc-val" style="color:var(--red);">1</div>
+          <div class="sc-meta">Requires immediate action</div>
+        </div>
+      </div>
+
+      <!-- Alert banner -->
+      <div style="background:var(--md-error-container);border:none;border-radius:12px;padding:12px 16px;display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;box-shadow:var(--shadow-sm);">
+        <span style="font-size:18px;flex-shrink:0;margin-top:1px;">🚩</span>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:3px;">Critical Flag — Trade-In Valuation: VIN 5YJSA1E26MF431285</div>
+          <div style="font-size:12px;color:var(--md-error);line-height:1.6;">Trade-in value is <strong>18% below current market average</strong>. Requires manual review and manager approval before funding can proceed.</div>
+        </div>
+        <button class="tbtn" style="flex-shrink:0;font-size:12px;" onclick="toast('Opening flagged deal…','info')">Review →</button>
+      </div>
+
+      <!-- Recent AI Compliance Checks table -->
+      <div class="section">
+        <div class="sec-hdr">
+          <span style="font-size:16px;">🤖</span>
+          <span class="sec-title">Recent AI Compliance Checks</span>
+          <span class="cnt">Last 7 days</span>
+          <select class="fsel" style="margin-left:auto;" onchange="toast('Filter applied','info')">
+            <option>All checks</option>
+            <option>Flagged only</option>
+            <option>Passed only</option>
+          </select>
+        </div>
+        <div class="table-wrap show">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>VIN</th>
+                <th>Buyer</th>
+                <th>Salesperson</th>
+                <th>Check Type</th>
+                <th>AI Confidence</th>
+                <th>Result</th>
+                <th>Reviewed</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color:var(--dim);font-size:11px;">001</td>
+                <td><a class="vin-lnk2" href="#">1HGCM82633A123456</a></td>
+                <td>Carlos M.</td>
+                <td>Mike T.</td>
+                <td>Disclosure Completeness</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <div style="flex:1;height:5px;background:#E0E0E0;border-radius:4px;min-width:60px;"><div style="width:97%;height:100%;background:var(--green);border-radius:4px;"></div></div>
+                    <span style="font-size:11px;font-weight:700;color:var(--green);">97%</span>
+                  </div>
+                </td>
+                <td><span class="sbadge done">Pass</span></td>
+                <td style="font-size:11px;color:var(--dim);">Today 9:14 AM</td>
+                <td><button class="deal-btn" onclick="toast('Opening check details…','info')">Details</button></td>
+              </tr>
+              <tr>
+                <td style="color:var(--dim);font-size:11px;">002</td>
+                <td><a class="vin-lnk2" href="#">2T1BURHE0JC053498</a></td>
+                <td>Aisha R.</td>
+                <td>Sarah L.</td>
+                <td>Odometer Statement</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <div style="flex:1;height:5px;background:#E0E0E0;border-radius:4px;min-width:60px;"><div style="width:74%;height:100%;background:var(--amber);border-radius:4px;"></div></div>
+                    <span style="font-size:11px;font-weight:700;color:var(--amber);">74%</span>
+                  </div>
+                </td>
+                <td><span class="sbadge wsig">Review</span></td>
+                <td style="font-size:11px;color:var(--dim);">Today 8:50 AM</td>
+                <td><button class="deal-btn" onclick="toast('Opening check details…','info')">Details</button></td>
+              </tr>
+              <tr>
+                <td style="color:var(--dim);font-size:11px;">003</td>
+                <td><a class="vin-lnk2" href="#">3VWF17AT0FM519284</a></td>
+                <td>Daniel K.</td>
+                <td>Carlos M.</td>
+                <td>As-Is Acknowledgment</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <div style="flex:1;height:5px;background:#E0E0E0;border-radius:4px;min-width:60px;"><div style="width:99%;height:100%;background:var(--green);border-radius:4px;"></div></div>
+                    <span style="font-size:11px;font-weight:700;color:var(--green);">99%</span>
+                  </div>
+                </td>
+                <td><span class="sbadge done">Pass</span></td>
+                <td style="font-size:11px;color:var(--dim);">Yesterday 4:22 PM</td>
+                <td><button class="deal-btn" onclick="toast('Opening check details…','info')">Details</button></td>
+              </tr>
+              <tr>
+                <td style="color:var(--dim);font-size:11px;">004</td>
+                <td><a class="vin-lnk2" href="#">5YJSA1E26MF431285</a></td>
+                <td>Priya S.</td>
+                <td>Mike T.</td>
+                <td>Trade-In Valuation</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <div style="flex:1;height:5px;background:#E0E0E0;border-radius:4px;min-width:60px;"><div style="width:41%;height:100%;background:var(--red);border-radius:4px;"></div></div>
+                    <span style="font-size:11px;font-weight:700;color:var(--red);">41%</span>
+                  </div>
+                </td>
+                <td><span class="sbadge wphoto" style="background:var(--red-s);color:var(--red);">Flag</span></td>
+                <td style="font-size:11px;color:var(--dim);">Yesterday 2:05 PM</td>
+                <td><button class="deal-btn" onclick="toast('Opening flagged deal…','info')">Details</button></td>
+              </tr>
+              <tr>
+                <td style="color:var(--dim);font-size:11px;">005</td>
+                <td><a class="vin-lnk2" href="#">1G1YY2D73K5100234</a></td>
+                <td>Omar F.</td>
+                <td>Sarah L.</td>
+                <td>Financing Disclosure</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <div style="flex:1;height:5px;background:#E0E0E0;border-radius:4px;min-width:60px;"><div style="width:95%;height:100%;background:var(--green);border-radius:4px;"></div></div>
+                    <span style="font-size:11px;font-weight:700;color:var(--green);">95%</span>
+                  </div>
+                </td>
+                <td><span class="sbadge done">Pass</span></td>
+                <td style="font-size:11px;color:var(--dim);">Apr 26, 2026</td>
+                <td><button class="deal-btn" onclick="toast('Opening check details…','info')">Details</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Check type breakdown -->
+      <div class="section" style="margin-bottom:0;">
+        <div class="sec-hdr">
+          <span style="font-size:16px;">📊</span>
+          <span class="sec-title">Compliance Check Coverage</span>
+          <span class="cnt green">All types active</span>
+        </div>
+        <div style="padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;">
+          <div style="background:var(--md-surface-container);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">Disclosure Completeness</div>
+            <div style="font-size:22px;font-weight:800;color:var(--green);margin-bottom:4px;">48 <span style="font-size:12px;color:var(--muted);font-weight:500;">checks</span></div>
+            <div style="height:6px;background:#E0E0E0;border-radius:4px;"><div style="width:96%;height:100%;background:var(--green);border-radius:4px;"></div></div>
+            <div style="font-size:11px;color:var(--green);font-weight:600;margin-top:4px;">96% pass rate</div>
+          </div>
+          <div style="background:var(--md-surface-container);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">Odometer Statement</div>
+            <div style="font-size:22px;font-weight:800;color:var(--amber);margin-bottom:4px;">31 <span style="font-size:12px;color:var(--muted);font-weight:500;">checks</span></div>
+            <div style="height:6px;background:#E0E0E0;border-radius:4px;"><div style="width:87%;height:100%;background:var(--amber);border-radius:4px;"></div></div>
+            <div style="font-size:11px;color:var(--amber);font-weight:600;margin-top:4px;">87% pass rate</div>
+          </div>
+          <div style="background:var(--md-surface-container);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">As-Is Acknowledgment</div>
+            <div style="font-size:22px;font-weight:800;color:var(--green);margin-bottom:4px;">29 <span style="font-size:12px;color:var(--muted);font-weight:500;">checks</span></div>
+            <div style="height:6px;background:#E0E0E0;border-radius:4px;"><div style="width:100%;height:100%;background:var(--green);border-radius:4px;"></div></div>
+            <div style="font-size:11px;color:var(--green);font-weight:600;margin-top:4px;">100% pass rate</div>
+          </div>
+          <div style="background:var(--md-surface-container);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;">Trade-In Valuation</div>
+            <div style="font-size:22px;font-weight:800;color:var(--red);margin-bottom:4px;">34 <span style="font-size:12px;color:var(--muted);font-weight:500;">checks</span></div>
+            <div style="height:6px;background:#E0E0E0;border-radius:4px;"><div style="width:91%;height:100%;background:var(--red);border-radius:4px;"></div></div>
+            <div style="font-size:11px;color:var(--red);font-weight:600;margin-top:4px;">91% pass rate</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end #compliance-ai-page -->
+
+  <!-- ══════════════════════════════════════════
+       PRE-SALE INSPECTION PAGE
+  ══════════════════════════════════════════ -->
+  <div id="pre-sale-page" style="display:none;">
+    <div class="content">
+
+      <!-- Page header -->
+      <div class="ph" style="margin-bottom:14px;">
+        <div style="width:40px;height:40px;background:linear-gradient(135deg,#0288D1,#0EA5E9);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(2,136,209,.28);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        </div>
+        <div>
+          <div class="ptitle">Pre-sale Inspection</div>
+          <div class="rinfo">Vehicle inspection status, scheduling &amp; results</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button class="tbtn" onclick="toast('Viewing full inspection log…','info')">📋 Full Log</button>
+          <button class="tbtn primary" onclick="toast('Opening new inspection form…','info')">＋ Schedule Inspection</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="sgrid" style="margin-bottom:12px;">
+        <div class="sc amber">
+          <div class="sc-head"><span class="sc-lbl">Due Today</span><span class="sc-ico">🔍</span></div>
+          <div class="sc-val" style="color:var(--amber);">4</div>
+          <div class="sc-meta">Awaiting inspection</div>
+        </div>
+        <div class="sc green">
+          <div class="sc-head"><span class="sc-lbl">Passed (Month)</span><span class="sc-ico">✅</span></div>
+          <div class="sc-val" style="color:var(--green);">27</div>
+          <div class="sc-meta"><span class="up">↑ 4</span> vs last month</div>
+        </div>
+        <div class="sc red">
+          <div class="sc-head"><span class="sc-lbl">Failed — Held</span><span class="sc-ico">🚫</span></div>
+          <div class="sc-val" style="color:var(--red);">1</div>
+          <div class="sc-meta">Service order created</div>
+        </div>
+        <div class="sc blue">
+          <div class="sc-head"><span class="sc-lbl">Avg. Inspection Time</span><span class="sc-ico">⏱️</span></div>
+          <div class="sc-val" style="color:var(--md-primary);">42m</div>
+          <div class="sc-meta">Per vehicle</div>
+        </div>
+      </div>
+
+      <!-- Failed alert -->
+      <div style="background:var(--md-error-container);border:none;border-radius:12px;padding:12px 16px;display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;box-shadow:var(--shadow-sm);">
+        <span style="font-size:18px;flex-shrink:0;margin-top:1px;">🚫</span>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:3px;">Inspection Failed — 2020 Chevy Corvette (1G1YY2D73K5100234)</div>
+          <div style="font-size:12px;color:var(--md-error);line-height:1.6;">Brake pad wear below minimum threshold. Vehicle is on hold pending service. A service order has been automatically created.</div>
+        </div>
+        <button class="tbtn" style="flex-shrink:0;font-size:12px;" onclick="toast('Opening service order…','info')">View Order →</button>
+      </div>
+
+      <!-- Vehicles table -->
+      <div class="section">
+        <div class="sec-hdr">
+          <span style="font-size:16px;">🚗</span>
+          <span class="sec-title">Vehicles Awaiting / Scheduled Inspection</span>
+          <span class="cnt amber">4 pending</span>
+          <select class="fsel" style="margin-left:auto;" onchange="toast('Filter applied','info')">
+            <option>All vehicles</option>
+            <option>Pending only</option>
+            <option>Failed only</option>
+            <option>Passed</option>
+          </select>
+        </div>
+        <div class="table-wrap show">
+          <table>
+            <thead>
+              <tr>
+                <th>VIN</th>
+                <th>Year / Make / Model</th>
+                <th>Assigned Inspector</th>
+                <th>Scheduled</th>
+                <th>Checklist</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a class="vin-lnk2" href="#">1HGCM82633A004352</a></td>
+                <td>2023 Honda Accord EX</td>
+                <td>Mike T.</td>
+                <td>Today 11:00 AM</td>
+                <td><span style="font-size:11px;color:var(--muted);">12 / 12 items</span></td>
+                <td><span class="sbadge wsig">Pending</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening inspection checklist…','info')">Start</button></td>
+              </tr>
+              <tr>
+                <td><a class="vin-lnk2" href="#">2T1BURHE0JC047221</a></td>
+                <td>2022 Toyota Corolla LE</td>
+                <td>Sarah L.</td>
+                <td>Today 2:30 PM</td>
+                <td><span style="font-size:11px;color:var(--muted);">12 / 12 items</span></td>
+                <td><span class="sbadge wsig">Pending</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening inspection checklist…','info')">Start</button></td>
+              </tr>
+              <tr>
+                <td><a class="vin-lnk2" href="#">3VWF17AT0FM500112</a></td>
+                <td>2021 VW Jetta S</td>
+                <td>Carlos M.</td>
+                <td>Tomorrow 9:00 AM</td>
+                <td><span style="font-size:11px;color:var(--muted);">12 / 12 items</span></td>
+                <td><span class="sbadge" style="background:rgba(92,107,192,.12);color:var(--purple);">Scheduled</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening inspection checklist…','info')">View</button></td>
+              </tr>
+              <tr>
+                <td><a class="vin-lnk2" href="#">5YJSA1E26MF400001</a></td>
+                <td>2022 Tesla Model S</td>
+                <td style="color:var(--red);font-weight:600;">Unassigned</td>
+                <td style="color:var(--red);">—</td>
+                <td><span style="font-size:11px;color:var(--dim);">Not started</span></td>
+                <td><span class="sbadge wsig" style="background:var(--amber-s);color:var(--amber);">Not Scheduled</span></td>
+                <td><button class="deal-btn" onclick="toast('Assigning inspector…','info')">Assign</button></td>
+              </tr>
+              <tr>
+                <td><a class="vin-lnk2" href="#">1G1YY2D73K5100234</a></td>
+                <td>2020 Chevy Corvette</td>
+                <td>Mike T.</td>
+                <td>Yesterday</td>
+                <td><span style="font-size:11px;color:var(--red);font-weight:600;">8 / 12 — brakes fail</span></td>
+                <td><span class="sbadge wphoto" style="background:var(--red-s);color:var(--red);">Failed — Held</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening service order…','info')">Service</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Inspection checklist coverage -->
+      <div class="section" style="margin-bottom:0;">
+        <div class="sec-hdr">
+          <span style="font-size:16px;">📋</span>
+          <span class="sec-title">Checklist Category Pass Rates</span>
+          <span class="cnt green">Last 30 days</span>
+        </div>
+        <div style="padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;">
+          <div style="background:var(--md-surface-container);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Brakes &amp; Tires</div>
+            <div style="font-size:20px;font-weight:800;color:var(--amber);margin-bottom:4px;">89%</div>
+            <div style="height:5px;background:#E0E0E0;border-radius:4px;"><div style="width:89%;height:100%;background:var(--amber);border-radius:4px;"></div></div>
+          </div>
+          <div style="background:var(--md-surface-container);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Engine &amp; Fluids</div>
+            <div style="font-size:20px;font-weight:800;color:var(--green);margin-bottom:4px;">97%</div>
+            <div style="height:5px;background:#E0E0E0;border-radius:4px;"><div style="width:97%;height:100%;background:var(--green);border-radius:4px;"></div></div>
+          </div>
+          <div style="background:var(--md-surface-container);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Exterior / Body</div>
+            <div style="font-size:20px;font-weight:800;color:var(--green);margin-bottom:4px;">94%</div>
+            <div style="height:5px;background:#E0E0E0;border-radius:4px;"><div style="width:94%;height:100%;background:var(--green);border-radius:4px;"></div></div>
+          </div>
+          <div style="background:var(--md-surface-container);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Electrical / Safety</div>
+            <div style="font-size:20px;font-weight:800;color:var(--green);margin-bottom:4px;">100%</div>
+            <div style="height:5px;background:#E0E0E0;border-radius:4px;"><div style="width:100%;height:100%;background:var(--green);border-radius:4px;"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end #pre-sale-page -->
+
+  <!-- ══════════════════════════════════════════
+       COMPLAINT MANAGEMENT PAGE
+  ══════════════════════════════════════════ -->
+  <div id="complaints-page" style="display:none;">
+    <div class="content">
+
+      <!-- Page header -->
+      <div class="ph" style="margin-bottom:14px;">
+        <div style="width:40px;height:40px;background:linear-gradient(135deg,#B3261E,#EF4444);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(179,38,30,.28);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <div>
+          <div class="ptitle">Complaint Management</div>
+          <div class="rinfo">Track, manage and resolve customer complaints</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button class="tbtn" onclick="toast('Exporting complaint history…','info')">⬇ Export</button>
+          <button class="tbtn primary" onclick="toast('Opening new complaint form…','info')">＋ Log Complaint</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="sgrid" style="margin-bottom:12px;">
+        <div class="sc red">
+          <div class="sc-head"><span class="sc-lbl">Open Complaints</span><span class="sc-ico">📣</span></div>
+          <div class="sc-val" style="color:var(--red);">2</div>
+          <div class="sc-meta">Require action</div>
+        </div>
+        <div class="sc amber">
+          <div class="sc-head"><span class="sc-lbl">Awaiting Response</span><span class="sc-ico">🕐</span></div>
+          <div class="sc-val" style="color:var(--amber);">1</div>
+          <div class="sc-meta">Response overdue</div>
+        </div>
+        <div class="sc green">
+          <div class="sc-head"><span class="sc-lbl">Resolved (30 days)</span><span class="sc-ico">✔️</span></div>
+          <div class="sc-val" style="color:var(--green);">14</div>
+          <div class="sc-meta"><span class="up">↑ 3</span> vs last month</div>
+        </div>
+        <div class="sc blue">
+          <div class="sc-head"><span class="sc-lbl">Avg. Resolution</span><span class="sc-ico">📅</span></div>
+          <div class="sc-val" style="color:var(--md-primary);">3.2d</div>
+          <div class="sc-meta">Days to close</div>
+        </div>
+      </div>
+
+      <!-- Overdue alert -->
+      <div style="background:var(--md-error-container);border:none;border-radius:12px;padding:12px 16px;display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;box-shadow:var(--shadow-sm);">
+        <span style="font-size:18px;flex-shrink:0;margin-top:1px;">🔴</span>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:3px;">#CMP-2041 — Response Overdue by 3 Days</div>
+          <div style="font-size:12px;color:var(--md-error);line-height:1.6;">DMV complaint escalation window closes <strong>Apr 30, 2026</strong>. Assign a case handler and respond immediately to avoid regulatory action.</div>
+        </div>
+        <button class="tbtn" style="flex-shrink:0;font-size:12px;" onclick="toast('Opening CMP-2041…','info')">Respond →</button>
+      </div>
+
+      <!-- Complaints table -->
+      <div class="section">
+        <div class="sec-hdr">
+          <span style="font-size:16px;">📋</span>
+          <span class="sec-title">All Complaints</span>
+          <span class="cnt red">2 open</span>
+          <select class="fsel" style="margin-left:auto;" onchange="toast('Filter applied','info')">
+            <option>All complaints</option>
+            <option>Open only</option>
+            <option>Resolved</option>
+            <option>High priority</option>
+          </select>
+        </div>
+        <div class="table-wrap show">
+          <table>
+            <thead>
+              <tr>
+                <th>Complaint #</th>
+                <th>Customer</th>
+                <th>Category</th>
+                <th>Opened</th>
+                <th>Days Open</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color:var(--red);font-weight:700;">#CMP-2041</td>
+                <td>James H.</td>
+                <td>Undisclosed prior damage</td>
+                <td>Apr 24, 2026</td>
+                <td style="color:var(--red);font-weight:700;">4 days</td>
+                <td><span class="sbadge wphoto" style="background:var(--red-s);color:var(--red);">High</span></td>
+                <td><span class="sbadge wsig">Awaiting Response</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening CMP-2041…','info')">Respond</button></td>
+              </tr>
+              <tr>
+                <td>#CMP-2038</td>
+                <td>Linda W.</td>
+                <td>Financing rate discrepancy</td>
+                <td>Apr 21, 2026</td>
+                <td>7 days</td>
+                <td><span class="sbadge wsig">Medium</span></td>
+                <td><span class="sbadge" style="background:rgba(92,107,192,.12);color:var(--purple);">Under Review</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening CMP-2038…','info')">View</button></td>
+              </tr>
+              <tr>
+                <td>#CMP-2029</td>
+                <td>Omar F.</td>
+                <td>Title transfer delay</td>
+                <td>Apr 12, 2026</td>
+                <td>16 days</td>
+                <td><span class="sbadge" style="background:rgba(92,107,192,.12);color:var(--purple);">Low</span></td>
+                <td><span class="sbadge done">Resolved</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening CMP-2029…','info')">View</button></td>
+              </tr>
+              <tr>
+                <td>#CMP-2021</td>
+                <td>Rachel T.</td>
+                <td>Warranty not honoured</td>
+                <td>Apr 5, 2026</td>
+                <td>23 days</td>
+                <td><span class="sbadge wsig">Medium</span></td>
+                <td><span class="sbadge done">Resolved</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening CMP-2021…','info')">View</button></td>
+              </tr>
+              <tr>
+                <td>#CMP-2014</td>
+                <td>Henry B.</td>
+                <td>Odometer rollback concern</td>
+                <td>Mar 28, 2026</td>
+                <td>31 days</td>
+                <td><span class="sbadge wphoto" style="background:var(--red-s);color:var(--red);">High</span></td>
+                <td><span class="sbadge done">Resolved</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening CMP-2014…','info')">View</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Category breakdown -->
+      <div class="section" style="margin-bottom:0;">
+        <div class="sec-hdr">
+          <span style="font-size:16px;">📊</span>
+          <span class="sec-title">Complaints by Category (Last 90 Days)</span>
+        </div>
+        <div style="padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;">
+          <div style="background:var(--md-surface-container);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Disclosure / Damage</div>
+            <div style="font-size:20px;font-weight:800;color:var(--red);margin-bottom:4px;">6</div>
+            <div style="height:5px;background:#E0E0E0;border-radius:4px;"><div style="width:60%;height:100%;background:var(--red);border-radius:4px;"></div></div>
+          </div>
+          <div style="background:var(--md-surface-container);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Financing Issues</div>
+            <div style="font-size:20px;font-weight:800;color:var(--amber);margin-bottom:4px;">4</div>
+            <div style="height:5px;background:#E0E0E0;border-radius:4px;"><div style="width:40%;height:100%;background:var(--amber);border-radius:4px;"></div></div>
+          </div>
+          <div style="background:var(--md-surface-container);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Title / Transfer</div>
+            <div style="font-size:20px;font-weight:800;color:var(--amber);margin-bottom:4px;">3</div>
+            <div style="height:5px;background:#E0E0E0;border-radius:4px;"><div style="width:30%;height:100%;background:var(--amber);border-radius:4px;"></div></div>
+          </div>
+          <div style="background:var(--md-surface-container);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;">Warranty / Service</div>
+            <div style="font-size:20px;font-weight:800;color:var(--green);margin-bottom:4px;">3</div>
+            <div style="height:5px;background:#E0E0E0;border-radius:4px;"><div style="width:30%;height:100%;background:var(--green);border-radius:4px;"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end #complaints-page -->
+
+  <!-- ══════════════════════════════════════════
+       ADVERTISING COMPLIANCE PAGE
+  ══════════════════════════════════════════ -->
+  <div id="advertising-page" style="display:none;">
+    <div class="content">
+
+      <!-- Page header -->
+      <div class="ph" style="margin-bottom:14px;">
+        <div style="width:40px;height:40px;background:linear-gradient(135deg,#2E7D32,#10B981);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(46,125,50,.28);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div>
+          <div class="ptitle">Advertising Compliance</div>
+          <div class="rinfo">Review &amp; monitor all active advertisements for regulatory compliance</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button class="tbtn" onclick="toast('Downloading ad compliance log…','info')">⬇ Download Log</button>
+          <button class="tbtn primary" onclick="toast('Opening ad review form…','info')">＋ Submit Ad for Review</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="sgrid" style="margin-bottom:12px;">
+        <div class="sc green">
+          <div class="sc-head"><span class="sc-lbl">Ads Reviewed</span><span class="sc-ico">📢</span></div>
+          <div class="sc-val" style="color:var(--green);">12</div>
+          <div class="sc-meta">This month</div>
+        </div>
+        <div class="sc green">
+          <div class="sc-head"><span class="sc-lbl">Fully Compliant</span><span class="sc-ico">✅</span></div>
+          <div class="sc-val" style="color:var(--green);">12</div>
+          <div class="sc-meta">100% pass rate</div>
+        </div>
+        <div class="sc blue">
+          <div class="sc-head"><span class="sc-lbl">Next Audit Due</span><span class="sc-ico">🗓️</span></div>
+          <div class="sc-val" style="color:var(--md-primary);font-size:18px;letter-spacing:-.5px;">May 5</div>
+          <div class="sc-meta">7 days from now</div>
+        </div>
+        <div class="sc green">
+          <div class="sc-head"><span class="sc-lbl">Regulatory Flags</span><span class="sc-ico">🏛️</span></div>
+          <div class="sc-val" style="color:var(--green);">0</div>
+          <div class="sc-meta">No FTC / CFPB flags</div>
+        </div>
+      </div>
+
+      <!-- All clear banner -->
+      <div style="background:var(--md-success-container);border:none;border-radius:12px;padding:12px 16px;display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;box-shadow:var(--shadow-sm);">
+        <span style="font-size:18px;flex-shrink:0;margin-top:1px;">✅</span>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:3px;">All Active Advertisements Are Compliant</div>
+          <div style="font-size:12px;color:var(--md-success);line-height:1.6;">No FTC or CFPB violations detected. Next scheduled compliance audit is <strong>May 5, 2026</strong>. All required APR disclosures and disclaimers are present.</div>
+        </div>
+      </div>
+
+      <!-- Ads table -->
+      <div class="section">
+        <div class="sec-hdr">
+          <span style="font-size:16px;">📋</span>
+          <span class="sec-title">Active Advertisements — Compliance Status</span>
+          <span class="cnt green">All clear</span>
+          <select class="fsel" style="margin-left:auto;" onchange="toast('Filter applied','info')">
+            <option>All channels</option>
+            <option>TV / Radio</option>
+            <option>Website</option>
+            <option>Social Media</option>
+            <option>Email</option>
+          </select>
+        </div>
+        <div class="table-wrap show">
+          <table>
+            <thead>
+              <tr>
+                <th>Ad Title</th>
+                <th>Channel</th>
+                <th>APR Disclosed</th>
+                <th>Disclaimer Present</th>
+                <th>Expiry Date</th>
+                <th>Reviewed By</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Spring Sale — 0% APR</td>
+                <td><span style="font-size:11px;background:#E3F2FD;color:#0D47A1;padding:2px 8px;border-radius:6px;font-weight:600;">TV / Radio</span></td>
+                <td style="color:var(--green);font-weight:700;">✅ Yes</td>
+                <td style="color:var(--green);font-weight:700;">✅ Yes</td>
+                <td>May 31, 2026</td>
+                <td>Sarah L.</td>
+                <td><span class="sbadge done">Compliant</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening ad details…','info')">View</button></td>
+              </tr>
+              <tr>
+                <td>Certified Pre-Owned Deals</td>
+                <td><span style="font-size:11px;background:#E8F5E9;color:#1B5E20;padding:2px 8px;border-radius:6px;font-weight:600;">Website</span></td>
+                <td style="color:var(--green);font-weight:700;">✅ Yes</td>
+                <td style="color:var(--green);font-weight:700;">✅ Yes</td>
+                <td>Jun 15, 2026</td>
+                <td>Mike T.</td>
+                <td><span class="sbadge done">Compliant</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening ad details…','info')">View</button></td>
+              </tr>
+              <tr>
+                <td>Low Monthly Payment Promo</td>
+                <td><span style="font-size:11px;background:#F3E5F5;color:#4A148C;padding:2px 8px;border-radius:6px;font-weight:600;">Social Media</span></td>
+                <td style="color:var(--green);font-weight:700;">✅ Yes</td>
+                <td style="color:var(--green);font-weight:700;">✅ Yes</td>
+                <td>May 10, 2026</td>
+                <td>Carlos M.</td>
+                <td><span class="sbadge done">Compliant</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening ad details…','info')">View</button></td>
+              </tr>
+              <tr>
+                <td>End-of-Month Clearance</td>
+                <td><span style="font-size:11px;background:#FFF8E1;color:#E65100;padding:2px 8px;border-radius:6px;font-weight:600;">Email Campaign</span></td>
+                <td style="color:var(--green);font-weight:700;">✅ Yes</td>
+                <td style="color:var(--green);font-weight:700;">✅ Yes</td>
+                <td>Apr 30, 2026</td>
+                <td>Sarah L.</td>
+                <td><span class="sbadge done">Compliant</span></td>
+                <td><button class="deal-btn" onclick="toast('Opening ad details…','info')">View</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Regulation checklist -->
+      <div class="section" style="margin-bottom:0;">
+        <div class="sec-hdr">
+          <span style="font-size:16px;">🏛️</span>
+          <span class="sec-title">Regulatory Requirements Checklist</span>
+          <span class="cnt green">All passing</span>
+        </div>
+        <div style="padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;">
+          <div style="background:var(--md-success-container);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;">✅</span>
+            <div><div style="font-size:12px;font-weight:700;color:var(--green);">FTC Compliance</div><div style="font-size:11px;color:var(--md-success);">All ads meet FTC guidelines</div></div>
+          </div>
+          <div style="background:var(--md-success-container);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;">✅</span>
+            <div><div style="font-size:12px;font-weight:700;color:var(--green);">CFPB Requirements</div><div style="font-size:11px;color:var(--md-success);">Finance disclosures present</div></div>
+          </div>
+          <div style="background:var(--md-success-container);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;">✅</span>
+            <div><div style="font-size:12px;font-weight:700;color:var(--green);">State DMV Rules</div><div style="font-size:11px;color:var(--md-success);">Dealer license # shown</div></div>
+          </div>
+          <div style="background:var(--md-success-container);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;">✅</span>
+            <div><div style="font-size:12px;font-weight:700;color:var(--green);">APR / Rate Disclosure</div><div style="font-size:11px;color:var(--md-success);">Required on all finance ads</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end #advertising-page -->
+
+  <!-- ══════════════════════════════════════════
        MAIN CONTENT (Today's Pending Deals)
   ══════════════════════════════════════════ -->
   <div id="main-content" style="display:block;">
+
+  <!-- Deal Summary Bar -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:8px 12px 0;overflow:hidden;box-shadow:var(--shadow-sm);">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);">
+
+      <div style="padding:10px 16px;display:flex;align-items:center;gap:12px;border-right:1px solid var(--border);">
+        <div style="width:36px;height:36px;background:linear-gradient(135deg,#015f8a,#017cb7);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:1px;">Pending Today</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:22px;font-weight:800;color:#017cb7;line-height:1.1;margin-bottom:1px;">3</div>
+          <div style="font-size:10.5px;color:var(--green);font-weight:600;">Active in progress</div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px;display:flex;align-items:center;gap:12px;border-right:1px solid var(--border);">
+        <div style="width:36px;height:36px;background:linear-gradient(135deg,#059669,#10b981);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div>
+          <div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:1px;">Completed Today</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:22px;font-weight:800;color:#059669;line-height:1.1;margin-bottom:1px;">1</div>
+          <div style="font-size:10.5px;color:var(--green);font-weight:600;">Transactions closed</div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px;display:flex;align-items:center;gap:12px;border-right:1px solid var(--border);">
+        <div style="width:36px;height:36px;background:linear-gradient(135deg,#4338ca,#6d28d9);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.54"/></svg>
+        </div>
+        <div>
+          <div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:1px;">Return Deals</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:22px;font-weight:800;color:#7c3aed;line-height:1.1;margin-bottom:1px;">1</div>
+          <div style="font-size:10.5px;color:#8b5cf6;font-weight:600;">Processed today</div>
+        </div>
+      </div>
+
+      <div style="padding:10px 16px;display:flex;align-items:center;gap:12px;">
+        <div style="width:36px;height:36px;background:linear-gradient(135deg,#d97706,#f59e0b);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div>
+          <div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;font-weight:700;margin-bottom:1px;">Unfunded Deadlines</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:22px;font-weight:800;color:#d97706;line-height:1.1;margin-bottom:1px;">3</div>
+          <div style="font-size:10.5px;color:var(--red);font-weight:600;">Require action</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <!-- Warning Banner -->
   <div class="wbanner" id="wb" style="margin:6px 12px 0;padding:8px 14px;">
@@ -2816,17 +3795,33 @@ new Chart(document.getElementById('tradeInStackedChart'), {
 });
 
 // ── Chart 8: Vehicles Sold by City ──
-new Chart(document.getElementById('cityChart'), {
+// ── Chart 8: Vehicles Sold by City (Weekly / Monthly / Yearly) ──
+const cityColors = (n) => Array.from({length:n},(_,i)=>{
+  const opacities=['1','0.85','0.72','0.6','0.5','0.42','0.32','0.22'];
+  return `rgba(1,124,183,${opacities[i]||'0.18'})`;
+});
+const cityData = {
+  week: {
+    labels: ['San Jose','Gilroy','Fremont','Oakland','San Francisco','Milpitas','Santa Clara','Sunnyvale'],
+    data:   [18, 14, 11, 9, 8, 6, 5, 4]
+  },
+  month: {
+    labels: ['San Jose','Gilroy','Fremont','Oakland','San Francisco','Milpitas','Santa Clara','Sunnyvale'],
+    data:   [72, 58, 45, 39, 34, 27, 22, 17]
+  },
+  year: {
+    labels: ['San Jose','Gilroy','Fremont','Oakland','San Francisco','Milpitas','Santa Clara','Sunnyvale'],
+    data:   [864, 697, 541, 468, 408, 325, 263, 204]
+  }
+};
+let cityChart = new Chart(document.getElementById('cityChart'), {
   type: 'bar',
   data: {
-    labels: ['San Jose', 'Gilroy', 'Fremont', 'Oakland', 'San Francisco', 'Milpitas', 'Santa Clara', 'Sunnyvale'],
+    labels: cityData.month.labels,
     datasets: [{
       label: 'Vehicles Sold',
-      data: [72, 58, 45, 39, 34, 27, 22, 17],
-      backgroundColor: [
-        '#017cb7','#015f8a','rgba(1,124,183,.75)','rgba(1,124,183,.6)',
-        'rgba(1,124,183,.5)','rgba(1,124,183,.4)','rgba(1,124,183,.3)','rgba(1,124,183,.2)'
-      ],
+      data: cityData.month.data,
+      backgroundColor: cityColors(cityData.month.data.length),
       borderRadius: 7,
       borderSkipped: false
     }]
@@ -2837,15 +3832,29 @@ new Chart(document.getElementById('cityChart'), {
       legend: { display: false },
       tooltip: {
         backgroundColor: 'rgba(13,42,59,.9)', padding: 10, cornerRadius: 8,
-        callbacks: { label: ctx => ' ' + ctx.raw + ' vehicles sold' }
+        callbacks: { label: ctx => ' ' + ctx.raw.toLocaleString() + ' vehicles sold' }
       }
     },
     scales: {
       x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 11 } } },
       y: { grid: { color: 'rgba(1,124,183,.07)' }, border: { display: false, dash: [4,4] }, ticks: { font: { size: 11 } } }
-    }
+    },
+    animation: { duration: 400, easing: 'easeInOutQuart' }
   }
 });
+function switchCityChart(period) {
+  ['week','month','year'].forEach(p => {
+    const btn = document.getElementById('cc' + p[0]);
+    btn.style.background   = p === period ? '#017cb7' : 'rgba(1,124,183,.08)';
+    btn.style.color        = p === period ? '#fff'    : '#015f8a';
+    btn.style.borderColor  = p === period ? '#017cb7' : 'rgba(1,124,183,.25)';
+  });
+  const d = cityData[period];
+  cityChart.data.labels = d.labels;
+  cityChart.data.datasets[0].data = d.data;
+  cityChart.data.datasets[0].backgroundColor = cityColors(d.data.length);
+  cityChart.update('active');
+}
 
 // ── Chart 9: Vehicles Sold by County ──
 new Chart(document.getElementById('countyChart'), {
@@ -2859,12 +3868,9 @@ new Chart(document.getElementById('countyChart'), {
     }]
   },
   options: {
-    responsive: true, maintainAspectRatio: false, cutout: '65%',
+    responsive: true, maintainAspectRatio: false, cutout: '68%',
     plugins: {
-      legend: {
-        display: true, position: 'right',
-        labels: { boxWidth: 10, boxHeight: 10, borderRadius: 5, usePointStyle: true, pointStyle: 'circle', padding: 12, font: { size: 11 } }
-      },
+      legend: { display: false },
       tooltip: {
         backgroundColor: 'rgba(13,42,59,.9)', padding: 10, cornerRadius: 8,
         callbacks: { label: ctx => ' ' + ctx.raw + ' vehicles (' + Math.round(ctx.raw/268*100) + '%)' }
@@ -2878,10 +3884,10 @@ new Chart(document.getElementById('countyChart'), {
       ctx.save();
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       const cx = left + width/2, cy = top + height/2;
-      ctx.font = "800 20px 'DM Sans',sans-serif"; ctx.fillStyle = '#0d2a3b';
+      ctx.font = "800 22px 'DM Sans',sans-serif"; ctx.fillStyle = '#0d2a3b';
       ctx.fillText('268', cx, cy - 8);
-      ctx.font = '500 9px DM Sans,sans-serif'; ctx.fillStyle = '#7aa3b8';
-      ctx.fillText('VEHICLES', cx, cy + 8);
+      ctx.font = '500 10px DM Sans,sans-serif'; ctx.fillStyle = '#7aa3b8';
+      ctx.fillText('TOTAL SOLD', cx, cy + 10);
       ctx.restore();
     }
   }]
@@ -4627,7 +5633,7 @@ new Chart(document.getElementById('tradeInDonutChart'), {
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── Page Navigation ──
 function showPage(pageId) {
-  ['dashboard-page','main-content','flow-diagram-page'].forEach(function(id){
+  ['dashboard-page','main-content','flow-diagram-page','compliance-ai-page','pre-sale-page','complaints-page','advertising-page'].forEach(function(id){
     var el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -4635,7 +5641,7 @@ function showPage(pageId) {
   if (target) {
     target.style.display = 'block';
     target.classList.remove('page-transition');
-    void target.offsetWidth; // force reflow
+    void target.offsetWidth;
     target.classList.add('page-transition');
   }
   document.querySelectorAll('.ni').forEach(function(n){ n.classList.remove('active'); });
@@ -4645,6 +5651,14 @@ function showPage(pageId) {
     document.getElementById('nav-pending').classList.add('active');
   } else if (pageId === 'flow-diagram-page') {
     document.getElementById('nav-flowdiagram').classList.add('active');
+  } else if (pageId === 'compliance-ai-page') {
+    document.getElementById('nav-compliance-ai').classList.add('active');
+  } else if (pageId === 'pre-sale-page') {
+    document.getElementById('nav-pre-sale').classList.add('active');
+  } else if (pageId === 'complaints-page') {
+    document.getElementById('nav-complaints').classList.add('active');
+  } else if (pageId === 'advertising-page') {
+    document.getElementById('nav-advertising').classList.add('active');
   }
 }
 
