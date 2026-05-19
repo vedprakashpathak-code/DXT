@@ -2619,29 +2619,38 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
 
       <!-- TOP BAR: Title + actions -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <div>
-          <div style="display:flex;align-items:center;gap:12px;"><div style="width:44px;height:44px;border-radius:12px;background:#EEF4FF;border:1.5px solid #DBEAFE;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke-width="1.4" stroke="#1565C0">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:44px;height:44px;border-radius:12px;background:#EEF4FF;border:1.5px solid #DBEAFE;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke-width="1.4" stroke="#1565C0">
   <path d="M18 8 C12 8 7 12 7 18 C7 21 8.5 23.5 11 25 L11 28 L18 28 L18 8Z" fill="rgba(21,101,192,.12)"/>
   <path d="M18 8 C24 8 29 12 29 18 C29 21 27.5 23.5 25 25 L25 28 L18 28 L18 8Z" fill="rgba(21,101,192,.07)"/>
-  <circle cx="12" cy="15" r="1.8" fill="#1565C0"/>
-  <circle cx="11" cy="21" r="1.8" fill="#1565C0"/>
-  <circle cx="24" cy="15" r="1.8" fill="#1565C0"/>
-  <circle cx="25" cy="21" r="1.8" fill="#1565C0"/>
+  <circle cx="12" cy="15" r="1.8" fill="#1565C0"/><circle cx="11" cy="21" r="1.8" fill="#1565C0"/>
+  <circle cx="24" cy="15" r="1.8" fill="#1565C0"/><circle cx="25" cy="21" r="1.8" fill="#1565C0"/>
   <line x1="12" y1="15" x2="18" y2="18" stroke="#1565C0" stroke-width="1"/>
   <line x1="11" y1="21" x2="18" y2="18" stroke="#1565C0" stroke-width="1"/>
   <line x1="24" y1="15" x2="18" y2="18" stroke="#1565C0" stroke-width="1"/>
   <line x1="25" y1="21" x2="18" y2="18" stroke="#1565C0" stroke-width="1"/>
   <circle cx="18" cy="18" r="2.5" fill="#1565C0"/>
-</svg></div><div><div style="font-size:18px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px;">ComplianceAI<span style="font-size:10px;font-weight:800;background:#EEF4FF;color:#1565C0;padding:2px 8px;border-radius:6px;letter-spacing:.5px;">BETA</span></div></div></div>
-          </div><div style="font-size:12px;color:var(--muted);margin-top:4px;padding-left:56px;">Neural deal verification · Real-time risk scoring · Automated flagging</div>
+</svg></div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span style="font-size:18px;font-weight:800;color:var(--text);">ComplianceAI</span>
+            <span style="font-size:10px;font-weight:800;background:#EEF4FF;color:#1565C0;padding:2px 8px;border-radius:6px;letter-spacing:.5px;">BETA</span>
+            <span style="color:#E2E8F0;font-size:14px;">|</span>
+            <span style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Neural deal verification
+              <span style="color:#CBD5E1;">·</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Real-time risk scoring
+              <span style="color:#CBD5E1;">·</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Automated flagging
+            </span>
+          </div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
           <div style="display:flex;align-items:center;gap:7px;background:#EEF4FF;border:1.5px solid #DBEAFE;border-radius:10px;padding:6px 14px;">
             <span style="width:7px;height:7px;border-radius:50%;background:#28C840;display:inline-block;flex-shrink:0;"></span>
             <span style="font-size:12px;font-weight:700;color:#1565C0;">AI Engine Active</span>
           </div>
-          <button onclick="toast('Running full AI scan…','info')" style="background:#1565C0;color:#fff;border:none;border-radius:10px;padding:9px 20px;font-size:12.5px;font-weight:700;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><polygon points="5 3 19 12 5 21 5 3"/></svg> Run Full Scan</button>
-          <button onclick="toast('Exporting report…','info')" style="background:#EEF4FF;color:#1565C0;border:1.5px solid #DBEAFE;border-radius:10px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Export PDF</button>
+          <button onclick="toast('Running full AI scan…','info')" style="background:#1565C0;color:#fff;border:none;border-radius:10px;padding:9px 20px;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Run Full Scan</button>
+          <button onclick="toast('Exporting report…','info')" style="background:#EEF4FF;color:#1565C0;border:1.5px solid #DBEAFE;border-radius:10px;padding:9px 16px;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Export PDF</button>
         </div>
       </div>
 
@@ -2888,7 +2897,7 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
       <!-- TOP: Action bar -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
         <div>
-          <div style="font-size:18px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:10px;"><div style="width:44px;height:44px;border-radius:12px;background:#EEF4FF;border:1.5px solid #DBEAFE;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="28" height="28" viewBox="0 0 36 36" fill="none" stroke="#1565C0" stroke-width="1.5">
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:44px;height:44px;border-radius:12px;background:#EEF4FF;border:1.5px solid #DBEAFE;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="28" height="28" viewBox="0 0 36 36" fill="none" stroke="#1565C0" stroke-width="1.5">
   <rect x="7" y="8" width="18" height="22" rx="3" fill="rgba(21,101,192,.08)" stroke-width="1.5"/>
   <rect x="12" y="5" width="8" height="5" rx="2" fill="rgba(21,101,192,.15)" stroke-width="1.2"/>
   <line x1="10" y1="15" x2="22" y2="15" stroke-width="1.2" stroke-linecap="round"/>
@@ -2897,8 +2906,7 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
   <circle cx="26" cy="26" r="6" fill="rgba(21,101,192,.1)" stroke-width="1.5"/>
   <circle cx="25.5" cy="25.5" r="3" stroke-width="1.2" fill="none"/>
   <line x1="27.8" y1="27.8" x2="30" y2="30" stroke-width="1.5" stroke-linecap="round"/>
-</svg></div> Pre-sale Inspection</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Vehicle readiness &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><polyline points="20 6 9 17 4 12"/></svg> Checklist tracking &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg> Inspector assignments</div>
+</svg></div> Pre-sale Inspection<span style="color:#E2E8F0;font-size:16px;flex-shrink:0;">|</span><span style="font-size:12px;color:var(--muted);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Vehicle readiness &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><polyline points="20 6 9 17 4 12"/></svg> Checklist tracking &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg> Inspector assignments</span></div>
         </div>
         <div style="display:flex;gap:8px;">
           <button onclick="toast('Starting next…','info')" style="background:#1565C0;color:#fff;border:none;border-radius:10px;padding:8px 16px;font-size:12.5px;font-weight:700;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><polygon points="5 3 19 12 5 21 5 3"/></svg> Start Next</button>
@@ -2976,12 +2984,11 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
       <!-- TOP: Title + action -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
         <div>
-          <div style="font-size:18px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:10px;"><div style="width:44px;height:44px;border-radius:12px;background:#EEF4FF;border:1.5px solid #DBEAFE;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="28" height="28" viewBox="0 0 36 36" fill="none" stroke="#1565C0" stroke-width="1.5">
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:44px;height:44px;border-radius:12px;background:#EEF4FF;border:1.5px solid #DBEAFE;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="28" height="28" viewBox="0 0 36 36" fill="none" stroke="#1565C0" stroke-width="1.5">
   <path d="M6 8 C6 6 7.5 5 9 5 L27 5 C28.5 5 30 6 30 8 L30 22 C30 23.5 28.5 25 27 25 L14 25 L8 31 L8 25 L9 25 C7.5 25 6 23.5 6 22 Z" fill="rgba(21,101,192,.08)" stroke-width="1.5"/>
   <rect x="16.5" y="10" width="3" height="8" rx="1.5" fill="#1565C0" stroke="none"/>
   <circle cx="18" cy="22" r="1.8" fill="#1565C0" stroke="none"/>
-</svg></div> Complaint Management</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg> Open Cases &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> SLA Tracking &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><polyline points="20 6 9 17 4 12"/></svg> Resolution Workflow</div>
+</svg></div> Complaint Management<span style="color:#E2E8F0;font-size:16px;flex-shrink:0;">|</span><span style="font-size:12px;color:var(--muted);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg> Open Cases &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> SLA Tracking &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><polyline points="20 6 9 17 4 12"/></svg> Resolution Workflow</span></div>
         </div>
         <button onclick="toast('Logging complaint…','info')" style="background:#1565C0;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:12.5px;font-weight:700;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New Complaint</button>
       </div>
@@ -3072,7 +3079,7 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
 
       <!-- TOP: Title + actions + all-clear pill -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px;flex-wrap:wrap;">
-        <div>
+        <div style="display:flex;align-items:center;gap:10px;">
           <div style="font-size:18px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:10px;"><div style="width:44px;height:44px;border-radius:12px;background:#EEF4FF;border:1.5px solid #DBEAFE;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="28" height="28" viewBox="0 0 36 36" fill="none" stroke="#1565C0" stroke-width="1.5">
   <path d="M6 14 L20 9 L20 27 L6 22 Z" fill="rgba(21,101,192,.08)" stroke-linejoin="round"/>
   <path d="M20 9 L28 6 L28 30 L20 27 Z" fill="rgba(21,101,192,.05)" stroke-linejoin="round"/>
@@ -3082,7 +3089,7 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
   <circle cx="8" cy="29" r="4" fill="rgba(21,101,192,.1)" stroke-width="1.2"/>
   <path d="M5.5 29 L7.5 31 L10.5 27" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
 </svg></div> Advertising Compliance</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> FTC &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> CFPB &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> DMV rules &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg> APR disclosure &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> All channels monitored</div>
+          <span style="color:#E2E8F0;font-size:16px;flex-shrink:0;">|</span><span style="font-size:12px;color:var(--muted);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> FTC &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> CFPB &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> DMV rules &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg> APR disclosure &nbsp;·&nbsp; <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> All channels monitored</span></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
           <div style="background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:10px;padding:6px 14px;display:flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:inline-block;vertical-align:middle;"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg><span style="font-size:12px;font-weight:700;color:#2E7D32;">All 12 Compliant</span></div>
