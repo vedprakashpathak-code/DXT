@@ -3202,6 +3202,71 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
   <div id="dashboard-page" style="display:none;">
     <div class="content">
 
+      <!-- ── Dashboard Toolbar ── -->
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+
+        <!-- Dealership Dropdown -->
+        <div style="position:relative;flex:0 0 auto;">
+          <button onclick="toggleDbDealer()" id="dbDealerBtn"
+            style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #E2E8F0;border-radius:12px;padding:9px 14px;font-size:13px;font-weight:700;color:#0F172A;cursor:pointer;font-family:inherit;box-shadow:0 1px 4px rgba(21,101,192,.07);min-width:200px;justify-content:space-between;transition:border-color .15s;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#1565C0,#1976D2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M3 21h18M3 21V7l9-4 9 4v14M9 21V12h6v9"/></svg>
+              </div>
+              <span id="dbDealerLabel">All Dealerships</span>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.5" stroke-linecap="round" id="dbDealerChev"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div id="dbDealerPanel" style="display:none;position:absolute;top:calc(100%+6px);left:0;background:#fff;border:1.5px solid #E2E8F0;border-radius:14px;box-shadow:0 12px 36px rgba(13,43,107,.14);z-index:300;min-width:240px;padding:6px;animation:ddFadeUp .18s ease both;">
+            <div style="padding:6px 10px 8px;border-bottom:1px solid #F1F5F9;margin-bottom:4px;">
+              <div style="font-size:10px;font-weight:800;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;">Select Dealership</div>
+            </div>
+            <div id="dbDealerAll" class="db-dealer-item active" onclick="selectDbDealer('All Dealerships','dbDealerAll')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              All Dealerships
+            </div>
+            <div class="db-dealer-item" onclick="selectDbDealer('Maruti Suzuki',this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 21V7l9-4 9 4v14M9 21V12h6v9"/></svg>
+              Maruti Suzuki
+            </div>
+            <div class="db-dealer-item" onclick="selectDbDealer('Adity Honda',this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 21V7l9-4 9 4v14M9 21V12h6v9"/></svg>
+              Adity Honda
+            </div>
+            <div class="db-dealer-item" onclick="selectDbDealer('Dealer XT San Jose',this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 21V7l9-4 9 4v14M9 21V12h6v9"/></svg>
+              Dealer XT San Jose
+            </div>
+            <div class="db-dealer-item" onclick="selectDbDealer('Gilroy Car Club LLC',this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 21V7l9-4 9 4v14M9 21V12h6v9"/></svg>
+              Gilroy Car Club LLC
+            </div>
+            <div class="db-dealer-item" onclick="selectDbDealer('Approved Auto Sales',this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 21V7l9-4 9 4v14M9 21V12h6v9"/></svg>
+              Approved Auto Sales
+            </div>
+          </div>
+        </div>
+
+        <!-- Deal Search -->
+        <div style="flex:1;min-width:200px;position:relative;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2.2" stroke-linecap="round" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="dbDealSearch" type="text" placeholder="Search deal ID, VIN, buyer, salesperson…"
+            oninput="dbSearchDeals(this.value)"
+            style="width:100%;background:#fff;border:1.5px solid #E2E8F0;border-radius:12px;padding:10px 40px 10px 38px;font-size:13px;font-family:inherit;color:#0F172A;outline:none;transition:border-color .15s;box-shadow:0 1px 4px rgba(21,101,192,.07);box-sizing:border-box;"
+            onfocus="this.style.borderColor='#1565C0';this.style.boxShadow='0 0 0 3px rgba(21,101,192,.1)'"
+            onblur="this.style.borderColor='#E2E8F0';this.style.boxShadow='0 1px 4px rgba(21,101,192,.07)'">
+          <button id="dbSearchClear" onclick="clearDbSearch()" style="display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;color:#94A3B8;font-size:16px;line-height:1;">✕</button>
+        </div>
+
+        <!-- Result count badge -->
+        <div id="dbSearchBadge" style="display:none;background:#EEF4FF;color:#1565C0;border:1.5px solid #DBEAFE;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0;"></div>
+
+      </div>
+
+      <!-- Search results dropdown -->
+      <div id="dbSearchResults" style="display:none;background:#fff;border:1.5px solid #E2E8F0;border-radius:14px;box-shadow:0 12px 36px rgba(13,43,107,.12);margin-bottom:12px;overflow:hidden;animation:ddFadeUp .18s ease both;"></div>
+
       <!-- Deal Summary Bar -->
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow-sm);">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);">
@@ -4849,6 +4914,65 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
   ══════════════════════════════════════════ -->
   <div id="main-content" style="display:block;">
 
+  <!-- ── Deals Toolbar ── -->
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px 0;">
+
+    <!-- Dealership Dropdown -->
+    <div style="position:relative;flex:0 0 auto;">
+      <button onclick="toggleMcDealer()" id="mcDealerBtn"
+        style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #E2E8F0;border-radius:12px;padding:9px 14px;font-size:13px;font-weight:700;color:#0F172A;cursor:pointer;font-family:inherit;box-shadow:0 1px 4px rgba(21,101,192,.07);min-width:190px;justify-content:space-between;transition:border-color .15s;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#1565C0,#1976D2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M3 21h18M3 21V7l9-4 9 4v14M9 21V12h6v9"/></svg>
+          </div>
+          <span id="mcDealerLabel">All Dealerships</span>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.5" stroke-linecap="round" id="mcDealerChev"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div id="mcDealerPanel" style="display:none;position:absolute;top:calc(100%+6px);left:0;background:#fff;border:1.5px solid #E2E8F0;border-radius:14px;box-shadow:0 12px 36px rgba(13,43,107,.14);z-index:300;min-width:230px;padding:6px;">
+        <div style="padding:6px 10px 8px;border-bottom:1px solid #F1F5F9;margin-bottom:4px;">
+          <div style="font-size:10px;font-weight:800;color:#94A3B8;letter-spacing:1px;text-transform:uppercase;">Select Dealership</div>
+        </div>
+        <div class="db-dealer-item active" onclick="selectMcDealer('All Dealerships',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          All Dealerships
+        </div>
+        <div class="db-dealer-item" onclick="selectMcDealer('Maruti Suzuki',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 21V7l9-4 9 4v14M9 21V12h6v9"/></svg>Maruti Suzuki
+        </div>
+        <div class="db-dealer-item" onclick="selectMcDealer('Adity Honda',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 21V7l9-4 9 4v14M9 21V12h6v9"/></svg>Adity Honda
+        </div>
+        <div class="db-dealer-item" onclick="selectMcDealer('Dealer XT San Jose',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 21V7l9-4 9 4v14M9 21V12h6v9"/></svg>Dealer XT San Jose
+        </div>
+        <div class="db-dealer-item" onclick="selectMcDealer('Gilroy Car Club LLC',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 21V7l9-4 9 4v14M9 21V12h6v9"/></svg>Gilroy Car Club LLC
+        </div>
+        <div class="db-dealer-item" onclick="selectMcDealer('Approved Auto Sales',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 21V7l9-4 9 4v14M9 21V12h6v9"/></svg>Approved Auto Sales
+        </div>
+      </div>
+    </div>
+
+    <!-- Deal Search -->
+    <div style="flex:1;min-width:180px;position:relative;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2.2" stroke-linecap="round" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="mcDealSearch" type="text" placeholder="Search deal ID, VIN, buyer…"
+        oninput="mcSearchDeals(this.value)"
+        style="width:100%;background:#fff;border:1.5px solid #E2E8F0;border-radius:12px;padding:9px 36px 9px 36px;font-size:13px;font-family:inherit;color:#0F172A;outline:none;transition:border-color .15s,box-shadow .15s;box-shadow:0 1px 4px rgba(21,101,192,.07);box-sizing:border-box;"
+        onfocus="this.style.borderColor='#1565C0';this.style.boxShadow='0 0 0 3px rgba(21,101,192,.1)'"
+        onblur="this.style.borderColor='#E2E8F0';this.style.boxShadow='0 1px 4px rgba(21,101,192,.07)'">
+      <button id="mcSearchClear" onclick="clearMcSearch()" style="display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;color:#94A3B8;font-size:15px;line-height:1;">✕</button>
+    </div>
+
+    <!-- Result count -->
+    <div id="mcSearchBadge" style="display:none;background:#EEF4FF;color:#1565C0;border:1.5px solid #DBEAFE;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0;"></div>
+  </div>
+
+  <!-- Search results -->
+  <div id="mcSearchResults" style="display:none;background:#fff;border:1.5px solid #E2E8F0;border-radius:14px;box-shadow:0 12px 36px rgba(13,43,107,.12);margin:8px 12px 0;overflow:hidden;"></div>
+
   <!-- Deal Summary Bar -->
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:8px 12px 0;overflow:hidden;box-shadow:var(--shadow-sm);">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);">
@@ -4917,33 +5041,34 @@ input:focus, select:focus, button:focus-visible { outline:2px solid var(--md-pri
   <div class="content">
 
     <!-- SECTION 1: Pending Transactions -->
+    <!-- ── VIEW / REFRESH BAR ── -->
+    <div style="display:flex;align-items:center;background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:7px 14px;margin:0 0 8px;gap:10px;box-shadow:0 1px 4px rgba(21,101,192,.06);">
+      <!-- Label -->
+      <span style="font-size:12px;font-weight:800;color:#64748B;letter-spacing:.6px;text-transform:uppercase;margin-right:4px;">View:</span>
+      <!-- Toggle buttons -->
+      <div style="display:flex;background:#F1F5F9;border-radius:8px;padding:3px;gap:2px;">
+        <button id="vrListBtn" onclick="setVrView('list')" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,#1565C0,#1976D2);color:#fff;box-shadow:0 2px 6px rgba(21,101,192,.25);transition:all .15s;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          List
+        </button>
+        <button id="vrCardBtn" onclick="setVrView('card')" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:transparent;color:#64748B;transition:all .15s;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Cards
+        </button>
+      </div>
+      <!-- Spacer -->
+      <div style="flex:1;"></div>
+      <!-- Refresh countdown -->
+      <span id="vrCountdown" style="font-size:12px;font-weight:700;color:#f97316;">Deals refresh in <span id="vrSecs">8</span> seconds.</span>
+      <button onclick="vrRefreshNow(this)" style="padding:5px 14px;border:1.5px solid #E2E8F0;border-radius:8px;background:#fff;font-size:12px;font-weight:700;color:#1565C0;cursor:pointer;font-family:inherit;transition:all .15s;" onmouseenter="this.style.background='#EEF4FF'" onmouseleave="this.style.background='#fff'">Refresh Now</button>
+    </div>
+
     <div class="section" id="sec-pending">
       <div class="sec-hdr">
         <span style="font-size:18px">⏳</span>
         <span class="sec-title">Today's Pending Deals</span>
         <span class="cnt amber">6 active deals in progress</span>
-        <div class="view-toggle" style="margin-left:auto;">
-          <button class="vt-btn active" id="cardViewBtn" onclick="setView('card')">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="9" height="9" rx="2"/>
-              <rect x="13" y="2" width="9" height="9" rx="2"/>
-              <rect x="2" y="13" width="9" height="9" rx="2"/>
-              <rect x="13" y="13" width="9" height="9" rx="2"/>
-            </svg>
-            Cards
-          </button>
-          <button class="vt-btn" id="tableViewBtn" onclick="setView('table')">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2"/>
-              <line x1="3" y1="9" x2="21" y2="9"/>
-              <line x1="3" y1="15" x2="21" y2="15"/>
-              <line x1="9" y1="9" x2="9" y2="21"/>
-            </svg>
-            List
-          </button>
-        </div>
-      
-        <button onclick="toggleSection('sec-pending')" style="margin-left:8px;width:28px;height:28px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--muted);transition:background .15s,color .15s;" title="Collapse section" onmouseenter="this.style.background='#F1F5F9'" onmouseleave="this.style.background='transparent'"><svg id="chev-sec-pending" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform .25s;"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button onclick="toggleSection('sec-pending')" style="margin-left:auto;width:28px;height:28px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--muted);transition:background .15s,color .15s;" title="Collapse section" onmouseenter="this.style.background='#F1F5F9'" onmouseleave="this.style.background='transparent'"><svg id="chev-sec-pending" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform .25s;"><polyline points="6 9 12 15 18 9"/></svg></button>
       </div>
       <div class="sec-body" id="sec-pending-body">
 
@@ -5933,18 +6058,7 @@ new Chart(document.getElementById('tradeInDonutChart'), {
         <span style="font-size:18px">✅</span>
         <span class="sec-title">Today's Completed Transactions</span>
         <span class="cnt green">6</span>
-        <div class="view-toggle" style="margin-left:auto;">
-          <button class="vt-btn active" id="compCardBtn" onclick="setCompView('card')">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="2" width="9" height="9" rx="2"/><rect x="13" y="2" width="9" height="9" rx="2"/><rect x="2" y="13" width="9" height="9" rx="2"/><rect x="13" y="13" width="9" height="9" rx="2"/></svg>
-            Cards
-          </button>
-          <button class="vt-btn" id="compTableBtn" onclick="setCompView('table')">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
-            List
-          </button>
-        </div>
-      
-        <button onclick="toggleSection('sec-completed')" style="margin-left:8px;width:28px;height:28px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--muted);transition:background .15s,color .15s;" title="Collapse section" onmouseenter="this.style.background='#F1F5F9'" onmouseleave="this.style.background='transparent'"><svg id="chev-sec-completed" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform .25s;"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button onclick="toggleSection('sec-completed')" style="margin-left:auto;width:28px;height:28px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--muted);transition:background .15s,color .15s;" title="Collapse section" onmouseenter="this.style.background='#F1F5F9'" onmouseleave="this.style.background='transparent'"><svg id="chev-sec-completed" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform .25s;"><polyline points="6 9 12 15 18 9"/></svg></button>
       </div>
       <div class="sec-body" id="sec-completed-body">
 
@@ -6385,29 +6499,39 @@ new Chart(document.getElementById('tradeInDonutChart'), {
           <div style="border-top:1px solid #f1f5f9;padding:8px 12px;display:flex;align-items:center;gap:6px;background:#fafafa;flex-wrap:wrap;">
             <button class="cf-btn outline" style="font-size:11px;padding:5px 11px;" onclick="toast('Downloading receipt…','success')">Receipt</button>
             <button class="cf-btn blue" style="font-size:11px;padding:5px 11px;margin-left:auto;" onclick="openDealDetail({vin:'KNDPM3AC2K7573891',vehicle:'2022 Kia Sportage LX',make:'Kia',model:'Sportage LX',year:'2022',buyer:'Sofia Ruiz (Co-Buyer)',email:'sofia@example.com',dealId:'R1049',date:'06/08/2026',sales:'Seyed KAMAL',dealer:'Maruti Suzuki',status:'Completed',statusBg:'#f5f3ff',statusColor:'#7c3aed',statusBorder:'#ddd6fe'})">View Deal</button>
+      
+      </div>
+      </div>
+      </div>
+      
       <div class="table-wrap" id="completed-table" style="display:none;">
-        <table>
+        <table style="min-width:720px;">
           <thead><tr>
-            <th>Vehicle &amp; Deal</th><th>Buyer</th><th>Salesperson</th>
-            <th>Type</th><th>Time</th><th>Actions</th>
+            <th>Vehicle &amp; Deal</th>
+            <th>Buyer</th>
+            <th>Salesperson</th>
+            <th>Type</th>
+            <th>Time</th>
+            <th style="text-align:right;">Actions</th>
           </tr></thead>
           <tbody>
+            <!-- Tesla Model Y -->
             <tr data-search="7saygdee4nf387285 jems bond tesla model y maruti suzuki seyed kamal">
               <td>
                 <div style="font-weight:700;font-size:13px;color:#0f172a;">2022 Tesla Model Y</div>
                 <div style="font-size:10px;color:#94a3b8;font-family:monospace;">7SAYGDEE4NF387285</div>
-                <span style="background:#f0fdf4;color:#059669;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:10px;">Deal #4721</span>
+                <span style="background:#f0fdf4;color:#059669;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:10px;">Deal #168737</span>
               </td>
               <td><span class="hl">Jems Bond</span></td>
               <td><span class="hl" style="display:block">Seyed KAMAL</span><span class="tsm" style="color:var(--dim)">Maruti Suzuki</span></td>
               <td><span style="background:#f0fdf4;color:#059669;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">📋 Deal</span></td>
               <td><span class="hl">04:09 AM</span><br><span class="tsm">03/27/2026</span></td>
-              <td></td>
-              <td style="white-space:nowrap;">
+              <td style="white-space:nowrap;text-align:right;">
                 <button class="cf-btn outline" style="font-size:10.5px;padding:4px 8px;" onclick="toast('Downloading receipt…','success')">⬇️ Receipt</button>
-                <button class="cf-btn blue" style="font-size:10.5px;padding:4px 9px;margin-left:4px;" onclick="toast('Viewing deal','info')">👁 View</button>
+                <button class="cf-btn blue" style="font-size:10.5px;padding:4px 9px;margin-left:4px;" onclick="openDealDetail({vin:'7SAYGDEE4NF387285',vehicle:'2022 Tesla Model Y',make:'Tesla',model:'Model Y',year:'2022',buyer:'Jems Bond',email:'jems@example.com',dealId:'168737',date:'03/27/2026',sales:'Seyed KAMAL',dealer:'Maruti Suzuki',status:'Completed',statusBg:'#f0fdf4',statusColor:'#059669',statusBorder:'#bbf7d0'})">👁 View</button>
               </td>
             </tr>
+            <!-- Nissan GT-R Return -->
             <tr data-search="jn1ar5eg1em110149 cobuyer dawda nissan gtr aman singh adity honda return">
               <td>
                 <div style="font-weight:700;font-size:13px;color:#0f172a;">2014 Nissan GT-R</div>
@@ -6418,17 +6542,77 @@ new Chart(document.getElementById('tradeInDonutChart'), {
               <td><span class="hl" style="display:block">Aman Singh</span><span class="tsm" style="color:var(--dim)">Adity Honda</span></td>
               <td><span style="background:#f5f3ff;color:#7c3aed;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">↩ Return</span></td>
               <td><span class="hl">06:00 AM</span><br><span class="tsm">04/18/2026</span></td>
-              <td></td>
-              <td style="white-space:nowrap;">
+              <td style="white-space:nowrap;text-align:right;">
                 <button class="cf-btn outline" style="font-size:10.5px;padding:4px 8px;" onclick="toast('Downloading receipt…','success')">⬇️ Receipt</button>
-                <button class="cf-btn blue" style="font-size:10.5px;padding:4px 9px;margin-left:4px;" onclick="toast('Viewing return deal','info')">👁 View</button>
+                <button class="cf-btn blue" style="font-size:10.5px;padding:4px 9px;margin-left:4px;" onclick="openDealDetail({vin:'JN1AR5EG1EM110149',vehicle:'2014 Nissan GT-R',make:'Nissan',model:'GT-R',year:'2014',buyer:'COBUYER DAWDA',email:'dawda@example.com',dealId:'R1044',date:'04/18/2026',sales:'Aman Singh',dealer:'Adity Honda',status:'Completed',statusBg:'#f5f3ff',statusColor:'#7c3aed',statusBorder:'#ddd6fe'})">👁 View</button>
+              </td>
+            </tr>
+            <!-- Toyota Camry SE -->
+            <tr data-search="4t1bf1fk5hu792327 omar hassan toyota camry peyton hicks gilroy">
+              <td>
+                <div style="font-weight:700;font-size:13px;color:#0f172a;">2020 Toyota Camry SE</div>
+                <div style="font-size:10px;color:#94a3b8;font-family:monospace;">4T1BF1FK5HU792327</div>
+                <span style="background:#f0fdf4;color:#059669;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:10px;">Deal #168741</span>
+              </td>
+              <td><span class="hl">Omar Hassan</span></td>
+              <td><span class="hl" style="display:block">Peyton Hicks</span><span class="tsm" style="color:var(--dim)">Gilroy Car Club LLC</span></td>
+              <td><span style="background:#f0fdf4;color:#059669;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">📋 Deal</span></td>
+              <td><span class="hl">07:30 AM</span><br><span class="tsm">06/08/2026</span></td>
+              <td style="white-space:nowrap;text-align:right;">
+                <button class="cf-btn outline" style="font-size:10.5px;padding:4px 8px;" onclick="toast('Downloading receipt…','success')">⬇️ Receipt</button>
+                <button class="cf-btn blue" style="font-size:10.5px;padding:4px 9px;margin-left:4px;" onclick="openDealDetail({vin:'4T1BF1FK5HU792327',vehicle:'2020 Toyota Camry SE',make:'Toyota',model:'Camry SE',year:'2020',buyer:'Omar Hassan',email:'omar@example.com',dealId:'168741',date:'06/08/2026',sales:'Peyton Hicks',dealer:'Gilroy Car Club LLC',status:'Completed',statusBg:'#f0fdf4',statusColor:'#059669',statusBorder:'#bbf7d0'})">👁 View</button>
+              </td>
+            </tr>
+            <!-- Honda CR-V Return -->
+            <tr data-search="5j6rw2h86ja012345 maria lopez honda crv franklin herrera dealer xt return">
+              <td>
+                <div style="font-weight:700;font-size:13px;color:#0f172a;">2021 Honda CR-V EX</div>
+                <div style="font-size:10px;color:#94a3b8;font-family:monospace;">5J6RW2H86JA012345</div>
+                <span style="background:#f5f3ff;color:#7c3aed;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:10px;">Return #R1048</span>
+              </td>
+              <td><span style="color:#94a3b8;">— N/A</span></td>
+              <td><span class="hl" style="display:block">Franklin Herrera</span><span class="tsm" style="color:var(--dim)">Dealer XT San Jose</span></td>
+              <td><span style="background:#f5f3ff;color:#7c3aed;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">↩ Return</span></td>
+              <td><span class="hl">08:15 AM</span><br><span class="tsm">06/08/2026</span></td>
+              <td style="white-space:nowrap;text-align:right;">
+                <button class="cf-btn outline" style="font-size:10.5px;padding:4px 8px;" onclick="toast('Downloading receipt…','success')">⬇️ Receipt</button>
+                <button class="cf-btn blue" style="font-size:10.5px;padding:4px 9px;margin-left:4px;" onclick="openDealDetail({vin:'5J6RW2H86JA012345',vehicle:'2021 Honda CR-V EX',make:'Honda',model:'CR-V EX',year:'2021',buyer:'— N/A',email:'dealer@example.com',dealId:'R1048',date:'06/08/2026',sales:'Franklin Herrera',dealer:'Dealer XT San Jose',status:'Completed',statusBg:'#f5f3ff',statusColor:'#7c3aed',statusBorder:'#ddd6fe'})">👁 View</button>
+              </td>
+            </tr>
+            <!-- Chevrolet Malibu -->
+            <tr data-search="1g1zd5st2jf123456 james wilson chevrolet malibu aman singh adity honda">
+              <td>
+                <div style="font-weight:700;font-size:13px;color:#0f172a;">2019 Chevrolet Malibu</div>
+                <div style="font-size:10px;color:#94a3b8;font-family:monospace;">1G1ZD5ST2JF123456</div>
+                <span style="background:#f0fdf4;color:#059669;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:10px;">Deal #168745</span>
+              </td>
+              <td><span class="hl">James Wilson</span></td>
+              <td><span class="hl" style="display:block">Aman Singh</span><span class="tsm" style="color:var(--dim)">Adity Honda</span></td>
+              <td><span style="background:#f0fdf4;color:#059669;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">📋 Deal</span></td>
+              <td><span class="hl">09:45 AM</span><br><span class="tsm">06/08/2026</span></td>
+              <td style="white-space:nowrap;text-align:right;">
+                <button class="cf-btn outline" style="font-size:10.5px;padding:4px 8px;" onclick="toast('Downloading receipt…','success')">⬇️ Receipt</button>
+                <button class="cf-btn blue" style="font-size:10.5px;padding:4px 9px;margin-left:4px;" onclick="openDealDetail({vin:'1G1ZD5ST2JF123456',vehicle:'2019 Chevrolet Malibu',make:'Chevrolet',model:'Malibu',year:'2019',buyer:'James Wilson',email:'james@example.com',dealId:'168745',date:'06/08/2026',sales:'Aman Singh',dealer:'Adity Honda',status:'Completed',statusBg:'#f0fdf4',statusColor:'#059669',statusBorder:'#bbf7d0'})">👁 View</button>
+              </td>
+            </tr>
+            <!-- Kia Sportage Return -->
+            <tr data-search="kndpm3ac2k7573891 sofia ruiz kia sportage seyed kamal maruti suzuki return">
+              <td>
+                <div style="font-weight:700;font-size:13px;color:#0f172a;">2022 Kia Sportage LX</div>
+                <div style="font-size:10px;color:#94a3b8;font-family:monospace;">KNDPM3AC2K7573891</div>
+                <span style="background:#f5f3ff;color:#7c3aed;font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:10px;">Return #R1049</span>
+              </td>
+              <td><span class="hl">Sofia Ruiz</span><br><span class="tsm">Co-Buyer</span></td>
+              <td><span class="hl" style="display:block">Seyed KAMAL</span><span class="tsm" style="color:var(--dim)">Maruti Suzuki</span></td>
+              <td><span style="background:#f5f3ff;color:#7c3aed;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">↩ Return</span></td>
+              <td><span class="hl">10:55 AM</span><br><span class="tsm">06/08/2026</span></td>
+              <td style="white-space:nowrap;text-align:right;">
+                <button class="cf-btn outline" style="font-size:10.5px;padding:4px 8px;" onclick="toast('Downloading receipt…','success')">⬇️ Receipt</button>
+                <button class="cf-btn blue" style="font-size:10.5px;padding:4px 9px;margin-left:4px;" onclick="openDealDetail({vin:'KNDPM3AC2K7573891',vehicle:'2022 Kia Sportage LX',make:'Kia',model:'Sportage LX',year:'2022',buyer:'Sofia Ruiz (Co-Buyer)',email:'sofia@example.com',dealId:'R1049',date:'06/08/2026',sales:'Seyed KAMAL',dealer:'Maruti Suzuki',status:'Completed',statusBg:'#f5f3ff',statusColor:'#7c3aed',statusBorder:'#ddd6fe'})">👁 View</button>
               </td>
             </tr>
           </tbody>
         </table>
-      </div>
-      </div>
-      </div>
       </div>
       </div><!-- /sec-completed-body -->
     </div><!-- /sec-completed -->
@@ -6440,18 +6624,7 @@ new Chart(document.getElementById('tradeInDonutChart'), {
         <span class="sec-title">Dealer's Deadline to Cancel Unfunded Deals</span>
         <span class="cnt red">3</span>
         <span class="sec-hint" style="font-size:11px;color:var(--muted);margin-left:4px;">Monitor financing deadlines &amp; send instant cancellation emails</span>
-        <div class="view-toggle" style="margin-left:auto;">
-          <button class="vt-btn active" id="deadlineCardBtn" onclick="setDeadlineView('card')">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="2" width="9" height="9" rx="2"/><rect x="13" y="2" width="9" height="9" rx="2"/><rect x="2" y="13" width="9" height="9" rx="2"/><rect x="13" y="13" width="9" height="9" rx="2"/></svg>
-            Cards
-          </button>
-          <button class="vt-btn" id="deadlineTableBtn" onclick="setDeadlineView('table')">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
-            List
-          </button>
-        </div>
-      
-        <button onclick="toggleSection('sec-deadline')" style="margin-left:8px;width:28px;height:28px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--muted);transition:background .15s,color .15s;" title="Collapse section" onmouseenter="this.style.background='#F1F5F9'" onmouseleave="this.style.background='transparent'"><svg id="chev-sec-deadline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform .25s;"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button onclick="toggleSection('sec-deadline')" style="margin-left:auto;width:28px;height:28px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:8px;color:var(--muted);transition:background .15s,color .15s;" title="Collapse section" onmouseenter="this.style.background='#F1F5F9'" onmouseleave="this.style.background='transparent'"><svg id="chev-sec-deadline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform .25s;"><polyline points="6 9 12 15 18 9"/></svg></button>
       </div>
       <div class="sec-body" id="sec-deadline-body">
 
@@ -8183,33 +8356,32 @@ document.addEventListener('DOMContentLoaded', function() {
   if (els.dc) { els.dc.classList.add('show'); els.dc.style.display = ''; }
   if (els.dt) { els.dt.style.display = 'none'; }
 });
-function setView(v) {
-  currentView = v;
-  const isCard = v === 'card';
-  document.getElementById('cardViewBtn').classList.toggle('active', isCard);
-  document.getElementById('tableViewBtn').classList.toggle('active', !isCard);
-  // Pending only
-  document.getElementById('pending-cards').classList.toggle('show', isCard);
-  document.getElementById('pending-table').classList.toggle('show', !isCard);
-  toast(`Pending Deals switched to ${isCard ? 'Card' : 'List'} view`, 'info');
-}
-
-function setCompView(v) {
-  const isCard = v === 'card';
-  document.getElementById('compCardBtn').classList.toggle('active', isCard);
-  document.getElementById('compTableBtn').classList.toggle('active', !isCard);
-  document.getElementById('completed-cards').style.display = isCard ? '' : 'none';
-  document.getElementById('completed-cards').classList.toggle('show', isCard);
-  document.getElementById('completed-table').style.display = isCard ? 'none' : 'block';
-}
-
-function setDeadlineView(v) {
-  const isCard = v === 'card';
-  document.getElementById('deadlineCardBtn').classList.toggle('active', isCard);
-  document.getElementById('deadlineTableBtn').classList.toggle('active', !isCard);
-  document.getElementById('deadline-cards').style.display = isCard ? '' : 'none';
-  document.getElementById('deadline-cards').classList.toggle('show', isCard);
-  document.getElementById('deadline-table').style.display = isCard ? 'none' : 'block';
+function setView(v) {}
+function setCompView(v) {}
+function setDeadlineView(v) {}
+function setPendView(v) {}
+function togglePendView() {}
+function toggleCompView() {}
+function toggleDeadlineView() {}
+function _toggleView() {}
+function setPendView(v) {
+  var isCard = v === 'card';
+  var cardBtn = document.getElementById('pendCardBtn');
+  var listBtn = document.getElementById('pendListBtn');
+  if (cardBtn) {
+    cardBtn.style.background = isCard ? 'linear-gradient(135deg,#1565C0,#1976D2)' : 'transparent';
+    cardBtn.style.color = isCard ? '#fff' : '#64748B';
+    cardBtn.style.boxShadow = isCard ? '0 2px 8px rgba(21,101,192,.25)' : 'none';
+  }
+  if (listBtn) {
+    listBtn.style.background = !isCard ? 'linear-gradient(135deg,#1565C0,#1976D2)' : 'transparent';
+    listBtn.style.color = !isCard ? '#fff' : '#64748B';
+    listBtn.style.boxShadow = !isCard ? '0 2px 8px rgba(21,101,192,.25)' : 'none';
+  }
+  var cards = document.getElementById('pending-cards');
+  var table = document.getElementById('pending-table');
+  if (cards) { cards.classList.toggle('show', isCard); cards.style.display = isCard ? '' : 'none'; }
+  if (table) { table.style.display = isCard ? 'none' : 'block'; table.classList.toggle('show', !isCard); }
 }
 
 // ── Countdown ──
@@ -11294,6 +11466,15 @@ document.addEventListener('DOMContentLoaded', function() {
         <div><div style="font-size:14px;font-weight:800;color:#0F172A;">Vehicle Details</div><div style="font-size:11px;color:#94A3B8;margin-top:1px;">Vehicle information</div></div>
       </div>
       <div class="dd-card-body">
+        <!-- Vehicle image -->
+        <div style="margin-bottom:18px;border-radius:14px;overflow:hidden;height:210px;position:relative;background:#1a2a5a;">
+          <img id="pd-vehicle-img" src="https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?w=800&q=80" alt="Vehicle" style="width:100%;height:100%;object-fit:cover;display:block;opacity:.92;transition:transform .5s ease;">
+          <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,22,40,.88) 0%,rgba(10,22,40,.1) 55%,transparent 100%);"></div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 18px 12px;">
+            <div id="pd-vehicle-label" style="color:#fff;font-size:15px;font-weight:800;letter-spacing:.2px;text-shadow:0 1px 6px rgba(0,0,0,.5);">2016 Honda Accord</div>
+            <div id="pd-vin-label-img" style="color:rgba(255,255,255,.6);font-size:10.5px;font-family:monospace;margin-top:3px;">1HGCG1659WA029633</div>
+          </div>
+        </div>
         <div class="dd-fields">
           <div class="dd-field"><div class="dd-field-label">VIN</div><div class="dd-field-value" id="pd-vin" style="font-family:monospace;font-size:12px;">1HGCG1659WA029633</div></div>
           <div class="dd-field"><div class="dd-field-label">Make</div><div class="dd-field-value" id="pd-make">Honda</div></div>
@@ -11394,316 +11575,476 @@ document.addEventListener('DOMContentLoaded', function() {
      DEAL DETAIL PAGE
 ══════════════════════════════════════════ -->
 <div id="deal-detail-page" style="display:none;">
+<style>
+/* ── Deal Detail Redesign ── */
+#deal-detail-page {
+  background:#F4F6FB;
+  font-family:'DM Sans',system-ui,sans-serif;
+  position:fixed;inset:0;overflow-y:auto;z-index:100;
+}
+/* Hero */
+.ddp-hero {
+  background:linear-gradient(135deg,#06122B 0%,#0B2557 40%,#1456BC 100%);
+  padding:20px 28px 80px;
+  position:relative;overflow:hidden;
+}
+.ddp-hero::before {
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 80% at 90% -10%,rgba(79,140,255,.18),transparent 65%),
+             radial-gradient(ellipse 50% 60% at 10% 110%,rgba(21,86,188,.2),transparent 60%);
+  pointer-events:none;
+}
+/* Floating body */
+.ddp-body {
+  max-width:880px;margin:0 auto;
+  padding:0 24px 48px;
+  margin-top:-56px;position:relative;z-index:2;
+}
+/* Quick-stats card */
+.ddp-stats {
+  background:#fff;border-radius:20px;
+  box-shadow:0 8px 32px rgba(6,18,43,.12);
+  border:1px solid rgba(255,255,255,.9);
+  overflow:hidden;display:grid;
+  grid-template-columns:repeat(3,1fr);
+  margin-bottom:18px;
+}
+.ddp-stat {
+  padding:18px 22px;border-right:1px solid #F1F5F9;
+  position:relative;transition:background .15s;
+}
+.ddp-stat:last-child{border-right:none;}
+.ddp-stat:hover{background:#F8FAFF;}
+.ddp-stat::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:3px;border-radius:0;opacity:0;transition:opacity .2s;
+}
+.ddp-stat:hover::after{opacity:1;}
+.ddp-stat:nth-child(1)::after{background:#1565C0;}
+.ddp-stat:nth-child(2)::after{background:#059669;}
+.ddp-stat:nth-child(3)::after{background:#D97706;}
+.ddp-stat-ico {
+  width:32px;height:32px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:10px;
+}
+.ddp-stat-val {
+  font-size:14px;font-weight:800;color:#0F172A;
+  line-height:1.2;margin-bottom:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.ddp-stat-lbl {
+  font-size:10px;text-transform:uppercase;
+  letter-spacing:1.2px;color:#94A3B8;font-weight:700;
+}
+/* Tabs */
+.ddp-tabs {
+  display:flex;gap:0;background:#fff;
+  border-radius:14px;border:1px solid #E8EEF8;
+  box-shadow:0 2px 8px rgba(6,18,43,.06);
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+  margin-bottom:18px;padding:4px;
+  scrollbar-width:none;
+}
+.ddp-tabs::-webkit-scrollbar{display:none;}
+.ddp-tab {
+  flex-shrink:0;padding:8px 16px;border:none;
+  border-radius:10px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:inherit;color:#64748B;
+  background:transparent;transition:all .15s;white-space:nowrap;
+}
+.ddp-tab.active {
+  background:linear-gradient(135deg,#1456BC,#1976D2);
+  color:#fff;box-shadow:0 2px 10px rgba(20,86,188,.28);
+}
+.ddp-tab:hover:not(.active){background:#F0F4FF;color:#1565C0;}
+/* Section card */
+.ddp-card {
+  background:#fff;border-radius:18px;
+  border:1px solid #E8EEF8;
+  box-shadow:0 2px 12px rgba(6,18,43,.06);
+  margin-bottom:14px;overflow:hidden;
+  transition:box-shadow .2s,transform .2s;
+}
+.ddp-card:hover{
+  box-shadow:0 6px 28px rgba(6,18,43,.1);
+  transform:translateY(-1px);
+}
+.ddp-card-hdr {
+  display:flex;align-items:center;gap:13px;
+  padding:15px 20px;
+  background:linear-gradient(135deg,#FAFBFF,#F5F8FF);
+  border-bottom:1px solid #F0F4FF;
+}
+.ddp-card-ico {
+  width:38px;height:38px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.ddp-card-title{font-size:14px;font-weight:800;color:#0F172A;letter-spacing:-.2px;}
+.ddp-card-sub  {font-size:11px;color:#94A3B8;margin-top:1px;}
+.ddp-card-body {padding:18px 20px;}
+/* Field grid */
+.ddp-fields {
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+.ddp-field {
+  border-radius:11px;padding:13px 15px;
+  background:#F8FAFF;border:1px solid #EEF2FF;
+  position:relative;overflow:hidden;
+  transition:all .16s;
+}
+.ddp-field::before {
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;background:#CBD5E1;border-radius:3px 0 0 3px;
+  transition:background .16s;
+}
+.ddp-field:hover{background:#EEF4FF;border-color:#BFDBFE;transform:translateY(-1px);}
+.ddp-field:hover::before{background:#1565C0;}
+.ddp-field-lbl {
+  font-size:9.5px;text-transform:uppercase;letter-spacing:1px;
+  font-weight:800;color:#94A3B8;margin-bottom:5px;
+}
+.ddp-field-val {
+  font-size:14px;font-weight:700;color:#0F172A;line-height:1.3;
+}
+/* Timeline */
+.ddp-tl-item{display:flex;gap:12px;position:relative;margin-bottom:0;}
+.ddp-tl-item:not(:last-child)::before{
+  content:'';position:absolute;left:15px;top:32px;bottom:0;
+  width:2px;background:linear-gradient(180deg,#93C5FD,rgba(147,197,253,.1));
+}
+.ddp-tl-dot {
+  width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  background:#EEF4FF;border:2px solid #93C5FD;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;
+  box-shadow:0 0 0 4px rgba(147,197,253,.15);
+}
+.ddp-tl-body {
+  flex:1;background:#F8FAFF;border:1px solid #EEF2FF;
+  border-radius:11px;padding:11px 14px;margin-bottom:10px;
+}
+.ddp-tl-time{font-size:10px;font-weight:800;color:#3B82F6;letter-spacing:.5px;margin-bottom:4px;}
+.ddp-tl-text{font-size:13px;color:#1E293B;font-weight:500;line-height:1.55;}
+/* Vehicle image */
+.ddp-vimg-wrap {
+  border-radius:13px;overflow:hidden;height:210px;
+  position:relative;background:#1a2a5a;
+  margin-bottom:16px;box-shadow:0 6px 24px rgba(0,0,0,.18);
+}
+.ddp-vimg-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.ddp-vimg-wrap:hover img{transform:scale(1.04);}
+.ddp-vimg-overlay {
+  position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(6,18,43,.88) 0%,rgba(6,18,43,.05) 55%,transparent 100%);
+}
+.ddp-vimg-label{
+  position:absolute;bottom:0;left:0;right:0;padding:14px 16px 12px;
+}
+/* Status chips */
+.ddp-chip {
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 12px;border-radius:20px;
+  font-size:11px;font-weight:700;
+}
+/* Empty state */
+.ddp-empty {
+  text-align:center;padding:32px 20px;
+  background:#F8FAFF;border:1.5px dashed #BFDBFE;
+  border-radius:14px;
+}
+/* Back btn ghost */
+.ddp-back {
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.12);color:#fff;
+  border:1px solid rgba(255,255,255,.22);border-radius:10px;
+  padding:8px 16px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:inherit;
+  backdrop-filter:blur(8px);transition:background .18s;
+}
+.ddp-back:hover{background:rgba(255,255,255,.22);}
+/* Action btn */
+.ddp-action {
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.12);color:#fff;
+  border:1px solid rgba(255,255,255,.22);border-radius:10px;
+  padding:8px 14px;font-size:12.5px;font-weight:700;
+  cursor:pointer;font-family:inherit;
+  backdrop-filter:blur(8px);transition:background .18s;position:relative;
+}
+.ddp-action:hover{background:rgba(255,255,255,.22);}
+.ddp-action-menu {
+  display:none;position:absolute;top:calc(100%+7px);right:0;
+  background:#fff;border:1.5px solid #E2E8F0;
+  border-radius:13px;box-shadow:0 14px 40px rgba(0,0,0,.14);
+  z-index:600;min-width:180px;padding:5px;
+}
+.ddp-action-item {
+  display:flex;align-items:center;gap:9px;
+  padding:9px 13px;border-radius:9px;
+  font-size:13px;font-weight:600;color:#1e293b;
+  cursor:pointer;transition:background .1s;
+}
+.ddp-action-item:hover{background:#EEF4FF;color:#1565C0;}
+/* Scrollbar */
+#deal-detail-page::-webkit-scrollbar{width:4px;}
+#deal-detail-page::-webkit-scrollbar-thumb{background:rgba(21,101,192,.2);border-radius:10px;}
+/* Entrance */
+.ddp-card{animation:ddpIn .38s cubic-bezier(.22,1,.36,1) both;}
+.ddp-card:nth-child(1){animation-delay:.04s}
+.ddp-card:nth-child(2){animation-delay:.09s}
+.ddp-card:nth-child(3){animation-delay:.14s}
+.ddp-card:nth-child(4){animation-delay:.19s}
+.ddp-card:nth-child(5){animation-delay:.24s}
+.ddp-card:nth-child(6){animation-delay:.29s}
+@keyframes ddpIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+/* Mobile */
+@media(max-width:768px){
+  .ddp-hero{padding:16px 14px 68px;}
+  .ddp-body{padding:0 12px 32px;margin-top:-44px;}
+  .ddp-stats{grid-template-columns:1fr;}
+  .ddp-stat{border-right:none;border-bottom:1px solid #F1F5F9;padding:14px 16px;}
+  .ddp-stat:last-child{border-bottom:none;}
+  .ddp-fields{grid-template-columns:1fr;}
+  .ddp-card-body{padding:14px 16px;}
+  .ddp-card-hdr{padding:13px 16px;}
+  .ddp-vimg-wrap{height:180px;}
+}
+</style>
 
-
-<div class="dd-page">
-
-  <!-- ── HERO HEADER ── -->
-  <div class="dd-hero">
-    <!-- Top nav row -->
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:1;">
-      <button onclick="showPage('main-content')" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:10px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;backdrop-filter:blur(4px);">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-        Back to Deals
-      </button>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <div style="position:relative;">
-          <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:10px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;backdrop-filter:blur(4px);">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div style="display:none;position:absolute;top:calc(100%+6px);right:0;background:#fff;border:1.5px solid #E2E8F0;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.16);z-index:500;min-width:170px;padding:5px;">
-            <div onclick="toast('Downloading deal PDF…','success')" class="dd-drop-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              Deal PDF
-            </div>
-            <div onclick="toast('Downloading disclosure…','success')" class="dd-drop-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-              Disclosure
-            </div>
-            <div onclick="toast('Downloading CARFAX…','success')" class="dd-drop-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-              CARFAX Report
-            </div>
-          </div>
+<div class="ddp-hero">
+  <!-- Nav row -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:relative;z-index:1;">
+    <button class="ddp-back" onclick="showPage('main-content')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Deals
+    </button>
+    <div style="display:flex;gap:8px;">
+      <!-- Download -->
+      <div style="position:relative;">
+        <button class="ddp-action" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="ddp-action-menu">
+          <div class="ddp-action-item" onclick="toast('Downloading PDF…','success')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Deal PDF</div>
+          <div class="ddp-action-item" onclick="toast('Downloading disclosure…','success')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Disclosure</div>
+          <div class="ddp-action-item" onclick="toast('Downloading CARFAX…','success')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>CARFAX Report</div>
         </div>
-        <div style="position:relative;">
-          <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:10px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;backdrop-filter:blur(4px);">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            Email
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div style="display:none;position:absolute;top:calc(100%+6px);right:0;background:#fff;border:1.5px solid #E2E8F0;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.16);z-index:500;min-width:170px;padding:5px;">
-            <div onclick="toast('Email sent to buyer','success')" class="dd-drop-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              Email Buyer
-            </div>
-            <div onclick="toast('Email sent to dealership','success')" class="dd-drop-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
-              Email Dealership
-            </div>
-          </div>
+      </div>
+      <!-- Email -->
+      <div style="position:relative;">
+        <button class="ddp-action" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="ddp-action-menu">
+          <div class="ddp-action-item" onclick="toast('Email sent to buyer','success')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Email Buyer</div>
+          <div class="ddp-action-item" onclick="toast('Email sent to dealership','success')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>Email Dealership</div>
         </div>
       </div>
     </div>
+  </div>
+  <!-- Hero content -->
+  <div style="margin-top:22px;position:relative;z-index:1;">
+    <div style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;">
+      <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.13);border:1.5px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">🚗</div>
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px;">
+          <h1 style="font-size:22px;font-weight:800;color:#fff;margin:0;letter-spacing:-.3px;" id="dd-hero-vehicle">2022 Tesla Model Y</h1>
+          <span id="dd-status-badge" style="background:rgba(16,185,129,.2);color:#6EE7B7;border:1px solid rgba(110,231,183,.3);font-size:10.5px;font-weight:700;padding:3px 11px;border-radius:20px;">Completed</span>
+          <span id="dd-type-badge" style="background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.25);font-size:10.5px;font-weight:700;padding:3px 11px;border-radius:20px;">📋 Deal</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <span style="display:inline-flex;align-items:center;gap:5px;color:rgba(255,255,255,.65);font-size:12px;font-family:monospace;background:rgba(255,255,255,.08);padding:3px 9px;border-radius:6px;" id="dd-hero-vin">7SAYGDEE4NF387285</span>
+          <span style="color:rgba(255,255,255,.3);">•</span>
+          <span style="color:rgba(255,255,255,.7);font-size:12.5px;font-weight:600;" id="dd-hero-deal">Deal #168737</span>
+          <span style="color:rgba(255,255,255,.3);">•</span>
+          <span style="color:rgba(255,255,255,.7);font-size:12.5px;" id="dd-hero-date">03/27/2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- Hero content -->
-    <div style="margin-top:24px;position:relative;z-index:1;">
-      <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
-        <div style="width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">🚗</div>
-        <div style="flex:1;min-width:0;">
-          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
-            <h1 style="font-size:24px;font-weight:800;color:#fff;margin:0;" id="dd-hero-vehicle">2022 Tesla Model Y</h1>
-            <span id="dd-status-badge" style="background:rgba(16,185,129,.2);color:#6EE7B7;border:1px solid rgba(110,231,183,.3);font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;backdrop-filter:blur(4px);">Completed</span>
-            <span id="dd-type-badge" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;backdrop-filter:blur(4px);">📋 Deal</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-            <span style="color:rgba(255,255,255,.7);font-size:13px;" id="dd-hero-vin">VIN: 7SAYGDEE4NF387285</span>
-            <span style="color:rgba(255,255,255,.4);">•</span>
-            <span style="color:rgba(255,255,255,.7);font-size:13px;" id="dd-hero-deal">Deal #168737</span>
-            <span style="color:rgba(255,255,255,.4);">•</span>
-            <span style="color:rgba(255,255,255,.7);font-size:13px;" id="dd-hero-date">03/27/2026</span>
-          </div>
+<!-- Floating body -->
+<div class="ddp-body">
+
+  <!-- Quick stats -->
+  <div class="ddp-stats">
+    <div class="ddp-stat">
+      <div class="ddp-stat-ico" style="background:#EEF4FF;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="ddp-stat-val" id="dd-stat-dealer">Jems Bond</div>
+      <div class="ddp-stat-lbl">Customer</div>
+    </div>
+    <div class="ddp-stat">
+      <div class="ddp-stat-ico" style="background:#F0FDF4;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <div class="ddp-stat-val" style="color:#059669;" id="dd-stat-staff">Seyed KAMAL</div>
+      <div class="ddp-stat-lbl">Salesperson</div>
+    </div>
+    <div class="ddp-stat">
+      <div class="ddp-stat-ico" style="background:#FFFBEB;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class="ddp-stat-val" style="color:#D97706;" id="dd-stat-time">04:09 AM PST</div>
+      <div class="ddp-stat-lbl">Transaction Time</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="ddp-tabs" id="dd-tabs-bar">
+    <button class="ddp-tab active" onclick="ddTab(this,'all')">All</button>
+    <button class="ddp-tab" onclick="ddTab(this,'buyer')">👤 Buyer</button>
+    <button class="ddp-tab" onclick="ddTab(this,'vehicle')">🚗 Vehicle</button>
+    <button class="ddp-tab" onclick="ddTab(this,'disclosure')">📄 Disclosure</button>
+    <button class="ddp-tab" onclick="ddTab(this,'transaction')">💳 Transaction</button>
+    <button class="ddp-tab" onclick="ddTab(this,'return')">↩ Return</button>
+    <button class="ddp-tab" onclick="ddTab(this,'activity')">🛡 Activity</button>
+  </div>
+
+  <!-- BUYER DETAILS -->
+  <div class="ddp-card dd-section" id="dds-buyer">
+    <div class="ddp-card-hdr">
+      <div class="ddp-card-ico" style="background:#EEF4FF;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div><div class="ddp-card-title">Buyer Details</div><div class="ddp-card-sub">Customer information</div></div>
+      <div style="margin-left:auto;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#059669" opacity=".15"/><circle cx="12" cy="12" r="10" stroke="#059669" stroke-width="1.5" fill="none"/><polyline points="9 12 11 14 15 10" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+    <div class="ddp-card-body">
+      <div class="ddp-fields">
+        <div class="ddp-field"><div class="ddp-field-lbl">Buyer Name</div><div class="ddp-field-val" id="dd-buyer-name">Jems Bond</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Email</div><div class="ddp-field-val" id="dd-buyer-email" style="color:#1565C0;">jems@example.com</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Mobile</div><div class="ddp-field-val">NA</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Language</div><div class="ddp-field-val">English</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Address</div><div class="ddp-field-val">NA</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Gender</div><div class="ddp-field-val">NA</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VEHICLE DETAILS -->
+  <div class="ddp-card dd-section" id="dds-vehicle">
+    <div class="ddp-card-hdr">
+      <div class="ddp-card-ico" style="background:#FFF7ED;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+      <div><div class="ddp-card-title">Vehicle Details</div><div class="ddp-card-sub">Vehicle & identification</div></div>
+    </div>
+    <div class="ddp-card-body">
+      <div class="ddp-vimg-wrap">
+        <img id="dd-vehicle-img" src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&q=80" alt="Vehicle" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="ddp-vimg-overlay"></div>
+        <div class="ddp-vimg-label">
+          <div id="dd-vehicle-label" style="color:#fff;font-size:16px;font-weight:800;letter-spacing:-.2px;text-shadow:0 1px 6px rgba(0,0,0,.5);">2022 Tesla Model Y</div>
+          <div id="dd-vin-label-img" style="color:rgba(255,255,255,.6);font-size:10.5px;font-family:monospace;margin-top:3px;letter-spacing:.5px;">7SAYGDEE4NF387285</div>
+        </div>
+      </div>
+      <div class="ddp-fields">
+        <div class="ddp-field"><div class="ddp-field-lbl">VIN</div><div class="ddp-field-val" id="dd-vin" style="font-family:monospace;font-size:11.5px;letter-spacing:.3px;">7SAYGDEE4NF387285</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Make</div><div class="ddp-field-val" id="dd-make">Tesla</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Model</div><div class="ddp-field-val" id="dd-model">Model Y</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Year</div><div class="ddp-field-val" id="dd-year">2022</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Car Type</div><div class="ddp-field-val">Used</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Odometer</div><div class="ddp-field-val">NA</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCLOSURE -->
+  <div class="ddp-card dd-section" id="dds-disclosure">
+    <div class="ddp-card-hdr">
+      <div class="ddp-card-ico" style="background:#F0FDF4;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div><div class="ddp-card-title">Disclosures & Photos</div><div class="ddp-card-sub">Documents & verification</div></div>
+    </div>
+    <div class="ddp-card-body">
+      <div style="margin-bottom:18px;">
+        <div style="font-size:11px;font-weight:800;color:#475569;margin-bottom:10px;text-transform:uppercase;letter-spacing:.8px;">Buyer Disclosures & Photos</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+          <div onclick="toast('Opening document…','info')" style="width:90px;height:68px;border-radius:11px;background:linear-gradient(145deg,#EEF4FF,#E0EAFF);border:1.5px solid #BFDBFE;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;gap:5px;" onmouseenter="this.style.transform='scale(1.07) translateY(-2px)';this.style.boxShadow='0 8px 20px rgba(21,101,192,.15)'" onmouseleave="this.style.transform='';this.style.boxShadow=''"><div style="font-size:22px;">📄</div><div style="font-size:9.5px;font-weight:700;color:#1565C0;">Deal Doc</div></div>
+          <div onclick="toast('Opening photo…','info')" style="width:90px;height:68px;border-radius:11px;background:linear-gradient(145deg,#EEF4FF,#E0EAFF);border:1.5px solid #BFDBFE;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;gap:5px;" onmouseenter="this.style.transform='scale(1.07) translateY(-2px)';this.style.boxShadow='0 8px 20px rgba(21,101,192,.15)'" onmouseleave="this.style.transform='';this.style.boxShadow=''"><div style="font-size:22px;">🖼️</div><div style="font-size:9.5px;font-weight:700;color:#1565C0;">Photo 1</div></div>
+          <div onclick="toast('Opening photo…','info')" style="width:90px;height:68px;border-radius:11px;background:linear-gradient(145deg,#EEF4FF,#E0EAFF);border:1.5px solid #BFDBFE;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;gap:5px;" onmouseenter="this.style.transform='scale(1.07) translateY(-2px)';this.style.boxShadow='0 8px 20px rgba(21,101,192,.15)'" onmouseleave="this.style.transform='';this.style.boxShadow=''"><div style="font-size:22px;">🖼️</div><div style="font-size:9.5px;font-weight:700;color:#1565C0;">Photo 2</div></div>
+        </div>
+        <button onclick="toast('Screenshots email sent','success')" style="display:inline-flex;align-items:center;gap:7px;background:#EEF4FF;color:#1565C0;border:1.5px solid #BFDBFE;border-radius:9px;padding:8px 16px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;" onmouseenter="this.style.background='#1565C0';this.style.color='#fff'" onmouseleave="this.style.background='#EEF4FF';this.style.color='#1565C0'">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Send Screenshots Email
+        </button>
+      </div>
+      <div style="border-top:1px solid #F0F4FF;padding-top:16px;">
+        <div style="font-size:11px;font-weight:800;color:#475569;margin-bottom:10px;text-transform:uppercase;letter-spacing:.8px;">Third Party History Report</div>
+        <div style="display:flex;gap:10px;">
+          <div onclick="toast('Opening CARFAX…','info')" style="width:90px;height:68px;border-radius:11px;background:linear-gradient(145deg,#FFF7ED,#FEF3C7);border:1.5px solid #FDE68A;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;gap:5px;" onmouseenter="this.style.transform='scale(1.07) translateY(-2px)'" onmouseleave="this.style.transform=''"><div style="font-size:22px;">📋</div><div style="font-size:9.5px;font-weight:700;color:#D97706;">CARFAX</div></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Floating content that overlaps hero -->
-  <div style="padding:0 24px 32px;margin-top:-52px;position:relative;z-index:2;">
+  <!-- TRANSACTION -->
+  <div class="ddp-card dd-section" id="dds-transaction">
+    <div class="ddp-card-hdr">
+      <div class="ddp-card-ico" style="background:#FFFBEB;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <div><div class="ddp-card-title">Transaction Detail</div><div class="ddp-card-sub">Deal & payment information</div></div>
+      <div style="margin-left:auto;">
+        <span class="ddp-chip" style="background:#F0FDF4;color:#059669;border:1px solid #BBF7D0;">✓ Complete</span>
+      </div>
+    </div>
+    <div class="ddp-card-body">
+      <div class="ddp-fields">
+        <div class="ddp-field"><div class="ddp-field-lbl">Deal ID</div><div class="ddp-field-val" id="dd-deal-id" style="color:#1565C0;font-size:16px;font-weight:800;">#168737</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Deal Date</div><div class="ddp-field-val" id="dd-deal-date">03/27/2026</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Transaction Time</div><div class="ddp-field-val" id="dd-txn-time">04:09 AM PST</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Last Activity</div><div class="ddp-field-val">Signature Complete</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Salesperson</div><div class="ddp-field-val" id="dd-staff" style="color:#059669;">Seyed KAMAL</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Dealership</div><div class="ddp-field-val" id="dd-dealership">Maruti Suzuki</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Data Policy</div><div class="ddp-field-val" style="color:#059669;">✓ Accepted</div></div>
+        <div class="ddp-field"><div class="ddp-field-lbl">Buyer's Guide</div><div class="ddp-field-val">NA</div></div>
+      </div>
+    </div>
+  </div>
 
-    <!-- Stats row -->
-    <div class="dd-card" style="margin-bottom:16px;">
-      <div class="dd-stats">
-        <div class="dd-stat">
-          <div class="dd-stat-val" style="color:#1565C0;" id="dd-stat-dealer">Jems Bond</div>
-          <div class="dd-stat-label">Customer</div>
+  <!-- RETURN DETAILS -->
+  <div class="ddp-card dd-section" id="dds-return">
+    <div class="ddp-card-hdr">
+      <div class="ddp-card-ico" style="background:#F5F3FF;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.54"/></svg></div>
+      <div><div class="ddp-card-title">Return Detail</div><div class="ddp-card-sub">Return transaction info</div></div>
+    </div>
+    <div class="ddp-card-body">
+      <div class="ddp-empty">
+        <div style="font-size:36px;margin-bottom:10px;">📭</div>
+        <div style="font-size:14px;font-weight:700;color:#475569;margin-bottom:4px;">No Return Details</div>
+        <div style="font-size:12.5px;color:#94A3B8;">This deal has no return transaction associated.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY LOG -->
+  <div class="ddp-card dd-section" id="dds-activity">
+    <div class="ddp-card-hdr">
+      <div class="ddp-card-ico" style="background:#EFF6FF;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div><div class="ddp-card-title">Activity Log</div><div class="ddp-card-sub">Transaction history</div></div>
+      <span style="margin-left:auto;background:#EEF4FF;color:#1565C0;font-size:10.5px;font-weight:700;padding:3px 11px;border-radius:20px;border:1px solid #BFDBFE;">3 events</span>
+    </div>
+    <div class="ddp-card-body">
+      <div style="display:flex;flex-direction:column;">
+        <div class="ddp-tl-item">
+          <div class="ddp-tl-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2.5" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div>
+          <div class="ddp-tl-body"><div class="ddp-tl-time">06/06/2026 · 03:15 AM PST</div><div class="ddp-tl-text">Finance deadline alert displayed</div></div>
         </div>
-        <div class="dd-stat">
-          <div class="dd-stat-val" style="color:#059669;" id="dd-stat-staff">Seyed KAMAL</div>
-          <div class="dd-stat-label">Salesperson</div>
+        <div class="ddp-tl-item">
+          <div class="ddp-tl-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div class="ddp-tl-body"><div class="ddp-tl-time">06/05/2026 · 03:15 AM PST</div><div class="ddp-tl-text">Disclosure Packet sent to Buyer on <span id="dd-buyer-email2" style="color:#1565C0;font-weight:600;">jems@example.com</span></div></div>
         </div>
-        <div class="dd-stat">
-          <div class="dd-stat-val" style="color:#d97706;" id="dd-stat-time">04:09 AM PST</div>
-          <div class="dd-stat-label">Transaction Time</div>
+        <div class="ddp-tl-item">
+          <div class="ddp-tl-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="ddp-tl-body"><div class="ddp-tl-time">06/05/2026 · 03:15 AM PST</div><div class="ddp-tl-text">CARFAX report sent to <span id="dd-buyer-email3" style="color:#1565C0;font-weight:600;">jems@example.com</span></div></div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Section tabs -->
-    <div class="dd-tabs" style="margin-bottom:16px;" id="dd-tabs-bar">
-      <button class="dd-tab-btn active" onclick="ddTab(this,'all')">All</button>
-      <button class="dd-tab-btn" onclick="ddTab(this,'buyer')">Buyer Details</button>
-      <button class="dd-tab-btn" onclick="ddTab(this,'vehicle')">Vehicle</button>
-      <button class="dd-tab-btn" onclick="ddTab(this,'disclosure')">Disclosure</button>
-      <button class="dd-tab-btn" onclick="ddTab(this,'transaction')">Transaction</button>
-      <button class="dd-tab-btn" onclick="ddTab(this,'return')">Return Details</button>
-      <button class="dd-tab-btn" onclick="ddTab(this,'activity')">Activity Log</button>
-    </div>
-
-    <!-- ── BUYER DETAILS ── -->
-    <div class="dd-section dd-card" id="dds-buyer">
-      <div class="dd-card-header">
-        <div class="dd-card-icon" style="background:#EEF4FF;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <div>
-          <div style="font-size:14px;font-weight:800;color:#0F172A;">Buyer Details</div>
-          <div style="font-size:11px;color:#94A3B8;margin-top:1px;">Customer information</div>
-        </div>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="margin-left:auto;"><circle cx="12" cy="12" r="10" fill="#059669"/><polyline points="9 12 11 14 15 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div class="dd-card-body">
-        <div class="dd-fields">
-          <div class="dd-field"><div class="dd-field-label">Buyer Name</div><div class="dd-field-value" id="dd-buyer-name">Jems Bond</div></div>
-          <div class="dd-field"><div class="dd-field-label">Email</div><div class="dd-field-value" id="dd-buyer-email" style="color:#1565C0;">jems@example.com</div></div>
-          <div class="dd-field"><div class="dd-field-label">Mobile</div><div class="dd-field-value">NA</div></div>
-          <div class="dd-field"><div class="dd-field-label">Language</div><div class="dd-field-value">English</div></div>
-          <div class="dd-field"><div class="dd-field-label">Address</div><div class="dd-field-value">NA</div></div>
-          <div class="dd-field"><div class="dd-field-label">Gender</div><div class="dd-field-value">NA</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── VEHICLE DETAILS ── -->
-    <div class="dd-section dd-card" id="dds-vehicle">
-      <div class="dd-card-header">
-        <div class="dd-card-icon" style="background:#FFF7ED;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-        </div>
-        <div>
-          <div style="font-size:14px;font-weight:800;color:#0F172A;">Vehicle Details</div>
-          <div style="font-size:11px;color:#94A3B8;margin-top:1px;">Vehicle information</div>
-        </div>
-      </div>
-      <div class="dd-card-body">
-        <!-- Vehicle image -->
-        <div style="margin-bottom:16px;border-radius:12px;overflow:hidden;height:180px;position:relative;background:#1a2a5a;">
-          <img id="dd-vehicle-img" src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&q=80" alt="Vehicle" style="width:100%;height:100%;object-fit:cover;display:block;opacity:.9;" onerror="this.style.display='none'">
-          <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(13,43,107,.85) 0%,rgba(13,43,107,.1) 60%,transparent 100%);"></div>
-          <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px 10px;">
-            <div id="dd-vehicle-label" style="color:#fff;font-size:15px;font-weight:800;letter-spacing:.3px;text-shadow:0 1px 4px rgba(0,0,0,.4);">2022 Tesla Model Y</div>
-            <div id="dd-vin-label-img" style="color:rgba(255,255,255,.65);font-size:10.5px;font-family:monospace;margin-top:2px;">7SAYGDEE4NF387285</div>
-          </div>
-        </div>
-        <div class="dd-fields">
-          <div class="dd-field"><div class="dd-field-label">VIN</div><div class="dd-field-value" id="dd-vin" style="font-family:monospace;font-size:12px;">7SAYGDEE4NF387285</div></div>
-          <div class="dd-field"><div class="dd-field-label">Make</div><div class="dd-field-value" id="dd-make">Tesla</div></div>
-          <div class="dd-field"><div class="dd-field-label">Model</div><div class="dd-field-value" id="dd-model">Model Y</div></div>
-          <div class="dd-field"><div class="dd-field-label">Year</div><div class="dd-field-value" id="dd-year">2022</div></div>
-          <div class="dd-field"><div class="dd-field-label">Car Type</div><div class="dd-field-value">Used</div></div>
-          <div class="dd-field"><div class="dd-field-label">Odometer</div><div class="dd-field-value">NA</div></div>
-          <div class="dd-field"><div class="dd-field-label">Stock Number</div><div class="dd-field-value">NA</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── DISCLOSURES & PHOTOS ── -->
-    <div class="dd-section dd-card" id="dds-disclosure">
-      <div class="dd-card-header">
-        <div class="dd-card-icon" style="background:#F0FDF4;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        </div>
-        <div>
-          <div style="font-size:14px;font-weight:800;color:#0F172A;">Disclosures &amp; Photos</div>
-          <div style="font-size:11px;color:#94A3B8;margin-top:1px;">Documents and verification</div>
-        </div>
-      </div>
-      <div class="dd-card-body">
-        <div style="margin-bottom:18px;">
-          <div style="font-size:12px;font-weight:700;color:#475569;margin-bottom:10px;text-transform:uppercase;letter-spacing:.6px;">Buyer Disclosures &amp; Photos</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
-            <div class="dd-thumb" onclick="toast('Opening document…','info')">📄</div>
-            <div class="dd-thumb" onclick="toast('Opening photo…','info')">🖼️</div>
-            <div class="dd-thumb" onclick="toast('Opening photo…','info')">🖼️</div>
-          </div>
-          <button onclick="toast('Sending screenshots email…','success')" style="display:inline-flex;align-items:center;gap:6px;color:#1565C0;background:#EEF4FF;border:1.5px solid #DBEAFE;border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            Send Screenshots Email
-          </button>
-        </div>
-        <div style="border-top:1px solid #F1F5F9;padding-top:16px;">
-          <div style="font-size:12px;font-weight:700;color:#475569;margin-bottom:10px;text-transform:uppercase;letter-spacing:.6px;">Third Party History Report (Buyer)</div>
-          <div style="display:flex;gap:10px;">
-            <div class="dd-thumb" onclick="toast('Opening CARFAX report…','info')">📋</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── TRANSACTION DETAILS ── -->
-    <div class="dd-section dd-card" id="dds-transaction">
-      <div class="dd-card-header">
-        <div class="dd-card-icon" style="background:#FFFBEB;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        </div>
-        <div>
-          <div style="font-size:14px;font-weight:800;color:#0F172A;">Transaction Detail</div>
-          <div style="font-size:11px;color:#94A3B8;margin-top:1px;">Deal and payment information</div>
-        </div>
-      </div>
-      <div class="dd-card-body">
-        <div class="dd-fields">
-          <div class="dd-field"><div class="dd-field-label">Deal ID</div><div class="dd-field-value" id="dd-deal-id" style="color:#1565C0;font-weight:800;">#168737</div></div>
-          <div class="dd-field"><div class="dd-field-label">Deal Date</div><div class="dd-field-value" id="dd-deal-date">03/27/2026</div></div>
-          <div class="dd-field"><div class="dd-field-label">Transaction Time</div><div class="dd-field-value" id="dd-txn-time">04:09 AM PST</div></div>
-          <div class="dd-field"><div class="dd-field-label">Last Activity</div><div class="dd-field-value">Signature Complete (buyer)</div></div>
-          <div class="dd-field"><div class="dd-field-label">Staff</div><div class="dd-field-value" id="dd-staff" style="color:#1565C0;">Seyed KAMAL</div></div>
-          <div class="dd-field"><div class="dd-field-label">Dealership</div><div class="dd-field-value" id="dd-dealership">Maruti Suzuki</div></div>
-          <div class="dd-field"><div class="dd-field-label">Data Policy (Buyer)</div><div class="dd-field-value" style="color:#059669;">✓ Accepted</div></div>
-          <div class="dd-field"><div class="dd-field-label">Buyer's Guide</div><div class="dd-field-value">NA</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── RETURN DETAILS ── -->
-    <div class="dd-section dd-card" id="dds-return">
-      <div class="dd-card-header">
-        <div class="dd-card-icon" style="background:#F5F3FF;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.54"/></svg>
-        </div>
-        <div>
-          <div style="font-size:14px;font-weight:800;color:#0F172A;">Return Detail</div>
-          <div style="font-size:11px;color:#94A3B8;margin-top:1px;">Return transaction info</div>
-        </div>
-      </div>
-      <div class="dd-card-body">
-        <div style="text-align:center;padding:24px 0;">
-          <div style="font-size:32px;margin-bottom:8px;">📭</div>
-          <div style="font-size:13px;color:#94A3B8;font-weight:600;">No return details for this deal.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── ACTIVITY LOG ── -->
-    <div class="dd-section dd-card" id="dds-activity">
-      <div class="dd-card-header">
-        <div class="dd-card-icon" style="background:#EFF6FF;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <div>
-          <div style="font-size:14px;font-weight:800;color:#0F172A;">Activity Log</div>
-          <div style="font-size:11px;color:#94A3B8;margin-top:1px;">Transaction history</div>
-        </div>
-        <span style="margin-left:auto;background:#EEF4FF;color:#1565C0;font-size:10.5px;font-weight:700;padding:2px 10px;border-radius:20px;">3 events</span>
-      </div>
-      <div class="dd-card-body">
-        <div class="dd-timeline">
-          <div class="dd-tl-item">
-            <div class="dd-tl-dot">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2.5" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            </div>
-            <div class="dd-tl-body">
-              <div class="dd-tl-time">06/06/2026 · 03:15 AM PST</div>
-              <div class="dd-tl-text">Finance deadline alert displayed</div>
-            </div>
-          </div>
-          <div class="dd-tl-item">
-            <div class="dd-tl-dot">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </div>
-            <div class="dd-tl-body">
-              <div class="dd-tl-time">06/05/2026 · 03:15 AM PST</div>
-              <div class="dd-tl-text">Disclosure Packet sent to Buyer on <span id="dd-buyer-email2" style="color:#1565C0;">jems@example.com</span></div>
-            </div>
-          </div>
-          <div class="dd-tl-item">
-            <div class="dd-tl-dot">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            </div>
-            <div class="dd-tl-body">
-              <div class="dd-tl-time">06/05/2026 · 03:15 AM PST</div>
-              <div class="dd-tl-text">Third Party report (CARFAX) sent to Buyer on <span id="dd-buyer-email3" style="color:#1565C0;">jems@example.com</span></div>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:14px;border-top:1px solid #F1F5F9;">
-          <span style="font-size:11.5px;color:#94A3B8;">Showing 3 of 3 events</span>
-          <div style="display:flex;gap:6px;">
-            <button style="padding:5px 12px;border:1.5px solid #E2E8F0;border-radius:8px;background:#fff;font-size:12px;cursor:pointer;color:#64748B;font-family:inherit;">‹ Prev</button>
-            <span style="padding:5px 12px;border:1.5px solid #1565C0;border-radius:8px;background:#1565C0;color:#fff;font-size:12px;font-weight:700;">1</span>
-            <button style="padding:5px 12px;border:1.5px solid #E2E8F0;border-radius:8px;background:#fff;font-size:12px;cursor:pointer;color:#64748B;font-family:inherit;">Next ›</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /floating content -->
-</div><!-- /dd-page -->
-
-<style>
-.dd-drop-item {
-  padding:9px 14px;font-size:12.5px;font-weight:600;color:#1e293b;
-  cursor:pointer;border-radius:8px;display:flex;align-items:center;gap:8px;
-  transition:background .1s;
-}
-.dd-drop-item:hover { background:#EEF4FF;color:#1565C0; }
-</style>
+</div><!-- /ddp-body -->
+</div><!-- /deal-detail-page -->
 
 <script>
 function ddTab(btn, section) {
-  document.querySelectorAll('.dd-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('#deal-detail-page .ddp-tab').forEach(function(b){ b.classList.remove('active'); });
   btn.classList.add('active');
   var all = section === 'all';
   var map = {buyer:'dds-buyer',vehicle:'dds-vehicle',disclosure:'dds-disclosure',transaction:'dds-transaction',return:'dds-return',activity:'dds-activity'};
@@ -11712,90 +12053,66 @@ function ddTab(btn, section) {
     if (el) el.style.display = (all || k === section) ? '' : 'none';
   });
 }
-
 function openDealDetail(data) {
   data = data || {};
-  var v  = data.vin      || '7SAYGDEE4NF387285';
-  var vh = data.vehicle  || '2022 Tesla Model Y';
-  var dl = data.dealId   || '168737';
-  var dt = data.date     || '03/27/2026';
-  var em = data.email    || 'jems@example.com';
-
+  var v  = data.vin     || '7SAYGDEE4NF387285';
+  var vh = data.vehicle || '2022 Tesla Model Y';
+  var dl = String(data.dealId  || '168737');
+  var dt = data.date    || '03/27/2026';
+  var em = data.email   || 'jems@example.com';
+  var set = function(id,val){ var e=document.getElementById(id); if(e) e.textContent=val; };
   // Hero
-  var el = document.getElementById('dd-hero-vehicle'); if(el) el.textContent = vh;
-  el = document.getElementById('dd-hero-vin');  if(el) el.textContent = 'VIN: ' + v;
-  el = document.getElementById('dd-hero-deal'); if(el) el.textContent = (dl.startsWith('R') ? 'Return ' : 'Deal ') + '#' + dl;
-  el = document.getElementById('dd-hero-date'); if(el) el.textContent = dt;
-
-  // Badge
-  var badge = document.getElementById('dd-status-badge');
-  if (badge) {
-    badge.textContent  = data.status || 'Completed';
-    var isReturn = (data.statusColor || '').includes('7c3aed');
-    badge.style.background   = isReturn ? 'rgba(124,58,237,.2)' : 'rgba(16,185,129,.2)';
-    badge.style.color        = isReturn ? '#C4B5FD' : '#6EE7B7';
-    badge.style.borderColor  = isReturn ? 'rgba(196,181,253,.3)' : 'rgba(110,231,183,.3)';
+  set('dd-hero-vehicle', vh);
+  set('dd-hero-vin', v);
+  set('dd-hero-deal', (dl.startsWith('R')?'Return ':'Deal ')+'#'+dl);
+  set('dd-hero-date', dt);
+  // Badges
+  var sb = document.getElementById('dd-status-badge');
+  if (sb) {
+    sb.textContent = data.status || 'Completed';
+    var isRet = (data.statusColor||'').includes('7c3aed');
+    sb.style.background  = isRet ? 'rgba(124,58,237,.2)' : 'rgba(16,185,129,.2)';
+    sb.style.color       = isRet ? '#C4B5FD' : '#6EE7B7';
+    sb.style.borderColor = isRet ? 'rgba(196,181,253,.3)' : 'rgba(110,231,183,.3)';
   }
-  var typeBadge = document.getElementById('dd-type-badge');
-  if (typeBadge) {
-    var isRet = (data.dealId || '').toString().startsWith('R');
-    typeBadge.textContent = isRet ? '↩ Return Deal' : '📋 Deal';
-  }
-
+  var tb = document.getElementById('dd-type-badge');
+  if (tb) tb.textContent = dl.startsWith('R') ? '↩ Return Deal' : '📋 Deal';
   // Stats
-  el = document.getElementById('dd-stat-dealer'); if(el) el.textContent = data.buyer || 'Jems Bond';
-  el = document.getElementById('dd-stat-staff');  if(el) el.textContent = data.sales  || 'Seyed KAMAL';
-  el = document.getElementById('dd-stat-time');   if(el) el.textContent = '04:09 AM PST';
-
-  // Fields
-  el = document.getElementById('dd-buyer-name');   if(el) el.textContent = data.buyer || 'Jems Bond';
-  el = document.getElementById('dd-buyer-email');  if(el) el.textContent = em;
-  el = document.getElementById('dd-buyer-email2'); if(el) el.textContent = em;
-  el = document.getElementById('dd-buyer-email3'); if(el) el.textContent = em;
-  el = document.getElementById('dd-vin');          if(el) el.textContent = v;
-  el = document.getElementById('dd-make');         if(el) el.textContent = data.make  || 'Tesla';
-  el = document.getElementById('dd-model');        if(el) el.textContent = data.model || 'Model Y';
-  el = document.getElementById('dd-year');         if(el) el.textContent = data.year  || '2022';
-
+  set('dd-stat-dealer', data.buyer  || 'Jems Bond');
+  set('dd-stat-staff',  data.sales  || 'Seyed KAMAL');
+  set('dd-stat-time',   '04:09 AM PST');
+  // Buyer
+  set('dd-buyer-name',   data.buyer || 'Jems Bond');
+  set('dd-buyer-email',  em);
+  set('dd-buyer-email2', em);
+  set('dd-buyer-email3', em);
+  // Vehicle
+  set('dd-vin',   v);
+  set('dd-make',  data.make  || 'Tesla');
+  set('dd-model', data.model || 'Model Y');
+  set('dd-year',  data.year  || '2022');
   // Vehicle image
-  var vehicleImgs = {
-    'tesla':      'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&q=80',
-    'nissan':     'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80',
-    'toyota':     'https://images.unsplash.com/photo-1621993202067-c5e1db7e3d66?w=800&q=80',
-    'honda':      'https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?w=800&q=80',
-    'chevrolet':  'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80',
-    'kia':        'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=80',
-    'bmw':        'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80',
-    'ford':       'https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?w=800&q=80',
-    'jeep':       'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=80',
-    'audi':       'https://images.unsplash.com/photo-1542362567-b07e54358753?w=800&q=80',
-    'mercedes':   'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80',
-    'hyundai':    'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=800&q=80',
-    'dodge':      'https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=800&q=80',
-  };
-  var makeKey = (data.make || '').toLowerCase();
-  var imgUrl = vehicleImgs[makeKey] || vehicleImgs['toyota'];
+  var imgs = {tesla:'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&q=80',nissan:'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80',toyota:'https://images.unsplash.com/photo-1621993202067-c5e1db7e3d66?w=800&q=80',honda:'https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?w=800&q=80',chevrolet:'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80',kia:'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=80',bmw:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80',ford:'https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?w=800&q=80',jeep:'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=80',audi:'https://images.unsplash.com/photo-1542362567-b07e54358753?w=800&q=80',mercedes:'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80',hyundai:'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=800&q=80',dodge:'https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=800&q=80'};
+  var mk = (data.make||'').toLowerCase();
   var imgEl = document.getElementById('dd-vehicle-img');
-  if (imgEl) { imgEl.src = imgUrl; imgEl.alt = data.vehicle || 'Vehicle'; }
-  var lblEl = document.getElementById('dd-vehicle-label');
-  if (lblEl) lblEl.textContent = (data.year || '') + ' ' + (data.make || '') + ' ' + (data.model || '');
-  var vinLblEl = document.getElementById('dd-vin-label-img');
-  if (vinLblEl) vinLblEl.textContent = v;
-  el = document.getElementById('dd-deal-id');      if(el) el.textContent = '#' + dl;
-  el = document.getElementById('dd-deal-date');    if(el) el.textContent = dt;
-  el = document.getElementById('dd-txn-time');     if(el) el.textContent = '04:09 AM PST';
-  el = document.getElementById('dd-staff');        if(el) el.textContent = data.sales  || 'Seyed KAMAL';
-  el = document.getElementById('dd-dealership');   if(el) el.textContent = data.dealer || 'Maruti Suzuki';
-
-  // Reset to All tab
-  var firstTab = document.querySelector('.dd-tab-btn');
+  if (imgEl) { imgEl.src = imgs[mk]||imgs.toyota; if(typeof skImg==='function') skImg(imgEl); }
+  var lbl = document.getElementById('dd-vehicle-label');
+  if (lbl) lbl.textContent = (data.year||'')+' '+(data.make||'')+' '+(data.model||'');
+  var vinImg = document.getElementById('dd-vin-label-img');
+  if (vinImg) vinImg.textContent = v;
+  // Transaction
+  set('dd-deal-id',    '#'+dl);
+  set('dd-deal-date',  dt);
+  set('dd-txn-time',   '04:09 AM PST');
+  set('dd-staff',      data.sales  || 'Seyed KAMAL');
+  set('dd-dealership', data.dealer || 'Maruti Suzuki');
+  // Reset tab
+  var firstTab = document.querySelector('#deal-detail-page .ddp-tab');
   if (firstTab) ddTab(firstTab, 'all');
-
   showPage('deal-detail-page');
 }
 </script>
 
-</div><!-- /deal-detail-page -->
 
 <div id="flow-diagram-page" style="display:none;">
   <div class="content">
@@ -13250,3 +13567,941 @@ function viewPendingDeal(key){
   #deal-detail-page .dd-card-header,#pending-detail-page .dd-card-header{padding:14px 16px!important;}
 }
 </style>
+<style>
+/* ── Dashboard toolbar ── */
+.db-dealer-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 12px; border-radius: 10px;
+  font-size: 13px; font-weight: 600; color: #334155;
+  cursor: pointer; transition: all .12s;
+}
+.db-dealer-item:hover { background: #EEF4FF; color: #1565C0; }
+.db-dealer-item.active { background: #EEF4FF; color: #1565C0; font-weight: 700; }
+.db-dealer-item svg { flex-shrink: 0; }
+.db-result-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; cursor: pointer;
+  border-bottom: 1px solid #F1F5F9; transition: background .12s;
+}
+.db-result-item:last-child { border-bottom: none; }
+.db-result-item:hover { background: #F8FAFF; }
+.db-result-thumb {
+  width: 46px; height: 34px; border-radius: 8px;
+  background: linear-gradient(135deg,#EEF4FF,#DBEAFE);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 18px;
+}
+@media(max-width:768px){
+  #dashboard-page .content > div:first-child { flex-direction:column; }
+  #dashboard-page .content > div:first-child > div:first-child { width:100%; }
+}
+</style>
+
+<script>
+/* ── Dashboard toolbar JS ── */
+function toggleDbDealer(){
+  var p = document.getElementById('dbDealerPanel');
+  var btn = document.getElementById('dbDealerBtn');
+  var chev = document.getElementById('dbDealerChev');
+  var open = p.style.display === 'none';
+  p.style.display = open ? 'block' : 'none';
+  btn.style.borderColor = open ? '#1565C0' : '#E2E8F0';
+  chev.style.transform = open ? 'rotate(180deg)' : '';
+}
+
+function selectDbDealer(name, el){
+  document.getElementById('dbDealerLabel').textContent = name;
+  document.querySelectorAll('.db-dealer-item').forEach(function(i){ i.classList.remove('active'); });
+  if(el) el.classList.add('active');
+  document.getElementById('dbDealerPanel').style.display = 'none';
+  document.getElementById('dbDealerBtn').style.borderColor = '#E2E8F0';
+  document.getElementById('dbDealerChev').style.transform = '';
+  toast('Showing deals for: ' + name, 'info');
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', function(e){
+  var panel = document.getElementById('dbDealerPanel');
+  var btn   = document.getElementById('dbDealerBtn');
+  if(panel && !panel.contains(e.target) && btn && !btn.contains(e.target)){
+    panel.style.display = 'none';
+    btn.style.borderColor = '#E2E8F0';
+    var chev = document.getElementById('dbDealerChev');
+    if(chev) chev.style.transform = '';
+  }
+});
+
+// Deal search
+var DB_DEALS = [
+  {id:'168737', vin:'7SAYGDEE4NF387285', vehicle:'2022 Tesla Model Y', buyer:'Jems Bond', sales:'Seyed KAMAL', status:'Completed', emoji:'🔵'},
+  {id:'R1044',  vin:'JN1AR5EG1EM110149', vehicle:'2014 Nissan GT-R',   buyer:'COBUYER DAWDA', sales:'Aman Singh', status:'Completed', emoji:'🟣'},
+  {id:'168741', vin:'4T1BF1FK5HU792327', vehicle:'2020 Toyota Camry SE',buyer:'Omar Hassan', sales:'Peyton Hicks', status:'Completed', emoji:'🔵'},
+  {id:'R1048',  vin:'5J6RW2H86JA012345', vehicle:'2021 Honda CR-V EX',  buyer:'N/A', sales:'Franklin Herrera', status:'Completed', emoji:'🟣'},
+  {id:'168745', vin:'1G1ZD5ST2JF123456', vehicle:'2019 Chevrolet Malibu',buyer:'James Wilson', sales:'Aman Singh', status:'Completed', emoji:'🔵'},
+  {id:'R1049',  vin:'KNDPM3AC2K7573891', vehicle:'2022 Kia Sportage LX',buyer:'Sofia Ruiz', sales:'Seyed KAMAL', status:'Completed', emoji:'🟣'},
+  {id:'4719',   vin:'1HGCG1659WA029633', vehicle:'2016 Honda Accord',    buyer:'Frances Robertson', sales:'Peyton Hicks', status:'Pending', emoji:'🟡'},
+  {id:'4722',   vin:'2T3K1RFV4MW176838', vehicle:'2021 Toyota RAV4',     buyer:'Mario Quintanilla', sales:'Franklin Herrera', status:'Pending', emoji:'🟡'},
+  {id:'R1042',  vin:'JN1AR5EG1EM110149', vehicle:'2019 Nissan Altima SV',buyer:'N/A', sales:'Aman Singh', status:'Pending', emoji:'🟡'},
+  {id:'4724',   vin:'WBA8E9G58GNT43721', vehicle:'2021 BMW 3 Series',    buyer:'Rahul Sharma', sales:'Franklin Herrera', status:'Pending', emoji:'🟡'},
+  {id:'4726',   vin:'1FA6P8TH5K5147823', vehicle:'2020 Ford Mustang GT', buyer:'Priya Patel', sales:'Aman Singh', status:'Pending', emoji:'🟡'},
+  {id:'R1047',  vin:'1C4PJMCB3KD410832', vehicle:'2019 Jeep Cherokee',   buyer:'N/A', sales:'Seyed KAMAL', status:'Pending', emoji:'🟡'},
+  {id:'4729',   vin:'WAUENAF4XJA042198', vehicle:'2018 Audi A4 Premium', buyer:'Linda Chen', sales:'Peyton Hicks', status:'Pending', emoji:'🟡'},
+  {id:'4731',   vin:'WDDWF4KB1FR378219', vehicle:'2022 Mercedes C-Class',buyer:'David Kim', sales:'Seyed KAMAL', status:'Pending', emoji:'🟡'},
+  {id:'4733',   vin:'5NPE24AF5GH361284', vehicle:'2021 Hyundai Sonata',  buyer:'Sarah Johnson', sales:'Franklin Herrera', status:'Pending', emoji:'🟡'},
+];
+
+function dbSearchDeals(q){
+  var clear = document.getElementById('dbSearchClear');
+  var results = document.getElementById('dbSearchResults');
+  var badge = document.getElementById('dbSearchBadge');
+  if(!q || q.length < 2){
+    results.style.display = 'none';
+    badge.style.display = 'none';
+    if(clear) clear.style.display = 'none';
+    return;
+  }
+  if(clear) clear.style.display = 'block';
+  var term = q.toLowerCase();
+  var matches = DB_DEALS.filter(function(d){
+    return d.id.toLowerCase().includes(term) ||
+           d.vin.toLowerCase().includes(term) ||
+           d.vehicle.toLowerCase().includes(term) ||
+           d.buyer.toLowerCase().includes(term) ||
+           d.sales.toLowerCase().includes(term);
+  });
+  badge.textContent = matches.length + ' result' + (matches.length !== 1 ? 's' : '');
+  badge.style.display = 'flex';
+  if(matches.length === 0){
+    results.innerHTML = '<div style="padding:24px;text-align:center;color:#94A3B8;font-size:13px;font-weight:600;">No deals found for "<strong style=\'color:#0F172A\'>' + q + '</strong>"</div>';
+    results.style.display = 'block'; return;
+  }
+  var html = '<div style="padding:8px 16px 6px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;justify-content:space-between;">'
+    + '<span style="font-size:10.5px;font-weight:800;color:#94A3B8;letter-spacing:.8px;text-transform:uppercase;">Search Results</span>'
+    + '<span style="font-size:11px;color:#1565C0;font-weight:700;">' + matches.length + ' deal' + (matches.length !== 1 ? 's' : '') + '</span></div>';
+  matches.slice(0,8).forEach(function(d){
+    var statusColor = d.status === 'Completed' ? '#059669' : '#D97706';
+    var statusBg    = d.status === 'Completed' ? '#F0FDF4' : '#FFFBEB';
+    var statusBdr   = d.status === 'Completed' ? '#BBF7D0' : '#FDE68A';
+    html += '<div class="db-result-item" onclick="dbOpenDeal(\'' + d.id + '\')">'
+      + '<div class="db-result-thumb">' + d.emoji + '</div>'
+      + '<div style="flex:1;min-width:0;">'
+      +   '<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;flex-wrap:wrap;">'
+      +     '<span style="font-size:14px;font-weight:800;color:#0F172A;">' + d.vehicle + '</span>'
+      +     '<span style="background:' + statusBg + ';color:' + statusColor + ';border:1px solid ' + statusBdr + ';font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">' + d.status + '</span>'
+      +   '</div>'
+      +   '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+      +     '<span style="font-size:11.5px;color:#64748B;">Deal #' + d.id + '</span>'
+      +     '<span style="font-size:11px;color:#94A3B8;font-family:monospace;">' + d.vin.slice(0,8) + '…</span>'
+      +     '<span style="font-size:11.5px;color:#64748B;">' + d.buyer + '</span>'
+      +   '</div>'
+      + '</div>'
+      + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>'
+      + '</div>';
+  });
+  if(matches.length > 8) html += '<div style="padding:10px 16px;font-size:12px;color:#94A3B8;text-align:center;font-weight:600;">+ ' + (matches.length - 8) + ' more — refine your search</div>';
+  results.innerHTML = html;
+  results.style.display = 'block';
+}
+
+function clearDbSearch(){
+  document.getElementById('dbDealSearch').value = '';
+  dbSearchDeals('');
+  document.getElementById('dbDealSearch').focus();
+}
+
+function dbOpenDeal(id){
+  document.getElementById('dbSearchResults').style.display = 'none';
+  document.getElementById('dbSearchBadge').style.display = 'none';
+  // Try to open completed deal detail
+  var completedVins = {'168737':'7SAYGDEE4NF387285','R1044':'JN1AR5EG1EM110149','168741':'4T1BF1FK5HU792327','R1048':'5J6RW2H86JA012345','168745':'1G1ZD5ST2JF123456','R1049':'KNDPM3AC2K7573891'};
+  if(completedVins[id]){
+    // Find the completed deal and open its detail
+    var btns = document.querySelectorAll('#completed-cards .cf-btn.blue');
+    for(var i=0;i<btns.length;i++){
+      if(btns[i].getAttribute('onclick') && btns[i].getAttribute('onclick').includes(completedVins[id])){
+        eval(btns[i].getAttribute('onclick')); return;
+      }
+    }
+  }
+  // Try pending deals
+  var pendingKey = {'4719':'1HGCG1659WA029633','4722':'2T3K1RFV4MW176838','R1042':'R1042','4724':'WBA8E9G58GNT43721','4726':'1FA6P8TH5K5147823','R1047':'1C4PJMCB3KD410832','4729':'WAUENAF4XJA042198','4731':'WDDWF4KB1FR378219','4733':'5NPE24AF5GH361284','R1048':'R1048','R1049':'KNDPM3AC2K7573891'};
+  if(pendingKey[id] && typeof viewPendingDeal === 'function'){ viewPendingDeal(pendingKey[id]); return; }
+  toast('Opening deal #' + id, 'info');
+}
+
+// Close search results on outside click
+document.addEventListener('click', function(e){
+  var sr = document.getElementById('dbSearchResults');
+  var si = document.getElementById('dbDealSearch');
+  if(sr && si && !sr.contains(e.target) && !si.contains(e.target)){
+    sr.style.display = 'none';
+  }
+});
+</script>
+<script>
+/* ── Main content toolbar JS ── */
+function toggleMcDealer(){
+  var p=document.getElementById('mcDealerPanel');
+  var btn=document.getElementById('mcDealerBtn');
+  var chev=document.getElementById('mcDealerChev');
+  var open=p.style.display==='none';
+  p.style.display=open?'block':'none';
+  btn.style.borderColor=open?'#1565C0':'#E2E8F0';
+  chev.style.transform=open?'rotate(180deg)':'';
+}
+function selectMcDealer(name,el){
+  document.getElementById('mcDealerLabel').textContent=name;
+  document.querySelectorAll('#mcDealerPanel .db-dealer-item').forEach(function(i){i.classList.remove('active');});
+  if(el)el.classList.add('active');
+  document.getElementById('mcDealerPanel').style.display='none';
+  document.getElementById('mcDealerBtn').style.borderColor='#E2E8F0';
+  document.getElementById('mcDealerChev').style.transform='';
+  toast('Showing: '+name,'info');
+}
+document.addEventListener('click',function(e){
+  var p=document.getElementById('mcDealerPanel');
+  var b=document.getElementById('mcDealerBtn');
+  if(p&&b&&!p.contains(e.target)&&!b.contains(e.target)){
+    p.style.display='none'; b.style.borderColor='#E2E8F0';
+    var c=document.getElementById('mcDealerChev'); if(c)c.style.transform='';
+  }
+  var sr=document.getElementById('mcSearchResults');
+  var si=document.getElementById('mcDealSearch');
+  if(sr&&si&&!sr.contains(e.target)&&!si.contains(e.target)) sr.style.display='none';
+});
+function mcSearchDeals(q){
+  var clear=document.getElementById('mcSearchClear');
+  var results=document.getElementById('mcSearchResults');
+  var badge=document.getElementById('mcSearchBadge');
+  if(!q||q.length<2){
+    results.style.display='none'; badge.style.display='none';
+    if(clear)clear.style.display='none'; return;
+  }
+  if(clear)clear.style.display='block';
+  var term=q.toLowerCase();
+  var matches=(typeof DB_DEALS!=='undefined'?DB_DEALS:[]).filter(function(d){
+    return d.id.toLowerCase().includes(term)||d.vin.toLowerCase().includes(term)||
+           d.vehicle.toLowerCase().includes(term)||d.buyer.toLowerCase().includes(term)||
+           d.sales.toLowerCase().includes(term);
+  });
+  badge.textContent=matches.length+' result'+(matches.length!==1?'s':'');
+  badge.style.display='flex';
+  if(matches.length===0){
+    results.innerHTML='<div style="padding:22px;text-align:center;color:#94A3B8;font-size:13px;font-weight:600;">No deals found for "<strong style=\'color:#0F172A\'>'+q+'</strong>"</div>';
+    results.style.display='block'; return;
+  }
+  var html='<div style="padding:8px 16px 6px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;justify-content:space-between;">'
+    +'<span style="font-size:10.5px;font-weight:800;color:#94A3B8;letter-spacing:.8px;text-transform:uppercase;">Results</span>'
+    +'<span style="font-size:11px;color:#1565C0;font-weight:700;">'+matches.length+' deal'+(matches.length!==1?'s':'')+'</span></div>';
+  matches.slice(0,8).forEach(function(d){
+    var sc=d.status==='Completed'?'#059669':'#D97706';
+    var sb=d.status==='Completed'?'#F0FDF4':'#FFFBEB';
+    var sd=d.status==='Completed'?'#BBF7D0':'#FDE68A';
+    html+='<div class="db-result-item" onclick="dbOpenDeal(\''+d.id+'\')">'
+      +'<div class="db-result-thumb">'+d.emoji+'</div>'
+      +'<div style="flex:1;min-width:0;">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;flex-wrap:wrap;">'
+      +'<span style="font-size:13.5px;font-weight:800;color:#0F172A;">'+d.vehicle+'</span>'
+      +'<span style="background:'+sb+';color:'+sc+';border:1px solid '+sd+';font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">'+d.status+'</span>'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">'
+      +'<span style="font-size:11.5px;color:#64748B;font-weight:600;">Deal #'+d.id+'</span>'
+      +'<span style="font-size:11px;color:#94A3B8;font-family:monospace;">'+d.vin.slice(0,10)+'…</span>'
+      +'<span style="font-size:11.5px;color:#64748B;">'+d.buyer+'</span>'
+      +'</div></div>'
+      +'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>'
+      +'</div>';
+  });
+  if(matches.length>8) html+='<div style="padding:10px;font-size:12px;color:#94A3B8;text-align:center;">+ '+(matches.length-8)+' more — refine your search</div>';
+  results.innerHTML=html;
+  results.style.display='block';
+}
+function clearMcSearch(){
+  var el=document.getElementById('mcDealSearch');
+  if(el){el.value='';el.focus();}
+  mcSearchDeals('');
+}
+</script>
+<script>
+/* ── VIEW / REFRESH BAR ── */
+var _vrMode = 'list';
+var _vrTimer = null;
+var _vrSecsLeft = 8;
+
+function setVrView(mode) {
+  _vrMode = mode;
+  var isCard = mode === 'card';
+  var active = 'linear-gradient(135deg,#1565C0,#1976D2)';
+  var inactive = 'transparent';
+
+  // Update button styles
+  var listBtn = document.getElementById('vrListBtn');
+  var cardBtn = document.getElementById('vrCardBtn');
+  if (listBtn) {
+    listBtn.style.background = !isCard ? active : inactive;
+    listBtn.style.color      = !isCard ? '#fff' : '#64748B';
+    listBtn.style.boxShadow  = !isCard ? '0 2px 6px rgba(21,101,192,.25)' : 'none';
+  }
+  if (cardBtn) {
+    cardBtn.style.background = isCard ? active : inactive;
+    cardBtn.style.color      = isCard ? '#fff' : '#64748B';
+    cardBtn.style.boxShadow  = isCard ? '0 2px 6px rgba(21,101,192,.25)' : 'none';
+  }
+
+  // Toggle all 3 sections simultaneously
+  var sections = [
+    { cards: 'pending-cards',   table: 'pending-table'   },
+    { cards: 'completed-cards', table: 'completed-table' },
+    { cards: 'deadline-cards',  table: 'deadline-table'  },
+  ];
+
+  sections.forEach(function(s) {
+    var cardEl  = document.getElementById(s.cards);
+    var tableEl = document.getElementById(s.table);
+    if (cardEl) {
+      cardEl.classList.toggle('show', isCard);
+      cardEl.style.display = isCard ? '' : 'none';
+    }
+    if (tableEl) {
+      tableEl.style.display = isCard ? 'none' : 'block';
+      tableEl.classList.toggle('show', !isCard);
+    }
+  });
+}
+
+function vrRefreshNow() {
+  toast('Deals refreshed!', 'success');
+  vrResetCountdown();
+}
+
+function vrResetCountdown() {
+  _vrSecsLeft = 8;
+  var el = document.getElementById('vrSecs');
+  if (el) el.textContent = _vrSecsLeft;
+}
+
+function vrStartCountdown() {
+  if (_vrTimer) clearInterval(_vrTimer);
+  _vrTimer = setInterval(function() {
+    _vrSecsLeft--;
+    var el = document.getElementById('vrSecs');
+    if (el) el.textContent = _vrSecsLeft;
+    if (_vrSecsLeft <= 0) {
+      vrResetCountdown();
+      toast('Deals auto-refreshed', 'info');
+    }
+  }, 1000);
+}
+
+// Start countdown when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  vrStartCountdown();
+});
+// Also restart when navigating to main-content
+var _origShowPageVr = window.showPage;
+window.showPage = function(id) {
+  _origShowPageVr(id);
+  if (id === 'main-content') { vrResetCountdown(); vrStartCountdown(); }
+};
+</script>
+<style>
+/* ════════════════════════════════════════════════════
+   SECTION-LEVEL MOBILE — ALL DEAL SECTIONS
+   480px · 640px · 768px
+════════════════════════════════════════════════════ */
+
+/* ── View/Refresh bar ── */
+@media (max-width:640px) {
+  #main-content > div[style*="VIEW / REFRESH BAR"],
+  #main-content > div:has(#vrListBtn) {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    padding: 8px 10px !important;
+  }
+  #vrCountdown { font-size: 11px !important; order: 3; width: 100%; text-align: center; }
+  #vrListBtn, #vrCardBtn { padding: 5px 10px !important; font-size: 11.5px !important; }
+}
+
+/* ── Deals toolbar (dealership dropdown + search) ── */
+@media (max-width:768px) {
+  #main-content > div:has(#mcDealerBtn) {
+    flex-wrap: wrap !important;
+    padding: 8px 8px 0 !important;
+  }
+  #mcDealerBtn { min-width: 0 !important; width: 100% !important; }
+  #mcDealSearch { font-size: 12px !important; }
+  #mcSearchBadge { display: none !important; }
+  #mcSearchResults { margin: 6px 8px 0 !important; }
+}
+
+/* ── Section headers (sec-hdr) ── */
+@media (max-width:640px) {
+  .sec-hdr {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    padding: 8px 10px !important;
+  }
+  .sec-title { font-size: 13px !important; }
+  .sec-hint  { display: none !important; }
+  .cnt { font-size: 10px !important; padding: 2px 7px !important; }
+}
+
+/* ── Deal cards grid ── */
+@media (max-width:768px) {
+  .card-grid.show {
+    grid-template-columns: 1fr !important;
+    padding: 8px !important;
+    gap: 10px !important;
+  }
+  .deal-card { border-radius: 14px !important; }
+  .deal-card:hover { transform: none !important; }
+}
+@media (min-width:481px) and (max-width:768px) {
+  .card-grid.show {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  }
+}
+
+/* ── Deal card internals ── */
+@media (max-width:480px) {
+  /* Card header: thumb + title row */
+  .deal-card > div:first-child > div:first-child {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+  /* Badge row */
+  .deal-card > div:first-child > div:last-child {
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+  }
+  /* Info grid inside card body */
+  .deal-card [style*="grid-template-columns:1fr 1fr"],
+  .deal-card [style*="grid-template-columns:1fr 1fr 1fr"] {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+  }
+  /* Card footer buttons */
+  .deal-card [style*="border-top"][style*="display:flex"] {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+  .deal-card .cf-btn { flex: 1 !important; justify-content: center !important; min-width: 80px !important; font-size: 11px !important; padding: 6px 8px !important; }
+  .deal-card .cf-btn.blue { margin-left: 0 !important; }
+}
+
+/* ── Pending card: progress bar labels ── */
+@media (max-width:480px) {
+  .deal-card [style*="grid-template-columns:1fr 1fr 1fr"][style*="font-size:9px"] {
+    display: none !important;
+  }
+}
+
+/* ── Completed card: 3-col info grid ── */
+@media (max-width:480px) {
+  .deal-card.completed [style*="grid-template-columns:1fr 1fr 1fr"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ── Table view on mobile ── */
+@media (max-width:768px) {
+  .table-wrap { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; border-radius: 0 !important; }
+  .table-wrap table { min-width: 640px !important; font-size: 11.5px !important; }
+  .table-wrap thead th { padding: 8px 10px !important; font-size: 10px !important; white-space: nowrap !important; }
+  .table-wrap tbody td { padding: 8px 10px !important; white-space: nowrap !important; }
+}
+
+/* ── Load-more bar ── */
+@media (max-width:480px) {
+  .load-more-wrap > div { flex-direction: column !important; align-items: center !important; gap: 6px !important; }
+  .load-more-btn { width: 100% !important; justify-content: center !important; }
+  .load-more-count { text-align: center !important; }
+}
+
+/* ── Section body collapse ── */
+@media (max-width:768px) {
+  .sec-body { transition: max-height .35s cubic-bezier(.4,0,.2,1), opacity .3s ease !important; }
+}
+
+/* ── Deadline cards ── */
+@media (max-width:768px) {
+  #deadline-cards.card-grid.show {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (min-width:481px) and (max-width:768px) {
+  #deadline-cards.card-grid.show {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  }
+}
+
+/* ── Deadline card internals ── */
+@media (max-width:480px) {
+  #deadline-cards .deal-card [style*="display:flex"][style*="align-items:center"][style*="gap"] {
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+  }
+  #deadline-cards .deal-card [style*="grid-template-columns"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ── View/refresh bar precise targeting ── */
+@media (max-width:640px) {
+  div:has(> #vrListBtn) {
+    flex-wrap: wrap !important;
+    padding: 8px 10px !important;
+    gap: 8px !important;
+    border-radius: 10px !important;
+  }
+  div:has(> #vrListBtn) > div:first-of-type { order: 1; }
+  div:has(> #vrListBtn) > div[style*="flex:1"] { display: none !important; }
+  #vrCountdown { order: 3; width: 100%; text-align: center; font-size: 11px !important; }
+  div:has(> #vrListBtn) > button:last-child { order: 4; width: 100%; justify-content: center; }
+}
+@media (max-width:380px) {
+  #vrListBtn span, #vrCardBtn span { display: none; }
+  #vrListBtn, #vrCardBtn { padding: 5px 8px !important; }
+}
+
+/* ── Prevent overflow on all sections ── */
+@media (max-width:768px) {
+  #main-content { overflow-x: hidden !important; }
+  #main-content .section { margin-left: 0 !important; margin-right: 0 !important; border-radius: 10px !important; }
+  #main-content .content { padding: 6px 8px 12px !important; }
+}
+</style>
+<style>
+/* ══════════════════════════════════════════════
+   SKELETON & LOADER SYSTEM
+══════════════════════════════════════════════ */
+@keyframes skShimmer {
+  0%   { background-position: -600px 0 }
+  100% { background-position:  600px 0 }
+}
+@keyframes skSpin {
+  to { transform: rotate(360deg); }
+}
+@keyframes skFadeIn {
+  from { opacity:0; } to { opacity:1; }
+}
+@keyframes skPulse {
+  0%,100% { opacity:1; } 50% { opacity:.4; }
+}
+
+/* Shimmer base */
+.sk {
+  background: linear-gradient(90deg,#EEF2FF 25%,#DBEAFE 50%,#EEF2FF 75%);
+  background-size: 600px 100%;
+  animation: skShimmer 1.6s ease-in-out infinite;
+  border-radius: 8px;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Spinner */
+.sk-spin {
+  width: 20px; height: 20px;
+  border: 2.5px solid #DBEAFE;
+  border-top-color: #1565C0;
+  border-radius: 50%;
+  animation: skSpin .7s linear infinite;
+  display: inline-block;
+}
+.sk-spin.sm { width:14px; height:14px; border-width:2px; }
+.sk-spin.lg { width:28px; height:28px; border-width:3px; }
+
+/* Overlay skeleton wrapper */
+.sk-overlay {
+  position: absolute; inset: 0; z-index: 20;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(2px);
+  display: flex; flex-direction: column;
+  gap: 10px; padding: 16px;
+  animation: skFadeIn .15s ease;
+  border-radius: inherit;
+  transition: opacity .3s ease;
+}
+.sk-overlay.sk-hide {
+  opacity: 0; pointer-events: none;
+}
+
+/* Page-level skeleton container */
+.sk-page {
+  padding: 10px 12px;
+  animation: skFadeIn .2s ease;
+}
+
+/* Utility sizes */
+.sk-h8  { height: 8px  }
+.sk-h10 { height: 10px }
+.sk-h12 { height: 12px }
+.sk-h14 { height: 14px }
+.sk-h16 { height: 16px }
+.sk-h20 { height: 20px }
+.sk-h28 { height: 28px }
+.sk-h36 { height: 36px }
+.sk-h40 { height: 40px }
+.sk-h56 { height: 56px }
+.sk-h80 { height: 80px }
+.sk-h120 { height: 120px }
+.sk-h160 { height: 160px }
+.sk-circle { border-radius: 50% !important }
+.sk-pill   { border-radius: 20px !important }
+.sk-r12    { border-radius: 12px !important }
+.sk-w20  { width: 20% }
+.sk-w30  { width: 30% }
+.sk-w40  { width: 40% }
+.sk-w50  { width: 50% }
+.sk-w60  { width: 60% }
+.sk-w70  { width: 70% }
+.sk-w80  { width: 80% }
+.sk-w100 { width: 100% }
+
+/* Refresh Now button spinner state */
+#vrRefreshBtn.loading .sk-spin { display: inline-block !important; }
+#vrRefreshBtn.loading span     { display: none; }
+
+/* Button inline loading */
+.btn-loading { pointer-events: none; opacity: .75; }
+.btn-loading .sk-spin { display: inline-block !important; }
+
+/* Section body loading overlay */
+.sec-loading {
+  position: relative;
+  min-height: 80px;
+}
+.sec-loading::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(2px);
+  border-radius: inherit;
+  z-index: 5;
+  animation: skFadeIn .15s ease;
+}
+.sec-loading .sk-center-spin {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 6;
+}
+
+/* Image skeleton */
+.sk-img-wrap { position: relative; overflow: hidden; }
+.sk-img-placeholder {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,#EEF2FF 25%,#DBEAFE 50%,#EEF2FF 75%);
+  background-size: 600px 100%;
+  animation: skShimmer 1.6s ease-in-out infinite;
+  transition: opacity .4s ease;
+  z-index: 1;
+}
+.sk-img-placeholder.loaded { opacity: 0; pointer-events: none; }
+
+/* Search results loading */
+.sk-search-loading {
+  display: flex; align-items: center; gap: 10px;
+  padding: 16px; color: #64748B; font-size: 13px; font-weight: 600;
+}
+</style>
+
+<script>
+/* ══════════════════════════════════════════════
+   SKELETON & LOADER ENGINE
+══════════════════════════════════════════════ */
+
+/* ── Shimmer card skeleton HTML ── */
+function _skCard() {
+  return '<div style="border-radius:16px;overflow:hidden;background:#fff;border:1px solid rgba(21,101,192,.1);box-shadow:0 2px 12px rgba(21,101,192,.06);">'
+  + '<div style="height:4px;" class="sk sk-w100"></div>'
+  + '<div style="padding:12px 14px 10px;">'
+  +   '<div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">'
+  +     '<div class="sk sk-h40 sk-r12" style="width:58px;flex-shrink:0;"></div>'
+  +     '<div style="flex:1;">'
+  +       '<div class="sk sk-h8 sk-w50 sk-pill" style="margin-bottom:6px;"></div>'
+  +       '<div class="sk sk-h14 sk-w70" style="margin-bottom:4px;"></div>'
+  +       '<div class="sk sk-h8 sk-w30 sk-pill"></div>'
+  +     '</div>'
+  +   '</div>'
+  +   '<div style="display:flex;gap:5px;">'
+  +     '<div class="sk sk-h8 sk-pill" style="width:80px;"></div>'
+  +     '<div class="sk sk-h8 sk-pill" style="width:65px;"></div>'
+  +     '<div class="sk sk-h8 sk-pill" style="width:70px;"></div>'
+  +   '</div>'
+  + '</div>'
+  + '<div style="padding:10px 14px;">'
+  +   '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">'
+  +     '<div style="background:#F8FAFC;border-radius:10px;padding:8px;"><div class="sk sk-h8 sk-w50" style="margin-bottom:6px;"></div><div class="sk sk-h12 sk-w70"></div></div>'
+  +     '<div style="background:#F8FAFC;border-radius:10px;padding:8px;"><div class="sk sk-h8 sk-w50" style="margin-bottom:6px;"></div><div class="sk sk-h12 sk-w70"></div></div>'
+  +   '</div>'
+  +   '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:8px;">'
+  +     '<div class="sk" style="height:6px;border-radius:6px;"></div>'
+  +     '<div class="sk" style="height:6px;border-radius:6px;"></div>'
+  +     '<div class="sk" style="height:6px;border-radius:6px;"></div>'
+  +   '</div>'
+  + '</div>'
+  + '<div style="padding:10px 14px;background:#F8FAFF;border-top:1px solid #F1F5F9;display:flex;gap:8px;">'
+  +   '<div class="sk sk-h28 sk-r12" style="width:90px;"></div>'
+  +   '<div class="sk sk-h28 sk-r12" style="width:90px;"></div>'
+  +   '<div class="sk sk-h28 sk-r12" style="width:80px;margin-left:auto;"></div>'
+  + '</div>'
+  + '</div>';
+}
+
+function _skRow() {
+  return '<div style="padding:10px 14px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;gap:14px;">'
+  + '<div class="sk" style="width:52px;height:36px;border-radius:8px;flex-shrink:0;"></div>'
+  + '<div style="flex:2;"><div class="sk sk-h12 sk-w80" style="margin-bottom:5px;"></div><div class="sk sk-h8 sk-w50"></div></div>'
+  + '<div class="sk sk-h12 sk-pill sk-w30" style="flex:1;"></div>'
+  + '<div class="sk sk-h12 sk-pill sk-w30" style="flex:1;"></div>'
+  + '<div class="sk sk-h8 sk-pill" style="width:70px;"></div>'
+  + '<div class="sk sk-h28 sk-r12" style="width:80px;flex-shrink:0;"></div>'
+  + '</div>';
+}
+
+function _skPageCards(n) {
+  var h = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,280px));gap:7px;padding:7px 9px;">';
+  for (var i=0;i<n;i++) h += _skCard();
+  return h + '</div>';
+}
+
+function _skPageTable(n) {
+  var h = '<div style="background:#fff;border-radius:12px;margin:8px;overflow:hidden;border:1px solid rgba(21,101,192,.08);">'
+  + '<div style="padding:10px 14px;background:#F8FAFF;border-bottom:2px solid rgba(21,101,192,.08);display:flex;gap:20px;">'
+  + '<div class="sk sk-h8 sk-w30"></div><div class="sk sk-h8 sk-w20"></div><div class="sk sk-h8 sk-w20"></div><div class="sk sk-h8" style="width:15%;"></div>'
+  + '</div>';
+  for (var i=0;i<n;i++) h += _skRow();
+  return h + '</div>';
+}
+
+/* ── Show/hide section skeleton ── */
+function showSectionSkeleton(sectionId, mode) {
+  var sec = document.getElementById(sectionId);
+  if (!sec) return;
+  var old = sec.querySelector('.sk-section-loader');
+  if (old) old.remove();
+
+  var div = document.createElement('div');
+  div.className = 'sk-section-loader';
+  div.style.cssText = 'animation:skFadeIn .15s ease;';
+  div.innerHTML = (mode === 'table') ? _skPageTable(4) : _skPageCards(4);
+  sec.appendChild(div);
+  return div;
+}
+
+function hideSectionSkeleton(sectionId, delay) {
+  setTimeout(function() {
+    var sec = document.getElementById(sectionId);
+    if (!sec) return;
+    var sk = sec.querySelector('.sk-section-loader');
+    if (!sk) return;
+    sk.style.transition = 'opacity .35s ease';
+    sk.style.opacity = '0';
+    setTimeout(function() { if (sk.parentNode) sk.remove(); }, 370);
+  }, delay || 0);
+}
+
+/* ── Page skeleton overlay ── */
+function showPageSkeleton(pageId) {
+  var page = document.getElementById(pageId);
+  if (!page) return;
+  var old = document.getElementById(pageId + '-sk-overlay');
+  if (old) old.remove();
+
+  var overlay = document.createElement('div');
+  overlay.id = pageId + '-sk-overlay';
+  overlay.style.cssText = 'position:absolute;inset:0;z-index:50;background:rgba(247,249,252,.96);pointer-events:none;overflow:hidden;animation:skFadeIn .15s ease;';
+  overlay.innerHTML = _buildPageSkeleton(pageId);
+  page.style.position = 'relative';
+  page.appendChild(overlay);
+}
+
+function hidePageSkeleton(pageId, delay) {
+  setTimeout(function() {
+    var el = document.getElementById(pageId + '-sk-overlay');
+    if (!el) return;
+    el.style.transition = 'opacity .4s ease';
+    el.style.opacity = '0';
+    setTimeout(function() { if (el && el.parentNode) el.remove(); }, 420);
+  }, delay || 0);
+}
+
+function _buildPageSkeleton(pageId) {
+  var isDetail = pageId === 'deal-detail-page' || pageId === 'pending-detail-page';
+  if (isDetail) {
+    return '<div style="padding:0;">'
+    /* Hero skeleton */
+    + '<div style="background:linear-gradient(135deg,#0A1628,#1565C0);padding:24px 28px 80px;position:relative;">'
+    + '<div style="display:flex;justify-content:space-between;margin-bottom:24px;">'
+    + '<div class="sk" style="width:110px;height:34px;border-radius:10px;background:rgba(255,255,255,.15);"></div>'
+    + '<div style="display:flex;gap:8px;"><div class="sk" style="width:100px;height:34px;border-radius:10px;background:rgba(255,255,255,.15);"></div><div class="sk" style="width:80px;height:34px;border-radius:10px;background:rgba(255,255,255,.15);"></div></div>'
+    + '</div>'
+    + '<div style="display:flex;gap:14px;align-items:center;">'
+    + '<div class="sk" style="width:54px;height:54px;border-radius:14px;background:rgba(255,255,255,.15);"></div>'
+    + '<div><div class="sk" style="width:220px;height:24px;border-radius:8px;background:rgba(255,255,255,.15);margin-bottom:10px;"></div><div class="sk" style="width:160px;height:12px;border-radius:6px;background:rgba(255,255,255,.12);"></div></div>'
+    + '</div></div>'
+    /* Stats + content */
+    + '<div style="padding:0 28px 20px;margin-top:-48px;position:relative;z-index:2;">'
+    + '<div style="background:#fff;border-radius:18px;border:1px solid #E8EEF8;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr 1fr;overflow:hidden;">'
+    + [0,1,2].map(function(_,i){ return '<div style="padding:20px 22px;'+(i<2?'border-right:1px solid #F1F5F9':'')+'"><div class="sk sk-h8 sk-w50 sk-pill" style="margin-bottom:8px;"></div><div class="sk sk-h16 sk-w70"></div></div>'; }).join('')
+    + '</div>'
+    + '<div style="background:#fff;border-radius:14px;padding:4px;border:1px solid #E8EEF8;display:flex;gap:2px;margin-bottom:16px;">'
+    + [80,90,70,85,100,90,80].map(function(w){ return '<div class="sk sk-pill" style="width:'+w+'px;height:32px;"></div>'; }).join('')
+    + '</div>'
+    + [0,1,2].map(function(_,i){
+      return '<div style="background:#fff;border-radius:18px;border:1px solid #E8EEF8;overflow:hidden;margin-bottom:12px;animation:skShimmer 1.6s ease '+(i*.08)+'s infinite;">'
+      +'<div style="padding:16px 22px;background:#FAFBFF;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;gap:12px;">'
+      +'<div class="sk" style="width:40px;height:40px;border-radius:12px;"></div>'
+      +'<div><div class="sk sk-h14 sk-w100" style="width:120px;margin-bottom:5px;"></div><div class="sk sk-h8" style="width:80px;"></div></div>'
+      +'</div>'
+      +'<div style="padding:18px 22px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">'
+      +'<div style="background:#F8FAFF;border-radius:12px;padding:12px;"><div class="sk sk-h8 sk-w50" style="margin-bottom:6px;"></div><div class="sk sk-h14 sk-w70"></div></div>'.repeat(4)
+      +'</div></div>';
+    }).join('')
+    + '</div></div>';
+  }
+
+  /* Module pages */
+  return '<div class="sk-page">'
+  + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">'
+  + '<div style="display:flex;align-items:center;gap:10px;"><div class="sk" style="width:36px;height:36px;border-radius:10px;"></div><div><div class="sk sk-h16 sk-w100" style="width:180px;margin-bottom:5px;"></div><div class="sk sk-h8" style="width:120px;"></div></div></div>'
+  + '<div style="display:flex;gap:8px;"><div class="sk sk-h36 sk-r12" style="width:110px;"></div><div class="sk sk-h36 sk-r12" style="width:90px;"></div></div>'
+  + '</div>'
+  + '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px;">'
+  + [0,1,2,3,4].map(function(_,i){ return '<div style="background:#fff;border-radius:14px;padding:14px;border:1px solid rgba(21,101,192,.08);"><div class="sk sk-h8 sk-w60" style="margin-bottom:10px;"></div><div class="sk sk-h20 sk-w70" style="margin-bottom:6px;"></div><div class="sk sk-h8 sk-w40 sk-pill"></div></div>'; }).join('')
+  + '</div>'
+  + '<div style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid rgba(21,101,192,.08);">'
+  + '<div style="padding:10px 14px;background:#F8FAFF;border-bottom:2px solid rgba(21,101,192,.08);display:flex;gap:16px;">'
+  + ['35%','15%','12%','10%','10%','10%'].map(function(w){ return '<div class="sk sk-h8" style="width:'+w+';border-radius:4px;"></div>'; }).join('')
+  + '</div>'
+  + [0,1,2,3,4].map(function(_,i){ return _skRow(); }).join('')
+  + '</div></div>';
+}
+
+/* ── Image lazy load with skeleton ── */
+function skImg(img) {
+  if (!img) return;
+  var wrap = img.parentElement;
+  var placeholder = document.createElement('div');
+  placeholder.className = 'sk-img-placeholder';
+  wrap.style.position = 'relative';
+  wrap.insertBefore(placeholder, img);
+  function done() {
+    placeholder.classList.add('loaded');
+    setTimeout(function(){ if(placeholder.parentNode) placeholder.remove(); }, 450);
+  }
+  if (img.complete && img.naturalWidth > 0) { done(); return; }
+  img.addEventListener('load',  done);
+  img.addEventListener('error', done);
+}
+
+/* ── Button loading state ── */
+function btnLoad(btn, promise) {
+  if (!btn) return promise;
+  var orig = btn.innerHTML;
+  btn.classList.add('btn-loading');
+  btn.innerHTML = '<div class="sk-spin sm"></div>';
+  return (promise || Promise.resolve()).finally(function() {
+    btn.classList.remove('btn-loading');
+    btn.innerHTML = orig;
+  });
+}
+
+/* ── Refresh Now button with spinner ── */
+function vrRefreshNow(btn) {
+  if (!btn) btn = document.querySelector('[onclick*="vrRefreshNow"]');
+  if (btn) {
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<div class="sk-spin sm"></div><span style="margin-left:5px;">Refreshing…</span>';
+    btn.disabled = true;
+    setTimeout(function() {
+      btn.innerHTML = orig;
+      btn.disabled = false;
+      vrResetCountdown();
+      toast('Deals refreshed!', 'success');
+    }, 900);
+  }
+}
+
+/* ── Hook showPage for page skeletons ── */
+(function() {
+  var _orig = window.showPage;
+  if (!_orig) return;
+  var SKEL_PAGES = {
+    'compliance-ai-page':  600,
+    'pre-sale-page':       600,
+    'complaints-page':     600,
+    'advertising-page':    600,
+    'reports-page':        600,
+    'inventory-page':      700,
+    'deal-detail-page':    700,
+    'pending-detail-page': 700,
+  };
+  window.showPage = function(pageId) {
+    _orig(pageId);
+    if (SKEL_PAGES[pageId] !== undefined) {
+      showPageSkeleton(pageId);
+      hidePageSkeleton(pageId, SKEL_PAGES[pageId]);
+    }
+  };
+})();
+
+/* ── Hook section collapse to show skeleton on expand ── */
+(function() {
+  var _origToggle = window.toggleSection;
+  if (!_origToggle) return;
+  window.toggleSection = function(id) {
+    var body = document.getElementById(id.replace('sec-','sec-') + '-body');
+    var wasCollapsed = body && body.classList.contains('collapsed');
+    _origToggle(id);
+    if (wasCollapsed) {
+      /* Section is expanding — briefly show skeleton */
+      var skDiv = showSectionSkeleton(id + '-body', 'card');
+      hideSectionSkeleton(id + '-body', 400);
+    }
+  };
+})();
+
+/* ── Hook search input to show loading state ── */
+(function() {
+  var searchInput = document.getElementById('mcDealSearch');
+  var resultBox   = document.getElementById('mcSearchResults');
+  if (!searchInput || !resultBox) return;
+  var _origSearch = window.mcSearchDeals;
+  if (!_origSearch) return;
+  window.mcSearchDeals = function(q) {
+    if (q && q.length >= 2) {
+      resultBox.innerHTML = '<div class="sk-search-loading"><div class="sk-spin sm"></div>Searching deals…</div>';
+      resultBox.style.display = 'block';
+      setTimeout(function() { _origSearch(q); }, 180);
+    } else {
+      _origSearch(q);
+    }
+  };
+})();
+
+/* ── Apply img skeleton to all vehicle images on load ── */
+document.addEventListener('DOMContentLoaded', function() {
+  ['dd-vehicle-img', 'pd-vehicle-img'].forEach(function(id) {
+    var img = document.getElementById(id);
+    if (img) skImg(img);
+  });
+});
+
+/* ── Re-apply img skeleton when openDealDetail/openPendingDetail swaps src ── */
+(function() {
+  function patchFn(name) {
+    var orig = window[name];
+    if (!orig) return;
+    window[name] = function(data) {
+      orig(data);
+      setTimeout(function() {
+        var img = document.getElementById(name === 'openDealDetail' ? 'dd-vehicle-img' : 'pd-vehicle-img');
+        if (img) skImg(img);
+      }, 50);
+    };
+  }
+  patchFn('openDealDetail');
+  patchFn('openPendingDetail');
+})();
+</script>
